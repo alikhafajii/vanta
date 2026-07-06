@@ -1,0 +1,97 @@
+"use client";
+
+import { useRef } from "react";
+import type { PointerEvent as ReactPointerEvent, ReactNode } from "react";
+import { motion, useMotionValue, useSpring, useReducedMotion } from "motion/react";
+import { cn } from "@/lib/utils";
+
+type Variant = "solid" | "outline" | "ghost";
+
+const base =
+  "group relative inline-flex items-center justify-center gap-2.5 rounded-full font-medium tracking-tight transition-colors duration-300 select-none px-7 py-3.5 text-[0.95rem]";
+
+const variants: Record<Variant, string> = {
+  solid: "bg-white text-void hover:bg-white/90",
+  outline:
+    "border border-line-strong text-white hover:border-white/60 hover:bg-white/[0.04]",
+  ghost: "text-white hover:bg-white/[0.05]",
+};
+
+const spring = { stiffness: 220, damping: 18, mass: 0.4 };
+
+/** Magnetic CTA. Renders an anchor when href is given, otherwise a button. */
+export function MagneticButton({
+  children,
+  href,
+  onClick,
+  variant = "solid",
+  strength = 0.35,
+  className,
+  ariaLabel,
+}: {
+  children: ReactNode;
+  href?: string;
+  onClick?: () => void;
+  variant?: Variant;
+  strength?: number;
+  className?: string;
+  ariaLabel?: string;
+}) {
+  const ref = useRef<HTMLElement | null>(null);
+  const reduce = useReducedMotion();
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const sx = useSpring(x, spring);
+  const sy = useSpring(y, spring);
+
+  const onMove = (e: ReactPointerEvent<HTMLElement>) => {
+    if (reduce || !ref.current) return;
+    const r = ref.current.getBoundingClientRect();
+    x.set((e.clientX - (r.left + r.width / 2)) * strength);
+    y.set((e.clientY - (r.top + r.height / 2)) * strength);
+  };
+  const reset = () => {
+    x.set(0);
+    y.set(0);
+  };
+
+  const cls = cn(base, variants[variant], className);
+
+  if (href) {
+    return (
+      <motion.a
+        href={href}
+        ref={(n) => {
+          ref.current = n;
+        }}
+        aria-label={ariaLabel}
+        onPointerMove={onMove}
+        onPointerLeave={reset}
+        onClick={onClick}
+        style={{ x: sx, y: sy }}
+        className={cls}
+        data-cursor="hover"
+      >
+        {children}
+      </motion.a>
+    );
+  }
+
+  return (
+    <motion.button
+      type="button"
+      ref={(n) => {
+        ref.current = n;
+      }}
+      aria-label={ariaLabel}
+      onPointerMove={onMove}
+      onPointerLeave={reset}
+      onClick={onClick}
+      style={{ x: sx, y: sy }}
+      className={cls}
+      data-cursor="hover"
+    >
+      {children}
+    </motion.button>
+  );
+}

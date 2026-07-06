@@ -1,0 +1,69 @@
+import type { Metadata, Viewport } from "next";
+import { switzer, instrument, mono } from "./fonts";
+import { Providers } from "./providers";
+import { Navbar } from "@/components/layout/Navbar";
+import { Footer } from "@/components/layout/Footer";
+import { Grain } from "@/components/ui/Grain";
+import { site } from "@/lib/data/site";
+import "./globals.css";
+
+const title = "VANTA — Creative Digital Studio";
+
+export const metadata: Metadata = {
+  metadataBase: new URL(site.url),
+  title: {
+    default: title,
+    template: "%s — VANTA",
+  },
+  description: site.description,
+  keywords: [
+    "creative studio",
+    "web design",
+    "web development",
+    "branding",
+    "UI/UX design",
+    "motion design",
+    "Next.js",
+  ],
+  authors: [{ name: "VANTA" }],
+  creator: "VANTA",
+  openGraph: {
+    title,
+    description: site.description,
+    url: site.url,
+    siteName: "VANTA",
+    type: "website",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description: site.description,
+  },
+  robots: { index: true, follow: true },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#090909",
+  colorScheme: "dark",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
+  return (
+    <html
+      lang="en"
+      className={`${switzer.variable} ${instrument.variable} ${mono.variable}`}
+    >
+      <body className="bg-void text-text antialiased">
+        <Grain />
+        <Providers>
+          <Navbar />
+          <main>{children}</main>
+          <Footer />
+        </Providers>
+      </body>
+    </html>
+  );
+}

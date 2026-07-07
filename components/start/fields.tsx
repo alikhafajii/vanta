@@ -49,56 +49,6 @@ function Pill({
   );
 }
 
-function CheckRow({
-  label,
-  selected,
-  index,
-  onClick,
-}: {
-  label: string;
-  selected: boolean;
-  index: number;
-  onClick: () => void;
-}) {
-  return (
-    <motion.button
-      type="button"
-      role="checkbox"
-      aria-checked={selected}
-      onClick={onClick}
-      data-cursor="hover"
-      {...optionMotion(index)}
-      className={cn(
-        "group flex items-center gap-3.5 rounded-md border px-4 py-3 text-left text-[0.95rem] transition-colors duration-300 outline-none",
-        "focus-visible:border-white/60",
-        selected
-          ? "border-white/45 bg-white/[0.05] text-white"
-          : "border-line text-muted hover:border-white/25 hover:text-white",
-      )}
-    >
-      <span
-        aria-hidden="true"
-        className={cn(
-          "flex h-4 w-4 shrink-0 items-center justify-center rounded-[3px] border transition-colors duration-300",
-          selected ? "border-white bg-white text-void" : "border-line-strong",
-        )}
-      >
-        <svg viewBox="0 0 12 10" className="h-2.5 w-2.5" fill="none">
-          <path
-            d="M1 5.2 4.3 8.5 11 1.5"
-            stroke="currentColor"
-            strokeWidth="1.6"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            style={{ opacity: selected ? 1 : 0, transition: "opacity 200ms" }}
-          />
-        </svg>
-      </span>
-      {label}
-    </motion.button>
-  );
-}
-
 // ── Text inputs ─────────────────────────────────────────────────────────────
 function AutoTextarea({
   value,
@@ -155,13 +105,23 @@ function TextField({
       <input
         id={id}
         type={field.type}
-        inputMode={field.type === "tel" ? "tel" : undefined}
-        autoComplete={
-          field.name === "name"
-            ? "name"
-            : field.name === "email"
+        inputMode={
+          field.type === "tel"
+            ? "tel"
+            : field.type === "email"
               ? "email"
-              : "tel"
+              : field.type === "url"
+                ? "url"
+                : undefined
+        }
+        autoComplete={
+          {
+            name: "name",
+            company: "organization",
+            email: "email",
+            phone: "tel",
+            website: "url",
+          }[field.name]
         }
         required={!field.optional}
         value={value}
@@ -209,25 +169,6 @@ export function StepFields({
     }
     case "multi": {
       const selected = (answers[step.id as "goals"] as string[]) ?? [];
-      if (step.checkbox) {
-        return (
-          <div
-            role="group"
-            aria-label={step.title}
-            className="grid gap-2.5 sm:grid-cols-2"
-          >
-            {step.options.map((opt, i) => (
-              <CheckRow
-                key={opt}
-                label={opt}
-                index={i}
-                selected={selected.includes(opt)}
-                onClick={() => onToggle(opt)}
-              />
-            ))}
-          </div>
-        );
-      }
       return (
         <div role="group" aria-label={step.title} className="flex flex-wrap gap-3">
           {step.options.map((opt, i) => (

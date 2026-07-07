@@ -1,6 +1,7 @@
 import { Container } from "@/components/ui/Container";
 import { Wordmark } from "@/components/ui/Wordmark";
 import { LocalTime } from "@/components/ui/LocalTime";
+import { MagneticButton } from "@/components/ui/MagneticButton";
 import { nav, socials, site } from "@/lib/data/site";
 
 function FooterCol({
@@ -49,6 +50,15 @@ export function Footer() {
             >
               {site.email}
             </a>
+            <div className="mt-2">
+              <MagneticButton
+                href="/start-project"
+                variant="outline"
+                className="px-6 py-3 text-[0.9rem]"
+              >
+                Start a project
+              </MagneticButton>
+            </div>
           </div>
 
           <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:col-span-7">

@@ -5,10 +5,13 @@
    A near-black system where light and type emerge from the void.
 ================================================================== */
 @theme {
-  /* ---- Color ---- */
-  --color-void: #090909;
-  --color-secondary: #141414;
-  --color-surface: #1b1b1b;
+  /* ---- Color ----
+     Near-black ramp carries a faint cool-violet cast (blue channel lifted a
+     few points over red/green). Near-imperceptible on its own, but it marries
+     the shadows to the ultraviolet accent so #7c5cff reads native, not pasted. */
+  --color-void: #09090c;
+  --color-secondary: #141418;
+  --color-surface: #1b1b20;
   --color-elevated: #26262a;
   --color-text: #ffffff;
   --color-muted: #a1a1aa;
@@ -85,6 +88,10 @@
     font-family: var(--font-sans);
     font-weight: 400;
     font-synthesis-weight: none;
+    font-optical-sizing: auto;
+    font-kerning: normal;
+    font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+    font-variant-ligatures: common-ligatures contextual;
     -webkit-tap-highlight-color: transparent;
     overflow-x: hidden;
   }
@@ -137,6 +144,9 @@
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--color-faint);
+  /* Fixed-width digits so live counters (clock) and indices never reflow. */
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1, "kern" 1;
 }
 
 /* High-contrast serif italic for emphasis words inside headlines */

@@ -107,7 +107,7 @@ export function Hero() {
             className="fade-up flex flex-wrap items-center gap-3"
             style={{ "--rise-delay": "620ms" } as CSSProperties}
           >
-            <MagneticButton href="#contact">Start a project</MagneticButton>
+            <MagneticButton href="/start">Start a project</MagneticButton>
             <MagneticButton href="#work" variant="outline">
               Selected work
             </MagneticButton>

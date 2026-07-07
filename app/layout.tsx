@@ -1,8 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { switzer, instrument, mono } from "./fonts";
 import { Providers } from "./providers";
-import { Navbar } from "@/components/layout/Navbar";
-import { Footer } from "@/components/layout/Footer";
 import { Grain } from "@/components/ui/Grain";
 import { site } from "@/lib/data/site";
 import "./globals.css";
@@ -58,11 +56,7 @@ export default function RootLayout({
     >
       <body className="bg-void text-text antialiased">
         <Grain />
-        <Providers>
-          <Navbar />
-          <main>{children}</main>
-          <Footer />
-        </Providers>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

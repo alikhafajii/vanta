@@ -10,7 +10,7 @@ import {
   type Answers,
   type ContactField,
 } from "@/lib/data/onboarding";
-import { Aurora } from "@/components/start/Aurora";
+import Aurora from "@/components/start/Aurora";
 import { StepFields } from "@/components/start/fields";
 import { Wordmark } from "@/components/ui/Wordmark";
 
@@ -105,21 +105,37 @@ export function StartExperience() {
   };
 
   return (
-    <main className="relative flex min-h-[100svh] flex-col items-center justify-center overflow-hidden bg-[#050505] px-6 py-16">
-      {/* Aurora — fades in first, runs throughout */}
+    <main className="relative flex min-h-[100svh] flex-col items-center justify-center overflow-hidden px-6 py-16">
+      {/* Layer 1 — official React Bits Aurora: fixed, behind everything, always animating */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1.2, ease: "easeOut" }}
-        className="fixed inset-0 z-0"
+        aria-hidden="true"
+        className="pointer-events-none fixed inset-0 z-0 bg-[#050505]"
       >
-        <Aurora className="h-full w-full" />
+        <Aurora
+          colorStops={["#101010", "#151515", "#0b0b0b"]}
+          amplitude={1.1}
+          blend={0.5}
+          speed={0.3}
+        />
       </motion.div>
 
-      {/* Soft radial vignette around the edges */}
+      {/* Layer 2 — subtle noise texture */}
       <div
         aria-hidden="true"
-        className="pointer-events-none fixed inset-0 z-[1]"
+        className="pointer-events-none fixed inset-0 z-[1] opacity-[0.06]"
+        style={{
+          backgroundImage:
+            "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
+        }}
+      />
+
+      {/* Layer 3 — soft radial vignette around the edges */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none fixed inset-0 z-[2]"
         style={{
           background:
             "radial-gradient(120% 120% at 50% 45%, transparent 42%, rgba(0,0,0,0.55) 82%, rgba(0,0,0,0.8) 100%)",

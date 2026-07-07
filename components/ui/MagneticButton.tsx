@@ -2,8 +2,12 @@
 
 import { useRef } from "react";
 import type { PointerEvent as ReactPointerEvent, ReactNode } from "react";
+import Link from "next/link";
 import { motion, useMotionValue, useSpring, useReducedMotion } from "motion/react";
 import { cn } from "@/lib/utils";
+
+/** Framer-Motion-wrapped Next Link for internal, same-tab client navigation. */
+const MotionLink = motion.create(Link);
 
 type Variant = "solid" | "outline" | "ghost";
 
@@ -58,20 +62,31 @@ export function MagneticButton({
   const cls = cn(base, variants[variant], className);
 
   if (href) {
+    const commonProps = {
+      ref: (n: HTMLElement | null) => {
+        ref.current = n;
+      },
+      "aria-label": ariaLabel,
+      onPointerMove: onMove,
+      onPointerLeave: reset,
+      onClick,
+      style: { x: sx, y: sy },
+      className: cls,
+      "data-cursor": "hover",
+    };
+
+    // Internal routes use Next Link (same-tab client navigation); external
+    // links and mailto/anchor targets fall back to a plain anchor.
+    if (href.startsWith("/")) {
+      return (
+        <MotionLink href={href} {...commonProps}>
+          {children}
+        </MotionLink>
+      );
+    }
+
     return (
-      <motion.a
-        href={href}
-        ref={(n) => {
-          ref.current = n;
-        }}
-        aria-label={ariaLabel}
-        onPointerMove={onMove}
-        onPointerLeave={reset}
-        onClick={onClick}
-        style={{ x: sx, y: sy }}
-        className={cls}
-        data-cursor="hover"
-      >
+      <motion.a href={href} {...commonProps}>
         {children}
       </motion.a>
     );

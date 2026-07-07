@@ -58,7 +58,7 @@ export function Navbar() {
 
           <div className="flex items-center gap-4">
             <div className="hidden sm:block">
-              <MagneticButton href="/start" className="px-5 py-2.5 text-[0.85rem]">
+              <MagneticButton href="/start-project" className="px-5 py-2.5 text-[0.85rem]">
                 Start Project
               </MagneticButton>
             </div>

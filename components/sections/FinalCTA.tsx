@@ -29,7 +29,7 @@ export function FinalCTA() {
         </p>
         <div className="mt-12 flex flex-col items-center gap-8">
           <MagneticButton
-            href={`mailto:${site.email}`}
+            href="/start-project"
             strength={0.5}
             className="px-9 py-4 text-base"
           >

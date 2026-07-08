@@ -80,6 +80,8 @@
     text-rendering: optimizeLegibility;
     background-color: var(--color-void);
     color-scheme: dark;
+    width: 100%;
+    overflow-x: hidden;
   }
 
   body {

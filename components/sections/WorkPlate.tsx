@@ -31,7 +31,7 @@ export function WorkPlate({ project, order }: { project: Project; order: number 
           reverse && "lg:order-2",
         )}
       >
-        <div className="relative aspect-[4/3] w-full overflow-hidden sm:aspect-[16/10]">
+        <div className="relative aspect-[16/10] w-full overflow-hidden sm:aspect-[16/10]">
           <div className="absolute inset-0 transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]">
             <motion.div style={{ y }} className="absolute inset-[-8%]">
               {project.cover.image ? (
@@ -90,7 +90,7 @@ export function WorkPlate({ project, order }: { project: Project; order: number 
         </div>
       </a>
 
-      <div className={cn("flex flex-col gap-5 lg:col-span-5", reverse && "lg:order-1")}>
+      <div className={cn("flex flex-col gap-5 lg:col-span-5 w-full min-w-0", reverse && "lg:order-1")}>
         <div className="flex items-center gap-3">
           <span
             className={cn(
@@ -103,7 +103,7 @@ export function WorkPlate({ project, order }: { project: Project; order: number 
           </span>
         </div>
         <h3 className="text-headline font-medium text-white">{project.title}</h3>
-        <p className="max-w-md text-muted">{project.summary}</p>
+        <p className="max-w-full text-muted text-[0.95rem] leading-relaxed">{project.summary}</p>
         <div className="mt-1 flex flex-wrap gap-2">
           {project.services.map((s) => (
             <span
@@ -131,11 +131,11 @@ export function WorkPlate({ project, order }: { project: Project; order: number 
         )}
 
         {project.metrics && project.metrics.length > 0 && (
-          <div className="mt-4 grid grid-cols-4 gap-4">
+          <div className="mt-4 grid grid-cols-2 gap-x-6 gap-y-5 sm:grid-cols-4 sm:gap-4">
             {project.metrics.map((m, idx) => (
               <div key={idx} className="flex flex-col gap-1">
-                <span className="font-sans text-[clamp(1.1rem,2vw,1.4rem)] font-light text-white tracking-tight leading-none">{m.value}</span>
-                <span className="text-[0.58rem] font-mono tracking-wider text-faint uppercase leading-tight">
+                <span className="font-sans text-[clamp(1.2rem,4vw,1.4rem)] font-light text-white tracking-tight leading-none">{m.value}</span>
+                <span className="text-[0.6rem] font-mono tracking-wider text-faint uppercase leading-tight">
                   {m.label}
                 </span>
               </div>

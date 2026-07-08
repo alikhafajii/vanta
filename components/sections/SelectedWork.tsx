@@ -6,9 +6,9 @@ import { projects } from "@/lib/data/projects";
 
 export function SelectedWork() {
   return (
-    <section id="work" className="relative scroll-mt-24 py-24 lg:py-36">
+    <section id="work" className="relative scroll-mt-24 py-16 sm:py-24 lg:py-36">
       <Container>
-        <SectionHeader index="(01)" label="Selected Work" className="mb-16 lg:mb-24">
+        <SectionHeader index="(01)" label="Selected Work" className="mb-12 lg:mb-24">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <h2 className="text-headline max-w-3xl font-medium text-white">
               <MaskReveal as="div">Work we are</MaskReveal>
@@ -23,7 +23,7 @@ export function SelectedWork() {
           </div>
         </SectionHeader>
 
-        <div className="flex flex-col gap-20 lg:gap-32">
+        <div className="flex flex-col gap-16 sm:gap-20 lg:gap-32">
           {projects.map((p, i) => (
             <WorkPlate key={p.slug} project={p} order={i} />
           ))}
@@ -32,3 +32,4 @@ export function SelectedWork() {
     </section>
   );
 }
+

@@ -128,7 +128,7 @@ export function StartExperience() {
   };
 
   return (
-    <main className="relative flex min-h-[100svh] flex-col items-center justify-center overflow-hidden bg-[#120F17] px-6 py-20">
+    <main className="relative flex min-h-[100svh] flex-col items-center justify-center overflow-hidden bg-[#120F17] px-4 py-16 sm:px-6 sm:py-20">
       {/* Layer 0 — official React Bits Aurora: fixed, full viewport, behind all */}
       <motion.div
         initial={{ opacity: 0 }}
@@ -173,7 +173,7 @@ export function StartExperience() {
       </motion.div>
 
       {/* Content */}
-      <div className="relative z-10 w-full max-w-[760px] md:translate-x-[80px] md:translate-y-[100px]">
+      <div className="relative z-10 w-full max-w-[760px] lg:translate-x-[80px] lg:translate-y-[100px]">
         <AnimatePresence mode="wait">
           {done ? (
             <motion.section

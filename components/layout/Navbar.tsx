@@ -13,10 +13,23 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [open, setOpen] = useState(false);
+  const [isLgUp, setIsLgUp] = useState(false);
+  const isLgUpRef = useRef(false);
+
+  useEffect(() => {
+    const mql = window.matchMedia("(min-width: 1024px)");
+    const sync = () => {
+      setIsLgUp(mql.matches);
+      isLgUpRef.current = mql.matches;
+    };
+    sync();
+    mql.addEventListener("change", sync);
+    return () => mql.removeEventListener("change", sync);
+  }, []);
 
   useMotionValueEvent(scrollY, "change", (y) => {
     setScrolled(y > 32);
-    setHidden(y > lastY.current && y > 420 && !open);
+    setHidden(y > lastY.current && y > 420 && !open && isLgUpRef.current);
     lastY.current = y;
   });
 
@@ -27,10 +40,13 @@ export function Navbar() {
     };
   }, [open]);
 
+  // Keep header always visible on mobile; only hide-on-scroll for lg+.
+  const headerHidden = isLgUp && hidden;
+
   return (
     <>
       <motion.header
-        animate={{ y: hidden ? "-115%" : 0 }}
+        animate={{ y: headerHidden ? "-115%" : 0 }}
         transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
         className={cn(
           "fixed inset-x-0 top-0 z-50 transition-colors duration-500",

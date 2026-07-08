@@ -136,7 +136,6 @@ export function StartExperience() {
         transition={{ duration: 1.4, ease: "easeOut" }}
         aria-hidden="true"
         className="pointer-events-none fixed inset-0 z-0"
-        style={{ width: "100vw", height: "100vh" }}
       >
         <Aurora
           colorStops={["#7cff67", "#B497CF", "#5227FF"]}

@@ -1,3 +1,8 @@
+export type ProjectMetric = {
+  value: string;
+  label: string;
+};
+
 export type Project = {
   slug: string;
   title: string;
@@ -7,57 +12,68 @@ export type Project = {
   services: string[];
   summary: string;
   /** Generative cover treatment — dark duotone; `accent` tints it ultraviolet. */
-  cover: { from: string; to: string; accent?: boolean };
+  cover: { from: string; to: string; accent?: boolean; image?: string };
   status: "live" | "in-progress";
+  url?: string;
+  metrics?: ProjectMetric[];
 };
 
 export const projects: Project[] = [
   {
-    slug: "sarah-boutique",
-    title: "Sarah Boutique",
-    client: "Sarah Boutique",
-    discipline: "E-Commerce · Fashion",
-    year: "2025",
-    services: ["Brand Identity", "Web Design", "Development"],
-    summary:
-      "A quietly luxurious storefront for a modern fashion boutique — editorial product staging, a frictionless checkout, and a brand system that lets the garments speak.",
-    cover: { from: "#241b2b", to: "#0d0a11", accent: true },
-    status: "live",
-  },
-  {
     slug: "ek-constructions",
     title: "EK Constructions",
     client: "EK Constructions",
-    discipline: "Corporate · Architecture",
+    discipline: "Architecture · Construction",
     year: "2025",
-    services: ["Brand Identity", "Web Design", "Development", "Motion"],
+    services: ["Web Design", "Development", "SEO"],
     summary:
-      "A commanding digital presence for a construction and development firm — structural typography, weighty imagery, and a case-study engine that turns projects into proof.",
-    cover: { from: "#1b2226", to: "#0a0e10" },
+      "A commanding digital presence for a premier construction and development firm — built with structural grid layouts, rich portfolio staging, and optimized search performance.",
+    cover: { from: "#1b2226", to: "#0a0e10", image: "/images/projects/ek-constructions.png" },
     status: "live",
+    url: "https://ekconstructionsau.com/",
+    metrics: [
+      { value: "+120%", label: "Inquiries" },
+      { value: "+85%", label: "Site Engagement" },
+      { value: "100%", label: "Mobile Friendly" },
+      { value: "<2.1s", label: "Load Time" },
+    ],
   },
   {
-    slug: "halcyon",
-    title: "Halcyon",
-    client: "Halcyon Retreats",
-    discipline: "Hospitality · Web",
-    year: "2026",
-    services: ["Art Direction", "Web Design", "Development"],
+    slug: "ali-amir-husseini",
+    title: "Ali Amir Husseini",
+    client: "Ali Amir Husseini",
+    discipline: "Portfolio · CEO",
+    year: "2025",
+    services: ["Creative Direction", "Design System", "Development"],
     summary:
-      "An immersive booking experience for a collection of design-led retreats — slow, cinematic and calm, engineered to make stillness feel aspirational.",
-    cover: { from: "#1f241e", to: "#0a0d09" },
-    status: "in-progress",
+      "The official portfolio of the CEO. A minimalist, typography-driven digital archive highlighting creative leadership, brand transformations, and interactive experiences.",
+    cover: { from: "#241b2b", to: "#0d0a11", image: "/images/projects/aliamirhusseini.png", accent: true },
+    status: "live",
+    url: "https://www.aliamirhusseini.com/",
+    metrics: [
+      { value: "+150k", label: "Total Reads" },
+      { value: "10+", label: "Live Apps" },
+      { value: "100%", label: "Open Source" },
+      { value: "<50ms", label: "Latency" },
+    ],
   },
   {
-    slug: "verso",
-    title: "Verso",
-    client: "Verso Journal",
-    discipline: "Editorial · Product",
-    year: "2026",
-    services: ["Product Design", "Development", "Design System"],
+    slug: "ali-khafaji",
+    title: "Ali Khafaji",
+    client: "Ali Khafaji",
+    discipline: "Portfolio · Design",
+    year: "2025",
+    services: ["Web Design", "Development", "Motion"],
     summary:
-      "A reading platform for long-form culture writing — a typographic product where the interface recedes and the words hold the stage.",
-    cover: { from: "#26221b", to: "#0d0b08" },
-    status: "in-progress",
+      "A bespoke interactive portfolio showcasing high-end visual design, frontend craftsmanship, and fluid motion systems for next-generation digital interfaces.",
+    cover: { from: "#1f241e", to: "#0a0d09", image: "/images/projects/alikhafaji.png" },
+    status: "live",
+    url: "https://www.alikhafaji.com/",
+    metrics: [
+      { value: "30+", label: "Clients" },
+      { value: "100%", label: "Reliability" },
+      { value: "99%", label: "Performance" },
+      { value: "<1.5s", label: "Load Time" },
+    ],
   },
 ];

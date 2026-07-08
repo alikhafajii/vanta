@@ -80,17 +80,12 @@ export function Hero() {
         <h1 className="text-display font-medium text-white">
           <span className="block overflow-hidden">
             <span className="rise-line" style={{ "--rise-delay": "80ms" } as CSSProperties}>
-              We build digital
+              We build
             </span>
           </span>
           <span className="block overflow-hidden">
             <span className="rise-line" style={{ "--rise-delay": "170ms" } as CSSProperties}>
-              products that feel
-            </span>
-          </span>
-          <span className="block overflow-hidden">
-            <span className="rise-line" style={{ "--rise-delay": "260ms" } as CSSProperties}>
-              inevitable, <span className="serif text-white/85">not made.</span>
+              in the <span className="serif text-white/85">dark.</span>
             </span>
           </span>
         </h1>

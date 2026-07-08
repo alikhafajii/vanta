@@ -128,7 +128,7 @@ export function StartExperience() {
   };
 
   return (
-    <main className="relative flex min-h-[100svh] flex-col items-center justify-center overflow-hidden bg-[#050505] px-6 py-20">
+    <main className="relative flex min-h-[100svh] flex-col items-center justify-center overflow-hidden bg-[#120F17] px-6 py-20">
       {/* Layer 0 — official React Bits Aurora: fixed, full viewport, behind all */}
       <motion.div
         initial={{ opacity: 0 }}
@@ -140,8 +140,8 @@ export function StartExperience() {
       >
         <Aurora
           colorStops={["#7cff67", "#B497CF", "#5227FF"]}
-          amplitude={1.3}
-          blend={0.55}
+          amplitude={1.45}
+          blend={0.68}
           speed={0.5}
         />
       </motion.div>
@@ -150,7 +150,7 @@ export function StartExperience() {
       <div
         aria-hidden="true"
         className="pointer-events-none fixed inset-0 z-[1]"
-        style={{ background: "rgba(0,0,0,0.72)" }}
+        style={{ background: "rgba(0,0,0,0.25)" }}
       />
 
       {/* Layer 2 — subtle noise texture */}
@@ -173,7 +173,7 @@ export function StartExperience() {
       </motion.div>
 
       {/* Content */}
-      <div className="relative z-10 w-full max-w-[760px]">
+      <div className="relative z-10 w-full max-w-[760px] md:translate-x-[80px] md:translate-y-[100px]">
         <AnimatePresence mode="wait">
           {done ? (
             <motion.section
@@ -325,7 +325,7 @@ export function StartExperience() {
             transition={{ duration: 0.5 }}
             role="status"
             aria-live="polite"
-            className="fixed inset-0 z-50 flex flex-col items-center justify-center gap-8 bg-[#050505]/85 backdrop-blur-md"
+            className="fixed inset-0 z-50 flex flex-col items-center justify-center gap-8 bg-[#120F17]/85 backdrop-blur-md"
           >
             <motion.svg
               viewBox="0 0 48 48"

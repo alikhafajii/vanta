@@ -6,10 +6,11 @@
 ================================================================== */
 @theme {
   /* ---- Color ----
-     Near-black ramp carries a faint cool-violet cast (blue channel lifted a
-     few points over red/green). Near-imperceptible on its own, but it marries
-     the shadows to the ultraviolet accent so #7c5cff reads native, not pasted. */
-  --color-void: #09090c;
+     Void is pure black to seam invisibly into the hero photograph's own
+     blacks. The rest of the near-black ramp keeps a faint cool-violet cast
+     (blue channel lifted a few points over red/green) so shadows still marry
+     to the ultraviolet accent. */
+  --color-void: #000000;
   --color-secondary: #141418;
   --color-surface: #1b1b20;
   --color-elevated: #26262a;
@@ -231,14 +232,16 @@
 @keyframes vanta-rise {
   from {
     transform: translateY(115%);
+    filter: blur(6px);
   }
   to {
     transform: translateY(0);
+    filter: blur(0);
   }
 }
 .rise-line {
   display: block;
-  will-change: transform;
+  will-change: transform, filter;
   transform: translateY(115%);
   animation: vanta-rise 1s var(--ease-out-expo) forwards;
   animation-delay: var(--rise-delay, 0ms);
@@ -247,15 +250,54 @@
   from {
     opacity: 0;
     transform: translateY(22px);
+    filter: blur(4px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
+    filter: blur(0);
   }
 }
 .fade-up {
   animation: vanta-fade-up 0.9s var(--ease-out-expo) both;
   animation-delay: var(--rise-delay, 0ms);
+}
+
+/* Sparse hero star field — near-imperceptible, no motion beyond a slow breathe */
+@keyframes vanta-twinkle {
+  0%,
+  100% {
+    opacity: var(--star-o, 0.5);
+  }
+  50% {
+    opacity: calc(var(--star-o, 0.5) * 0.35);
+  }
+}
+.star-twinkle {
+  animation: vanta-twinkle var(--star-dur, 7s) ease-in-out infinite;
+  animation-delay: var(--star-delay, 0s);
+}
+
+/* Rare diagonal streak — invisible for most of its cycle, brief when it fires */
+@keyframes vanta-shooting-star {
+  0%,
+  91% {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+  92% {
+    opacity: 1;
+  }
+  97%,
+  100% {
+    transform: translate(220px, 0);
+    opacity: 0;
+  }
+}
+.shooting-star {
+  transform-origin: left center;
+  animation: vanta-shooting-star var(--shoot-dur, 14s) linear infinite;
+  animation-delay: var(--shoot-delay, 0s);
 }
 
 /* Edge fade mask for marquees / overflow rows */

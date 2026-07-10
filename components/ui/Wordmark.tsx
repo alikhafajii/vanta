@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import { cn } from "@/lib/utils";
 
 /**
@@ -5,29 +6,32 @@ import { cn } from "@/lib/utils";
  * where each "A" is the signature crossbar-less apex (Λ). Vector, so it stays
  * razor-crisp at any size and can be animated (see Preloader).
  */
-export const WORDMARK_VIEWBOX = "-4 0 266 60";
+export const WORDMARK_VIEWBOX = "-4 0 340 60";
 
 export const WORDMARK_PATHS = [
   "M0 8 L17 52 L34 8", // V
-  "M56 52 L73 8 L90 52", // Λ
-  "M112 52 L112 8 L146 52 L146 8", // N
-  "M168 8 L202 8 M185 8 L185 52", // T
-  "M224 52 L241 8 L258 52", // Λ
+  "M74 52 L91 8 L108 52", // Λ
+  "M148 52 L148 8 L182 52 L182 8", // N
+  "M222 8 L256 8 M239 8 L239 52", // T
+  "M296 52 L313 8 L330 52", // Λ
 ];
 
 export function Wordmark({
   className,
   strokeWidth = 2.4,
   title = "VANTA",
+  style,
 }: {
   className?: string;
   strokeWidth?: number;
   title?: string;
+  style?: CSSProperties;
 }) {
   return (
     <svg
       viewBox={WORDMARK_VIEWBOX}
       className={cn("block w-auto", className)}
+      style={style}
       role="img"
       aria-label={title}
       fill="none"

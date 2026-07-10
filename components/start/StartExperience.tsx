@@ -128,7 +128,7 @@ export function StartExperience() {
   };
 
   return (
-    <main className="relative flex min-h-[100svh] flex-col items-center justify-center overflow-hidden bg-[#120F17] px-6 py-20">
+    <main className="relative flex min-h-[100svh] flex-col items-center justify-center overflow-hidden bg-[#120F17] px-4 py-16 sm:px-6 sm:py-20">
       {/* Layer 0 — official React Bits Aurora: fixed, full viewport, behind all */}
       <motion.div
         initial={{ opacity: 0 }}
@@ -136,7 +136,6 @@ export function StartExperience() {
         transition={{ duration: 1.4, ease: "easeOut" }}
         aria-hidden="true"
         className="pointer-events-none fixed inset-0 z-0"
-        style={{ width: "100vw", height: "100vh" }}
       >
         <Aurora
           colorStops={["#7cff67", "#B497CF", "#5227FF"]}
@@ -146,17 +145,17 @@ export function StartExperience() {
         />
       </motion.div>
 
-      {/* Layer 1 — light dark overlay ABOVE Aurora: lets it shine, keeps text legible */}
+      {/* Layer 1 — dark overlay ABOVE Aurora (keeps it visible, text legible) */}
       <div
         aria-hidden="true"
         className="pointer-events-none fixed inset-0 z-[1]"
         style={{ background: "rgba(0,0,0,0.25)" }}
       />
 
-      {/* Layer 2 — whisper of noise (kept very low so it never dulls the Aurora) */}
+      {/* Layer 2 — subtle noise texture */}
       <div
         aria-hidden="true"
-        className="pointer-events-none fixed inset-0 z-[2] opacity-[0.03]"
+        className="pointer-events-none fixed inset-0 z-[2] opacity-[0.05]"
         style={{ backgroundImage: NOISE }}
       />
 
@@ -172,9 +171,8 @@ export function StartExperience() {
         </Link>
       </motion.div>
 
-      {/* Content — offset down and right for a cinematic, off-centre composition
-          that leaves more green/purple Aurora breathing around it */}
-      <div className="relative z-10 w-full max-w-[760px] md:translate-x-[80px] md:translate-y-[90px]">
+      {/* Content */}
+      <div className="relative z-10 w-full max-w-[760px] lg:translate-x-[80px] lg:translate-y-[100px]">
         <AnimatePresence mode="wait">
           {done ? (
             <motion.section
@@ -326,7 +324,7 @@ export function StartExperience() {
             transition={{ duration: 0.5 }}
             role="status"
             aria-live="polite"
-            className="fixed inset-0 z-50 flex flex-col items-center justify-center gap-8 bg-[#050505]/85 backdrop-blur-md"
+            className="fixed inset-0 z-50 flex flex-col items-center justify-center gap-8 bg-[#120F17]/85 backdrop-blur-md"
           >
             <motion.svg
               viewBox="0 0 48 48"

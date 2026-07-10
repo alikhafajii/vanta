@@ -6,10 +6,11 @@
 ================================================================== */
 @theme {
   /* ---- Color ----
-     Near-black ramp carries a faint cool-violet cast (blue channel lifted a
-     few points over red/green). Near-imperceptible on its own, but it marries
-     the shadows to the ultraviolet accent so #7c5cff reads native, not pasted. */
-  --color-void: #09090c;
+     Void is pure black to seam invisibly into the hero photograph's own
+     blacks. The rest of the near-black ramp keeps a faint cool-violet cast
+     (blue channel lifted a few points over red/green) so shadows still marry
+     to the ultraviolet accent. */
+  --color-void: #000000;
   --color-secondary: #141418;
   --color-surface: #1b1b20;
   --color-elevated: #26262a;
@@ -27,23 +28,23 @@
   --font-mono: var(--font-jbmono), ui-monospace, "SFMono-Regular", "Cascadia Mono", monospace;
 
   /* ---- Fluid editorial type scale ---- */
-  --text-display: clamp(2.75rem, 1rem + 7.7vw, 9.5rem);
+  --text-display: clamp(2.2rem, 1rem + 7.7vw, 9.5rem);
   --text-display--line-height: 0.92;
   --text-display--letter-spacing: -0.04em;
 
-  --text-headline: clamp(2rem, 1rem + 4.4vw, 5rem);
+  --text-headline: clamp(1.75rem, 1rem + 4.4vw, 5rem);
   --text-headline--line-height: 0.98;
   --text-headline--letter-spacing: -0.03em;
 
-  --text-title: clamp(1.5rem, 1rem + 1.9vw, 2.75rem);
+  --text-title: clamp(1.25rem, 1rem + 1.9vw, 2.75rem);
   --text-title--line-height: 1.05;
   --text-title--letter-spacing: -0.02em;
 
-  --text-subtitle: clamp(1.2rem, 0.95rem + 1vw, 1.7rem);
+  --text-subtitle: clamp(1.05rem, 0.95rem + 1vw, 1.7rem);
   --text-subtitle--line-height: 1.2;
   --text-subtitle--letter-spacing: -0.015em;
 
-  --text-lead: clamp(1.1rem, 0.95rem + 0.7vw, 1.45rem);
+  --text-lead: clamp(1rem, 0.95rem + 0.7vw, 1.45rem);
   --text-lead--line-height: 1.5;
   --text-lead--letter-spacing: -0.01em;
 
@@ -80,6 +81,8 @@
     text-rendering: optimizeLegibility;
     background-color: var(--color-void);
     color-scheme: dark;
+    width: 100%;
+    overflow-x: hidden;
   }
 
   body {
@@ -229,14 +232,16 @@
 @keyframes vanta-rise {
   from {
     transform: translateY(115%);
+    filter: blur(6px);
   }
   to {
     transform: translateY(0);
+    filter: blur(0);
   }
 }
 .rise-line {
   display: block;
-  will-change: transform;
+  will-change: transform, filter;
   transform: translateY(115%);
   animation: vanta-rise 1s var(--ease-out-expo) forwards;
   animation-delay: var(--rise-delay, 0ms);
@@ -245,15 +250,54 @@
   from {
     opacity: 0;
     transform: translateY(22px);
+    filter: blur(4px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
+    filter: blur(0);
   }
 }
 .fade-up {
   animation: vanta-fade-up 0.9s var(--ease-out-expo) both;
   animation-delay: var(--rise-delay, 0ms);
+}
+
+/* Sparse hero star field — near-imperceptible, no motion beyond a slow breathe */
+@keyframes vanta-twinkle {
+  0%,
+  100% {
+    opacity: var(--star-o, 0.5);
+  }
+  50% {
+    opacity: calc(var(--star-o, 0.5) * 0.35);
+  }
+}
+.star-twinkle {
+  animation: vanta-twinkle var(--star-dur, 7s) ease-in-out infinite;
+  animation-delay: var(--star-delay, 0s);
+}
+
+/* Rare diagonal streak — invisible for most of its cycle, brief when it fires */
+@keyframes vanta-shooting-star {
+  0%,
+  91% {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+  92% {
+    opacity: 1;
+  }
+  97%,
+  100% {
+    transform: translate(220px, 0);
+    opacity: 0;
+  }
+}
+.shooting-star {
+  transform-origin: left center;
+  animation: vanta-shooting-star var(--shoot-dur, 14s) linear infinite;
+  animation-delay: var(--shoot-delay, 0s);
 }
 
 /* Edge fade mask for marquees / overflow rows */

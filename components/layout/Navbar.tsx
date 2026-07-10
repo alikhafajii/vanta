@@ -3,9 +3,12 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/react";
 import { nav, socials } from "@/lib/data/site";
-import { Wordmark } from "@/components/ui/Wordmark";
-import { MagneticButton } from "@/components/ui/MagneticButton";
+import { Logo } from "@/components/ui/Logo";
+import { ArrowLink } from "@/components/ui/ArrowLink";
 import { cn } from "@/lib/utils";
+
+const PRIMARY_NAV_LABELS = ["Work", "Process", "About", "Journal"];
+const primaryNav = nav.filter((item) => PRIMARY_NAV_LABELS.includes(item.label));
 
 export function Navbar() {
   const { scrollY } = useScroll();
@@ -13,10 +16,23 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [open, setOpen] = useState(false);
+  const [isLgUp, setIsLgUp] = useState(false);
+  const isLgUpRef = useRef(false);
+
+  useEffect(() => {
+    const mql = window.matchMedia("(min-width: 1024px)");
+    const sync = () => {
+      setIsLgUp(mql.matches);
+      isLgUpRef.current = mql.matches;
+    };
+    sync();
+    mql.addEventListener("change", sync);
+    return () => mql.removeEventListener("change", sync);
+  }, []);
 
   useMotionValueEvent(scrollY, "change", (y) => {
     setScrolled(y > 32);
-    setHidden(y > lastY.current && y > 420 && !open);
+    setHidden(y > lastY.current && y > 420 && !open && isLgUpRef.current);
     lastY.current = y;
   });
 
@@ -27,11 +43,15 @@ export function Navbar() {
     };
   }, [open]);
 
+  // Keep header always visible on mobile; only hide-on-scroll for lg+.
+  const headerHidden = isLgUp && hidden;
+
   return (
     <>
       <motion.header
-        animate={{ y: hidden ? "-115%" : 0 }}
-        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+        initial={{ opacity: 0, y: -14 }}
+        animate={{ opacity: 1, y: headerHidden ? "-115%" : 0 }}
+        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         className={cn(
           "fixed inset-x-0 top-0 z-50 transition-colors duration-500",
           scrolled
@@ -40,20 +60,16 @@ export function Navbar() {
         )}
       >
         <div className="mx-auto flex h-[72px] max-w-[1680px] items-center justify-between px-5 sm:px-8 lg:px-14 xl:px-20">
-          <a
-            href="#top"
-            aria-label="VANTA — home"
-            className="relative z-10 -ml-1 text-white sm:-ml-3 lg:-ml-8 xl:-ml-12"
-          >
-            <Wordmark className="h-3.5" strokeWidth={3} />
+          <a href="#top" aria-label="VANTA — home" className="relative z-10 text-white">
+            <Logo />
           </a>
 
-          <nav className="hidden items-center gap-9 lg:flex">
-            {nav.slice(0, 5).map((item) => (
+          <nav className="hidden items-center gap-11 lg:flex">
+            {primaryNav.map((item) => (
               <a
                 key={item.href}
                 href={item.href}
-                className="link-underline text-[0.9rem] text-muted transition-colors duration-300 hover:text-white"
+                className="link-underline font-mono text-[0.7rem] tracking-[0.2em] text-faint uppercase transition-colors duration-300 hover:text-white"
               >
                 {item.label}
               </a>
@@ -62,9 +78,7 @@ export function Navbar() {
 
           <div className="flex items-center gap-4">
             <div className="hidden sm:block">
-              <MagneticButton href="/start-project" className="px-5 py-2.5 text-[0.85rem]">
-                Start Project
-              </MagneticButton>
+              <ArrowLink href="/start-project">Start Project</ArrowLink>
             </div>
             <button
               type="button"

@@ -42,6 +42,9 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
   themeColor: "#090909",
   colorScheme: "dark",
 };
@@ -54,6 +57,12 @@ export default function RootLayout({
       lang="en"
       className={`${switzer.variable} ${instrument.variable} ${mono.variable}`}
     >
+      <head>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=5, viewport-fit=cover"
+        />
+      </head>
       <body className="bg-void text-text antialiased">
         <Grain />
         <Providers>{children}</Providers>

@@ -60,7 +60,11 @@ export function Navbar() {
         )}
       >
         <div className="mx-auto flex h-[72px] max-w-[1680px] items-center justify-between px-5 sm:px-8 lg:px-14 xl:px-20">
-          <a href="#top" aria-label="VANTA — home" className="relative z-10 text-white">
+          <a
+            href="#top"
+            aria-label="VANTA — home"
+            className="relative z-10 -ml-1 text-white sm:-ml-3 lg:-ml-8 xl:-ml-12"
+          >
             <Logo />
           </a>
 

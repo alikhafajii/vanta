@@ -128,7 +128,7 @@ export function StartExperience() {
   };
 
   return (
-    <main className="relative flex min-h-[100svh] flex-col items-center justify-center overflow-hidden bg-[#050505] px-6 py-20">
+    <main className="relative flex min-h-[100svh] flex-col items-center justify-center overflow-hidden bg-[#120F17] px-6 py-20">
       {/* Layer 0 — official React Bits Aurora: fixed, full viewport, behind all */}
       <motion.div
         initial={{ opacity: 0 }}
@@ -140,23 +140,23 @@ export function StartExperience() {
       >
         <Aurora
           colorStops={["#7cff67", "#B497CF", "#5227FF"]}
-          amplitude={1.3}
-          blend={0.55}
+          amplitude={1.45}
+          blend={0.68}
           speed={0.5}
         />
       </motion.div>
 
-      {/* Layer 1 — dark overlay ABOVE Aurora (keeps it visible, text legible) */}
+      {/* Layer 1 — light dark overlay ABOVE Aurora: lets it shine, keeps text legible */}
       <div
         aria-hidden="true"
         className="pointer-events-none fixed inset-0 z-[1]"
-        style={{ background: "rgba(0,0,0,0.72)" }}
+        style={{ background: "rgba(0,0,0,0.25)" }}
       />
 
-      {/* Layer 2 — subtle noise texture */}
+      {/* Layer 2 — whisper of noise (kept very low so it never dulls the Aurora) */}
       <div
         aria-hidden="true"
-        className="pointer-events-none fixed inset-0 z-[2] opacity-[0.05]"
+        className="pointer-events-none fixed inset-0 z-[2] opacity-[0.03]"
         style={{ backgroundImage: NOISE }}
       />
 
@@ -172,8 +172,9 @@ export function StartExperience() {
         </Link>
       </motion.div>
 
-      {/* Content */}
-      <div className="relative z-10 w-full max-w-[760px]">
+      {/* Content — offset down and right for a cinematic, off-centre composition
+          that leaves more green/purple Aurora breathing around it */}
+      <div className="relative z-10 w-full max-w-[760px] md:translate-x-[80px] md:translate-y-[90px]">
         <AnimatePresence mode="wait">
           {done ? (
             <motion.section

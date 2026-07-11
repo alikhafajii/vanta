@@ -4,5 +4,5 @@
  * height so in-page navigation and layout rhythm stay intact.
  */
 export function Hero() {
-  return <section id="top" className="min-h-[100svh] bg-black" />;
+  return <section id="top" className="h-svh bg-black" />;
 }

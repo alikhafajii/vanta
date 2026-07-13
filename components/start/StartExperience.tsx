@@ -59,6 +59,9 @@ export function StartExperience() {
   const [error, setError] = useState(false);
   const [honeypot, setHoneypot] = useState("");
   const headingRef = useRef<HTMLHeadingElement>(null);
+  // Mount time — sent with the submission so the server can reject bot-speed fills.
+  // Set in the mount effect below (Date.now() is impure, not called during render).
+  const startedAtRef = useRef<number>(0);
 
   const answersRef = useRef(answers);
   answersRef.current = answers;
@@ -72,6 +75,7 @@ export function StartExperience() {
 
   // Aurora settles first; the flow fades in ~400ms later.
   useEffect(() => {
+    startedAtRef.current = Date.now();
     const t = window.setTimeout(() => setReady(true), 400);
     return () => window.clearTimeout(t);
   }, []);
@@ -121,7 +125,7 @@ export function StartExperience() {
       const res = await fetch("/api/telegram", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ answers, honeypot }),
+        body: JSON.stringify({ answers, honeypot, startedAt: startedAtRef.current }),
       });
       const data = (await res.json().catch(() => null)) as {
         ok?: boolean;

@@ -1,7 +1,7 @@
 /**
  * VANTA project onboarding — the single source of truth for the /start-project
- * flow. Every step, option and the outgoing WhatsApp / email messages are
- * derived from here; the UI renders this config and holds no hard-coded copy.
+ * flow. Every step, option and the outgoing Telegram message are derived from
+ * here; the UI renders this config and holds no hard-coded copy.
  */
 
 // ── Destinations ───────────────────────────────────────────────────────────
@@ -266,8 +266,6 @@ export function isStepComplete(step: Step, a: Answers): boolean {
 }
 
 // ── Message composition ─────────────────────────────────────────────────────
-const RULE = "━━━━━━━━━━━━━━━━━━";
-
 function meetingSummary(a: Answers): string {
   if (a.meeting !== "Yes") return a.meeting ?? "—";
   return a.meetingPlatform ? `Yes — ${a.meetingPlatform}` : "Yes";
@@ -297,16 +295,26 @@ function summaryEntries(a: Answers): SummaryEntry[] {
   ];
 }
 
-/** The shared, human-readable plain-text summary. */
-export function buildSummary(a: Answers): string {
-  const lines: string[] = [RULE, "", "New VANTA Project", ""];
-  for (const { label, values, bullet } of summaryEntries(a)) {
-    lines.push(`${label}:`);
-    for (const value of values) lines.push(bullet ? `• ${value}` : value);
-    lines.push("");
+/** Build types ambitious enough that a rushed, low-budget brief is worth flagging. */
+const AMBITIOUS_TYPES = new Set([
+  "E-commerce",
+  "Web Application",
+  "Dashboard",
+]);
+
+/**
+ * A non-blocking heads-up for whoever reads the Telegram lead: an ASAP timeline
+ * paired with the lowest budget on an ambitious build is usually a scope /
+ * expectations mismatch worth a second look. Returns null when nothing is off.
+ */
+export function comboWarning(a: Answers): string | null {
+  const rushed = a.timeline === "ASAP";
+  const lowBudget = a.budget === "Under $500";
+  const ambitious = a.type !== null && AMBITIOUS_TYPES.has(a.type);
+  if (rushed && lowBudget && ambitious) {
+    return `ASAP timeline on the lowest budget for an ambitious build (${a.type}) — scope and expectations likely need a reality check.`;
   }
-  lines.push(RULE);
-  return lines.join("\n");
+  return null;
 }
 
 /**
@@ -327,6 +335,11 @@ function escapeHtml(value: string): string {
  */
 export function buildTelegramMessage(a: Answers): string {
   const lines: string[] = ["<b>New VANTA Project</b>", ""];
+
+  // Prepend the non-blocking combo heads-up (Telegram only, never blocks send).
+  const warning = comboWarning(a);
+  if (warning) lines.push(`⚠️ ${escapeHtml(warning)}`, "");
+
   for (const { label, values, bullet } of summaryEntries(a)) {
     lines.push(`<b>${label}:</b>`);
     for (const value of values) {

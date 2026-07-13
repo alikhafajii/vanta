@@ -165,14 +165,22 @@ function silentOk() {
 export async function POST(req: Request) {
   // Origin check — reject cross-origin submissions outright.
   if (!isSameOrigin(req)) {
+    console.warn("[telegram] blocked: origin mismatch");
     return invalid("Forbidden.", 403);
   }
 
-  // Rate limit — per IP, sliding window. Skipped only when Redis is unconfigured.
+  // Rate limit — per IP, sliding window. Skipped when Redis is unconfigured.
+  // Wrapped in try-catch: if Upstash is down, fail open (let the request through)
+  // rather than returning 500 to every user.
   if (ratelimit) {
-    const { success } = await ratelimit.limit(clientIp(req));
-    if (!success) {
-      return invalid("Too many requests. Please try again later.", 429);
+    try {
+      const { success } = await ratelimit.limit(clientIp(req));
+      if (!success) {
+        console.warn("[telegram] blocked: rate limit exceeded");
+        return invalid("Too many requests. Please try again later.", 429);
+      }
+    } catch (err) {
+      console.error("[telegram] rate limiter error (failing open):", err);
     }
   }
 
@@ -180,10 +188,12 @@ export async function POST(req: Request) {
   try {
     body = await req.json();
   } catch {
+    console.warn("[telegram] blocked: invalid JSON body");
     return invalid("Invalid request.", 400);
   }
 
   if (typeof body !== "object" || body === null) {
+    console.warn("[telegram] blocked: body is not an object");
     return invalid("Invalid request.", 400);
   }
 
@@ -196,25 +206,31 @@ export async function POST(req: Request) {
   // Bot trap: a filled hidden field means an automated submission. Accept with
   // 200 OK and send nothing — never signal to the bot that it was caught.
   if (isString(honeypot) && honeypot.trim() !== "") {
+    console.warn("[telegram] silent drop: honeypot filled");
     return silentOk();
   }
 
   // Timing trap: a real person cannot complete the multi-step form in seconds.
   // A missing or implausibly-fast timestamp is handled exactly like the honeypot.
+  // NOTE: negative elapsed values mean the client clock is ahead of the server —
+  // that's clock skew, not a bot. Only reject small *positive* values.
   const elapsed =
     typeof startedAt === "number" && Number.isFinite(startedAt)
       ? Date.now() - startedAt
       : NaN;
-  if (!Number.isFinite(elapsed) || elapsed < MIN_ELAPSED_MS) {
+  if (!Number.isFinite(elapsed) || (elapsed >= 0 && elapsed < MIN_ELAPSED_MS)) {
+    console.warn(`[telegram] silent drop: timing trap (elapsed=${elapsed})`);
     return silentOk();
   }
 
   if (!isAnswers(answers)) {
+    console.warn("[telegram] blocked: answers failed shape check");
     return invalid("Invalid request.", 400);
   }
 
   // Format validation — well-formed contact details, distinct from "field empty".
   if (!hasValidContactFormat(answers)) {
+    console.warn("[telegram] blocked: contact format validation failed");
     return invalid("Please check your contact details.", 422);
   }
 
@@ -224,16 +240,19 @@ export async function POST(req: Request) {
     isStepComplete(step, answers),
   );
   if (!complete) {
+    console.warn("[telegram] blocked: incomplete steps");
     return invalid("Please complete all required fields.", 422);
   }
 
   const token = process.env.TELEGRAM_BOT_TOKEN;
   const chatId = process.env.TELEGRAM_CHAT_ID;
   if (!token || !chatId) {
+    console.error("[telegram] env missing: TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID not set");
     return invalid("Messaging is not configured.", 500);
   }
 
   try {
+    console.info("[telegram] sending to Telegram...");
     const res = await fetch(`${TELEGRAM_API}/bot${token}/sendMessage`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -246,11 +265,15 @@ export async function POST(req: Request) {
     });
 
     if (!res.ok) {
-      // Log status only — the response body / URL must never surface the token.
-      console.error(`Telegram sendMessage failed: ${res.status}`);
+      const errBody = await res.text().catch(() => "(unreadable)");
+      // Log status + response body for debugging — the URL is NOT logged (contains token).
+      console.error(`[telegram] sendMessage failed: ${res.status} — ${errBody}`);
       return invalid("Could not send your project. Please try again.", 502);
     }
-  } catch {
+
+    console.info("[telegram] sent successfully");
+  } catch (err) {
+    console.error("[telegram] fetch threw:", err);
     return invalid("Could not send your project. Please try again.", 502);
   }
 

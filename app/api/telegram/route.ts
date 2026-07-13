@@ -116,13 +116,23 @@ function isValidWebsite(value: string): boolean {
 /** True when every contact field is well-formed. Distinct from the empty check. */
 function hasValidContactFormat(a: Answers): boolean {
   const c = a.contact;
-  return (
-    isValidText(c.name, 100) &&
-    isValidText(c.company, 120) &&
-    isValidEmail(c.email) &&
-    isValidPhone(c.phone) &&
-    isValidWebsite(c.website)
-  );
+  const results = {
+    name: isValidText(c.name, 100),
+    company: isValidText(c.company, 120),
+    email: isValidEmail(c.email),
+    phone: isValidPhone(c.phone),
+    website: isValidWebsite(c.website),
+  };
+  const failed = Object.entries(results)
+    .filter(([, ok]) => !ok)
+    .map(([field]) => field);
+  if (failed.length > 0) {
+    console.warn(
+      `[telegram] validation detail: failed fields: ${failed.join(", ")}`,
+      { name: c.name, company: c.company, email: c.email, phone: c.phone, website: c.website },
+    );
+  }
+  return failed.length === 0;
 }
 
 /**

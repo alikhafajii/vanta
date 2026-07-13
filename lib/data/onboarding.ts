@@ -5,11 +5,14 @@
  */
 
 // ── Destinations ───────────────────────────────────────────────────────────
-/** WhatsApp business number, digits only (international, no "+"). */
-export const WHATSAPP_NUMBER = "96181049409";
-/** Where the email draft is addressed. */
-export const INQUIRY_EMAIL = "vantadevss@gmail.com";
 export const INSTAGRAM_URL = "https://instagram.com/vantadevs";
+
+/**
+ * Hidden bot-trap field name. Real users never see or fill it; automated
+ * form-fillers often will. Kept out of the typed Answers model on purpose —
+ * it's sent alongside the answers and checked server-side, never persisted.
+ */
+export const HONEYPOT_FIELD = "website_url_confirm";
 
 // ── Step model ─────────────────────────────────────────────────────────────
 export type StepId =
@@ -258,45 +261,68 @@ function meetingSummary(a: Answers): string {
   return a.meetingPlatform ? `Yes — ${a.meetingPlatform}` : "Yes";
 }
 
-/** The shared, human-readable summary used by both WhatsApp and email. */
+type SummaryEntry = { label: string; values: string[]; bullet?: boolean };
+
+/**
+ * Single source of truth for the summary field list. Both the plain-text
+ * summary and the Telegram HTML message derive from this, so a new step can
+ * never appear in one channel and silently drop from the other.
+ */
+function summaryEntries(a: Answers): SummaryEntry[] {
+  return [
+    { label: "Building", values: [a.type ?? "—"] },
+    { label: "Timeline", values: [a.timeline ?? "—"] },
+    { label: "Budget", values: [a.budget ?? "—"] },
+    { label: "Primary Goal", values: a.goals.length ? a.goals : ["—"], bullet: true },
+    { label: "Branding", values: [a.branding ?? "—"] },
+    { label: "Meeting", values: [meetingSummary(a)] },
+    { label: "Free Mockups", values: [a.mockups ?? "—"] },
+    { label: "Notes", values: [a.notes.trim() || "—"] },
+    { label: "Name", values: [a.contact.name.trim() || "—"] },
+    { label: "Company", values: [a.contact.company.trim() || "—"] },
+    { label: "Email", values: [a.contact.email.trim() || "—"] },
+    { label: "Phone", values: [a.contact.phone.trim() || "—"] },
+    { label: "Website", values: [a.contact.website.trim() || "—"] },
+  ];
+}
+
+/** The shared, human-readable plain-text summary. */
 export function buildSummary(a: Answers): string {
   const lines: string[] = [RULE, "", "New VANTA Project", ""];
-
-  const block = (label: string, body: string | string[], bullet = false) => {
+  for (const { label, values, bullet } of summaryEntries(a)) {
     lines.push(`${label}:`);
-    const items = Array.isArray(body) ? body : [body];
-    for (const item of items) lines.push(bullet ? `• ${item}` : item);
+    for (const value of values) lines.push(bullet ? `• ${value}` : value);
     lines.push("");
-  };
-
-  block("Building", a.type ?? "—");
-  block("Timeline", a.timeline ?? "—");
-  block("Budget", a.budget ?? "—");
-  block("Primary Goal", a.goals.length ? a.goals : ["—"], true);
-  block("Branding", a.branding ?? "—");
-  block("Meeting", meetingSummary(a));
-  block("Free Mockups", a.mockups ?? "—");
-  block("Notes", a.notes.trim() || "—");
-  block("Name", a.contact.name.trim() || "—");
-  block("Company", a.contact.company.trim() || "—");
-  block("Email", a.contact.email.trim() || "—");
-  block("Phone", a.contact.phone.trim() || "—");
-  block("Website", a.contact.website.trim() || "—");
-
+  }
   lines.push(RULE);
   return lines.join("\n");
 }
 
-/** wa.me deep link with the summary pre-filled. */
-export function buildWhatsappUrl(a: Answers): string {
-  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
-    buildSummary(a),
-  )}`;
+/**
+ * Escape the three characters Telegram's HTML parse mode treats as markup.
+ * Every user-supplied value (name, notes, etc.) must pass through this or the
+ * message breaks — or worse, injects tags — when a value contains &, < or >.
+ */
+function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
 }
 
-/** mailto: draft addressed to the studio with the full summary as the body. */
-export function buildMailUrl(a: Answers): string {
-  const subject = encodeURIComponent("New VANTA Project Inquiry");
-  const body = encodeURIComponent(buildSummary(a));
-  return `mailto:${INQUIRY_EMAIL}?subject=${subject}&body=${body}`;
+/**
+ * The message body sent to Telegram with parse_mode "HTML". Labels are static
+ * and bolded; every dynamic value is HTML-escaped.
+ */
+export function buildTelegramMessage(a: Answers): string {
+  const lines: string[] = ["<b>New VANTA Project</b>", ""];
+  for (const { label, values, bullet } of summaryEntries(a)) {
+    lines.push(`<b>${label}:</b>`);
+    for (const value of values) {
+      const safe = escapeHtml(value);
+      lines.push(bullet ? `• ${safe}` : safe);
+    }
+    lines.push("");
+  }
+  return lines.join("\n").trim();
 }

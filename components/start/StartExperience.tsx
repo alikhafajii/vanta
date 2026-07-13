@@ -4,8 +4,6 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "motion/react";
 import {
-  buildMailUrl,
-  buildWhatsappUrl,
   getActiveSteps,
   initialAnswers,
   INSTAGRAM_URL,
@@ -58,6 +56,8 @@ export function StartExperience() {
   const [ready, setReady] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
+  const [error, setError] = useState(false);
+  const [honeypot, setHoneypot] = useState("");
   const headingRef = useRef<HTMLHeadingElement>(null);
 
   const answersRef = useRef(answers);
@@ -109,22 +109,26 @@ export function StartExperience() {
   const onContact = (name: ContactFieldName, value: string) =>
     setAnswers((a) => ({ ...a, contact: { ...a.contact, [name]: value } }));
 
-  const submit = () => {
+  const submit = async () => {
     if (submitting || done || !complete) return;
-    // Fire both channels inside the click gesture so pop-up blockers allow it.
-    window.open(buildWhatsappUrl(answers), "_blank", "noopener,noreferrer");
-    const mail = document.createElement("a");
-    mail.href = buildMailUrl(answers);
-    mail.style.display = "none";
-    document.body.appendChild(mail);
-    mail.click();
-    mail.remove();
-
+    setError(false);
     setSubmitting(true);
-    window.setTimeout(() => {
+    try {
+      const res = await fetch("/api/telegram", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ answers, honeypot }),
+      });
+      const data = (await res.json().catch(() => null)) as {
+        ok?: boolean;
+      } | null;
+      if (!res.ok || !data?.ok) throw new Error("send failed");
       setSubmitting(false);
       setDone(true);
-    }, 2000);
+    } catch {
+      setSubmitting(false);
+      setError(true);
+    }
   };
 
   return (
@@ -257,16 +261,55 @@ export function StartExperience() {
                         <StepFields
                           step={step}
                           answers={answers}
+                          honeypot={honeypot}
                           onSingle={onSingle}
                           onToggle={onToggle}
                           onNotes={onNotes}
                           onContact={onContact}
+                          onHoneypot={setHoneypot}
                         />
                       </div>
                     </motion.section>
                   ) : null}
                 </AnimatePresence>
               </div>
+
+              {/* Submit error — inline, with a manual email fallback */}
+              <AnimatePresence>
+                {error ? (
+                  <motion.div
+                    key="submit-error"
+                    variants={block}
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                    role="alert"
+                    className="mt-8 rounded-2xl border border-line-strong bg-white/[0.03] px-5 py-4"
+                  >
+                    <p className="text-[0.9rem] text-muted">
+                      Something went wrong sending your project. Try again, or
+                      email us directly.
+                    </p>
+                    <div className="mt-3 flex flex-wrap items-center gap-5">
+                      <button
+                        type="button"
+                        onClick={submit}
+                        data-cursor="hover"
+                        className="text-[0.9rem] font-medium text-white underline underline-offset-4 transition-colors duration-300 hover:text-white/70"
+                      >
+                        Try again
+                      </button>
+                      <a
+                        href="mailto:hello@vantadevs.com"
+                        data-cursor="hover"
+                        className="text-[0.9rem] text-muted transition-colors duration-300 hover:text-white"
+                      >
+                        hello@vantadevs.com ↗
+                      </a>
+                    </div>
+                  </motion.div>
+                ) : null}
+              </AnimatePresence>
 
               {/* Navigation */}
               <motion.div

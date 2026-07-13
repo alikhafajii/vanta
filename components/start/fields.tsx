@@ -2,7 +2,12 @@
 
 import { useEffect, useRef } from "react";
 import { motion } from "motion/react";
-import type { Answers, ContactField, Step } from "@/lib/data/onboarding";
+import {
+  HONEYPOT_FIELD,
+  type Answers,
+  type ContactField,
+  type Step,
+} from "@/lib/data/onboarding";
 import { cn } from "@/lib/utils";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -137,17 +142,21 @@ function TextField({
 export function StepFields({
   step,
   answers,
+  honeypot,
   onSingle,
   onToggle,
   onNotes,
   onContact,
+  onHoneypot,
 }: {
   step: Step;
   answers: Answers;
+  honeypot: string;
   onSingle: (value: string) => void;
   onToggle: (value: string) => void;
   onNotes: (value: string) => void;
   onContact: (name: ContactField["name"], value: string) => void;
+  onHoneypot: (value: string) => void;
 }) {
   switch (step.kind) {
     case "single": {
@@ -204,6 +213,17 @@ export function StepFields({
               onChange={(v) => onContact(field.name, v)}
             />
           ))}
+          {/* Honeypot: off-screen, untabbable, hidden from AT. Bots fill it; humans can't. */}
+          <input
+            type="text"
+            name={HONEYPOT_FIELD}
+            value={honeypot}
+            onChange={(e) => onHoneypot(e.target.value)}
+            tabIndex={-1}
+            autoComplete="off"
+            aria-hidden="true"
+            className="absolute left-[-9999px] h-0 w-0 opacity-0"
+          />
         </div>
       );
   }

@@ -23,7 +23,6 @@ export type StepId =
   | "branding"
   | "meeting"
   | "meetingPlatform"
-  | "mockups"
   | "notes"
   | "contact";
 
@@ -35,7 +34,17 @@ type StepBase = {
   subtitle?: string;
 };
 
-export type SingleStep = StepBase & { kind: "single"; options: string[] };
+export type SingleStep = StepBase & {
+  kind: "single";
+  options: string[];
+  /**
+   * Optional per-option caption. When the matching option is selected, its
+   * copy fades in below the pills to explain what that choice includes.
+   */
+  optionNotes?: Record<string, string>;
+  /** Always-visible clarification shown beneath the options (e.g. pricing is negotiable). */
+  disclaimer?: string;
+};
 export type MultiStep = StepBase & { kind: "multi"; options: string[] };
 export type NotesStep = StepBase & { kind: "notes"; placeholder: string };
 export type ContactFieldName =
@@ -90,6 +99,20 @@ export const steps: Step[] = [
       "$2,500–5,000",
       "$5,000+",
     ],
+    optionNotes: {
+      "Under $500":
+        "A clean, fully-functional site — one design direction, no custom animation or motion. Built fast, built right.",
+      "$500–1,000":
+        "Everything above, plus a few additional pages and refined responsive polish.",
+      "$1,000–2,500":
+        "A custom-designed layout, not a template — light interface motion, closer attention to user flow.",
+      "$2,500–5,000":
+        "Full custom design system, richer motion and micro-interactions, UX considered at every screen.",
+      "$5,000+":
+        "The full VANTA treatment — bespoke design, complete motion choreography, craft at the level of our portfolio work.",
+    },
+    disclaimer:
+      "These are starting points, not fixed quotes — every budget is open to discussion.",
   },
   {
     id: "goals",
@@ -128,13 +151,6 @@ export const steps: Step[] = [
     title: "Preferred platform?",
     accent: "platform",
     options: ["Google Meet", "Zoom", "Discord", "WhatsApp", "Phone Call"],
-  },
-  {
-    id: "mockups",
-    kind: "single",
-    title: "Want free mockup concepts before committing?",
-    accent: "free",
-    options: ["Yes", "No"],
   },
   {
     id: "notes",
@@ -188,7 +204,6 @@ export type Answers = {
   branding: string | null;
   meeting: string | null;
   meetingPlatform: string | null;
-  mockups: string | null;
   notes: string;
   contact: {
     name: string;
@@ -207,7 +222,6 @@ export const initialAnswers: Answers = {
   branding: null,
   meeting: null,
   meetingPlatform: null,
-  mockups: null,
   notes: "",
   contact: { name: "", company: "", email: "", phone: "", website: "" },
 };
@@ -239,8 +253,6 @@ export function isStepComplete(step: Step, a: Answers): boolean {
       return a.meeting !== null;
     case "meetingPlatform":
       return a.meetingPlatform !== null;
-    case "mockups":
-      return a.mockups !== null;
     case "notes":
       return true; // optional
     case "contact":
@@ -276,7 +288,6 @@ function summaryEntries(a: Answers): SummaryEntry[] {
     { label: "Primary Goal", values: a.goals.length ? a.goals : ["—"], bullet: true },
     { label: "Branding", values: [a.branding ?? "—"] },
     { label: "Meeting", values: [meetingSummary(a)] },
-    { label: "Free Mockups", values: [a.mockups ?? "—"] },
     { label: "Notes", values: [a.notes.trim() || "—"] },
     { label: "Name", values: [a.contact.name.trim() || "—"] },
     { label: "Company", values: [a.contact.company.trim() || "—"] },

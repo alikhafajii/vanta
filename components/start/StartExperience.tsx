@@ -69,7 +69,6 @@ export function StartExperience() {
   const step = activeSteps[clamped];
   const isLast = clamped === total - 1;
   const complete = isStepComplete(step, answers);
-  const showContinue = step.kind !== "single"; // single steps auto-advance
 
   // Aurora settles first; the flow fades in ~400ms later.
   useEffect(() => {
@@ -88,9 +87,14 @@ export function StartExperience() {
     );
   const goBack = () => setIndex((i) => Math.max(i - 1, 0));
 
-  const onSingle = (value: string) => {
+  // Single click selects; the user then presses Continue to advance.
+  const onSingle = (value: string) =>
     setAnswers((a) => ({ ...a, [step.id]: value }));
-    window.setTimeout(goNext, 380);
+
+  // Double-click a choice to select and jump ahead in one gesture.
+  const onSingleCommit = (value: string) => {
+    setAnswers((a) => ({ ...a, [step.id]: value }));
+    if (!isLast) window.setTimeout(goNext, 160);
   };
 
   const onToggle = (value: string) => {
@@ -132,7 +136,7 @@ export function StartExperience() {
   };
 
   return (
-    <main className="relative flex min-h-[100svh] flex-col items-center justify-center overflow-hidden bg-[#120F17] px-4 py-16 sm:px-6 sm:py-20">
+    <main className="relative flex min-h-[100svh] flex-col items-center justify-center overflow-x-hidden bg-[#120F17] px-4 py-16 sm:px-6 sm:py-20">
       {/* Layer 0 — official React Bits Aurora: fixed, full viewport, behind all */}
       <motion.div
         initial={{ opacity: 0 }}
@@ -176,7 +180,7 @@ export function StartExperience() {
       </motion.div>
 
       {/* Content */}
-      <div className="relative z-10 w-full max-w-[760px] lg:translate-x-[80px] lg:translate-y-[100px]">
+      <div className="relative z-10 w-full max-w-[760px] lg:translate-x-[80px]">
         <AnimatePresence mode="wait">
           {done ? (
             <motion.section
@@ -263,6 +267,7 @@ export function StartExperience() {
                           answers={answers}
                           honeypot={honeypot}
                           onSingle={onSingle}
+                          onSingleCommit={onSingleCommit}
                           onToggle={onToggle}
                           onNotes={onNotes}
                           onContact={onContact}
@@ -338,7 +343,7 @@ export function StartExperience() {
                   >
                     Send Project →
                   </button>
-                ) : showContinue ? (
+                ) : (
                   <button
                     type="button"
                     onClick={goNext}
@@ -348,8 +353,6 @@ export function StartExperience() {
                   >
                     Continue →
                   </button>
-                ) : (
-                  <span aria-hidden="true" />
                 )}
               </motion.div>
             </div>

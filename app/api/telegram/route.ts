@@ -26,7 +26,6 @@ function isAnswers(value: unknown): value is Answers {
     a.branding,
     a.meeting,
     a.meetingPlatform,
-    a.mockups,
   ];
   if (!nullableFields.every(isNullableString)) return false;
 

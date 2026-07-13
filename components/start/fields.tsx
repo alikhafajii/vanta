@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { motion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import {
   HONEYPOT_FIELD,
   type Answers,
@@ -26,12 +26,14 @@ function Pill({
   multi,
   index,
   onClick,
+  onDoubleClick,
 }: {
   label: string;
   selected: boolean;
   multi: boolean;
   index: number;
   onClick: () => void;
+  onDoubleClick?: () => void;
 }) {
   return (
     <motion.button
@@ -39,10 +41,11 @@ function Pill({
       role={multi ? "checkbox" : "radio"}
       aria-checked={selected}
       onClick={onClick}
+      onDoubleClick={onDoubleClick}
       data-cursor="hover"
       {...optionMotion(index)}
       className={cn(
-        "rounded-full border px-5 py-3 text-[0.95rem] tracking-tight transition-colors duration-300 outline-none",
+        "rounded-full border px-5 py-3 text-[0.95rem] tracking-tight transition-colors duration-300 outline-none select-none",
         "focus-visible:border-white/70",
         selected
           ? "border-white/55 bg-white/[0.06] text-white"
@@ -144,6 +147,7 @@ export function StepFields({
   answers,
   honeypot,
   onSingle,
+  onSingleCommit,
   onToggle,
   onNotes,
   onContact,
@@ -153,6 +157,7 @@ export function StepFields({
   answers: Answers;
   honeypot: string;
   onSingle: (value: string) => void;
+  onSingleCommit: (value: string) => void;
   onToggle: (value: string) => void;
   onNotes: (value: string) => void;
   onContact: (name: ContactField["name"], value: string) => void;
@@ -161,18 +166,47 @@ export function StepFields({
   switch (step.kind) {
     case "single": {
       const selected = answers[step.id as "type"] as string | null;
+      const note = selected ? step.optionNotes?.[selected] : undefined;
       return (
-        <div role="radiogroup" aria-label={step.title} className="flex flex-wrap gap-3">
-          {step.options.map((opt, i) => (
-            <Pill
-              key={opt}
-              label={opt}
-              multi={false}
-              index={i}
-              selected={selected === opt}
-              onClick={() => onSingle(opt)}
-            />
-          ))}
+        <div className="flex flex-col gap-6">
+          <div role="radiogroup" aria-label={step.title} className="flex flex-wrap gap-3">
+            {step.options.map((opt, i) => (
+              <Pill
+                key={opt}
+                label={opt}
+                multi={false}
+                index={i}
+                selected={selected === opt}
+                onClick={() => onSingle(opt)}
+                onDoubleClick={() => onSingleCommit(opt)}
+              />
+            ))}
+          </div>
+          {(note || step.disclaimer) && (
+            <div className="flex flex-col gap-2">
+              {/* Per-option scope caption — fades/swaps as the selection changes. */}
+              <AnimatePresence mode="wait">
+                {note && (
+                  <motion.p
+                    key={selected}
+                    aria-live="polite"
+                    initial={{ opacity: 0, y: 6, filter: "blur(4px)" }}
+                    animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                    exit={{ opacity: 0, y: -4, filter: "blur(4px)" }}
+                    transition={{ duration: 0.3, ease: EASE }}
+                    className="max-w-prose text-[0.9rem] leading-relaxed text-muted"
+                  >
+                    {note}
+                  </motion.p>
+                )}
+              </AnimatePresence>
+              {step.disclaimer && (
+                <p className="max-w-prose text-[0.8rem] leading-relaxed text-faint">
+                  {step.disclaimer}
+                </p>
+              )}
+            </div>
+          )}
         </div>
       );
     }

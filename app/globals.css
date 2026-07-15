@@ -179,7 +179,6 @@
 /* Hairline */
 .hairline {
   height: 1px;
-  width: 100%;
   background: var(--color-line);
   transform-origin: left;
 }
@@ -271,6 +270,24 @@
 .fade-up {
   animation: vanta-fade-up 0.9s var(--ease-out-expo) both;
   animation-delay: var(--rise-delay, 0ms);
+}
+
+/* Live status dot — slow radar halo so "live" projects feel alive without flash.
+   Animates transform + opacity only (compositor-friendly); reduced-motion stills it. */
+@keyframes vanta-live-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  70%,
+  100% {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+.live-dot-pulse {
+  animation: vanta-live-pulse 3.2s var(--ease-out-expo) infinite;
+  will-change: transform, opacity;
 }
 
 /* Sparse hero star field — near-imperceptible, no motion beyond a slow breathe */

@@ -16,7 +16,7 @@ export function FinalCTA() {
         />
       </div>
       <Container className="flex flex-col items-center text-center">
-        <span className="eyebrow mb-8">(06) — Contact</span>
+        <span className="eyebrow mb-8">(05) — Contact</span>
         <h2 className="text-display font-medium text-white">
           <MaskReveal as="div">Let us make something</MaskReveal>
           <MaskReveal as="div" delay={0.08}>

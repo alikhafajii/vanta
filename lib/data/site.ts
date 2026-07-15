@@ -15,10 +15,9 @@ export type NavItem = { label: string; href: string; index: string };
 export const nav: NavItem[] = [
   { label: "Work", href: "#work", index: "01" },
   { label: "Services", href: "#services", index: "02" },
-  { label: "Process", href: "#process", index: "03" },
-  { label: "About", href: "#about", index: "04" },
-  { label: "Journal", href: "#journal", index: "05" },
-  { label: "Contact", href: "#contact", index: "06" },
+  { label: "About", href: "#about", index: "03" },
+  { label: "Origin", href: "#origin", index: "04" },
+  { label: "Contact", href: "#contact", index: "05" },
 ];
 
 export type Social = { label: string; handle: string; href: string };

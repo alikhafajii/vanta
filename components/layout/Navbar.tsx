@@ -7,7 +7,7 @@ import { Logo } from "@/components/ui/Logo";
 import { ArrowLink } from "@/components/ui/ArrowLink";
 import { cn } from "@/lib/utils";
 
-const PRIMARY_NAV_LABELS = ["Work", "Process", "About", "Journal"];
+const PRIMARY_NAV_LABELS = ["Work", "Services", "About", "Origin"];
 const primaryNav = nav.filter((item) => PRIMARY_NAV_LABELS.includes(item.label));
 
 export function Navbar() {

@@ -15,10 +15,10 @@ export function SectionHeader({
 }) {
   return (
     <div className={cn("flex flex-col gap-8", className)}>
-      <div className="flex items-center gap-5">
+      <div className="grid grid-cols-[auto_1fr_auto] items-center gap-5">
         <span className="eyebrow text-white/80">{index}</span>
-        <span className="hairline w-16 shrink-0 sm:w-24" />
-        <span className="eyebrow">{label}</span>
+        <span className="hairline" />
+        <span className="eyebrow text-right">{label}</span>
       </div>
       {children}
     </div>

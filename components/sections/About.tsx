@@ -28,7 +28,7 @@ export function About() {
       className="relative scroll-mt-24 border-t border-line py-24 lg:py-36"
     >
       <Container>
-        <SectionHeader index="(04)" label="About" className="mb-14 lg:mb-20" />
+        <SectionHeader index="(03)" label="About" className="mb-14 lg:mb-20" />
 
         <div className="max-w-4xl">
           <p className="text-title font-medium text-balance text-white">

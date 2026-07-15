@@ -1,9 +1,10 @@
 "use client";
 
-import { useRef } from "react";
+import { useCallback, useRef } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
 import type { Project } from "@/lib/data/projects";
 import { cn } from "@/lib/utils";
+import { useInViewOnce } from "@/hooks/useInViewOnce";
 
 export function WorkPlate({ project, order }: { project: Project; order: number }) {
   const ref = useRef<HTMLElement>(null);
@@ -12,12 +13,24 @@ export function WorkPlate({ project, order }: { project: Project; order: number 
     offset: ["start end", "end start"],
   });
   const y = useTransform(scrollYProgress, [0, 1], ["-7%", "7%"]);
+  const { ref: inViewRef, inView } = useInViewOnce("0px 0px -12% 0px");
+  // Merge the parallax target ref (needs a RefObject) with the in-view callback ref.
+  const setRefs = useCallback(
+    (node: HTMLElement | null) => {
+      ref.current = node;
+      inViewRef(node);
+    },
+    [inViewRef],
+  );
   const reverse = order % 2 === 1;
   const num = String(order + 1).padStart(2, "0");
 
   return (
-    <article
-      ref={ref}
+    <motion.article
+      ref={setRefs}
+      initial={{ opacity: 0, y: 28 }}
+      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 28 }}
+      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: order * 0.09 }}
       className="group grid grid-cols-1 items-center gap-8 lg:grid-cols-12 lg:gap-14"
     >
       <a
@@ -68,6 +81,10 @@ export function WorkPlate({ project, order }: { project: Project; order: number 
             ) : null}
           </div>
           <div className="absolute inset-0 z-30 rounded-sm border border-white/10" />
+          <div
+            className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-1/3 bg-gradient-to-t from-black/70 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+            aria-hidden="true"
+          />
           <span
             className="eyebrow absolute top-4 left-4 z-30 text-white/70"
             aria-hidden="true"
@@ -92,12 +109,22 @@ export function WorkPlate({ project, order }: { project: Project; order: number 
 
       <div className={cn("flex flex-col gap-5 lg:col-span-5 w-full min-w-0", reverse && "lg:order-1")}>
         <div className="flex items-center gap-3">
-          <span
-            className={cn(
-              "h-1.5 w-1.5 rounded-full",
-              project.status === "live" ? "bg-accent" : "bg-faint",
+          <span className="relative flex h-1.5 w-1.5 items-center justify-center">
+            {project.status === "live" && (
+              <span
+                className="live-dot-pulse absolute inline-flex h-full w-full rounded-full bg-accent"
+                aria-hidden="true"
+              />
             )}
-          />
+            <span
+              className={cn(
+                "relative h-1.5 w-1.5 rounded-full",
+                project.status === "live"
+                  ? "bg-accent shadow-[0_0_6px_rgba(124,92,255,0.85)]"
+                  : "bg-faint",
+              )}
+            />
+          </span>
           <span className="eyebrow">
             {project.status === "live" ? "Live" : "In progress"} · {project.discipline}
           </span>
@@ -134,7 +161,7 @@ export function WorkPlate({ project, order }: { project: Project; order: number 
           <div className="mt-4 grid grid-cols-2 gap-x-6 gap-y-5 sm:grid-cols-4 sm:gap-4">
             {project.metrics.map((m, idx) => (
               <div key={idx} className="flex flex-col gap-1">
-                <span className="font-sans text-[clamp(1.2rem,4vw,1.4rem)] font-light text-white tracking-tight leading-none">{m.value}</span>
+                <span className="font-sans text-[clamp(1.2rem,4vw,1.4rem)] font-light text-white tracking-tight leading-none tabular-nums">{m.value}</span>
                 <span className="text-[0.6rem] font-mono tracking-wider text-faint uppercase leading-tight">
                   {m.label}
                 </span>
@@ -143,6 +170,6 @@ export function WorkPlate({ project, order }: { project: Project; order: number 
           </div>
         )}
       </div>
-    </article>
+    </motion.article>
   );
 }

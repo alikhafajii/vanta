@@ -2,6 +2,7 @@ import { Container } from "@/components/ui/Container";
 import { Wordmark } from "@/components/ui/Wordmark";
 import { LocalTime } from "@/components/ui/LocalTime";
 import { MagneticButton } from "@/components/ui/MagneticButton";
+import { Reveal } from "@/components/ui/Reveal";
 import { nav, socials, site } from "@/lib/data/site";
 
 function FooterCol({
@@ -34,7 +35,7 @@ export function Footer() {
   return (
     <footer className="relative overflow-hidden border-t border-line bg-void">
       <Container className="pt-20 pb-10 lg:pt-28">
-        <div className="grid gap-14 lg:grid-cols-12">
+        <Reveal className="grid gap-14 lg:grid-cols-12">
           <div className="flex flex-col gap-7 lg:col-span-5">
             <a href="#top" aria-label="VANTA — home" className="w-fit text-white">
               <Wordmark className="h-5" strokeWidth={2.6} />
@@ -73,7 +74,7 @@ export function Footer() {
               <p className="text-[0.95rem] text-muted">Available for 2026</p>
             </div>
           </div>
-        </div>
+        </Reveal>
 
         <div className="pointer-events-none mt-20 select-none" aria-hidden="true">
           <Wordmark
@@ -85,7 +86,9 @@ export function Footer() {
 
       <div className="border-t border-line">
         <Container className="flex flex-col gap-3 py-6 sm:flex-row sm:items-center sm:justify-between">
-          <p className="eyebrow">© 2026 VANTA — All rights reserved</p>
+          <p className="eyebrow">
+            © {new Date().getFullYear()} {site.name} — All rights reserved
+          </p>
           <a href="#top" className="eyebrow link-underline">
             Back to top ↑
           </a>

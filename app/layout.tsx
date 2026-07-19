@@ -41,6 +41,7 @@ export const metadata: Metadata = {
   },
   description: site.description,
   alternates: { canonical: site.url },
+  verification: { google: "31nN3PoCaV0Z6pbEZig8b8qXPRwZW1nt69jdkK46t6I" },
   keywords: [
     "creative studio",
     "web design",

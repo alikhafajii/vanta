@@ -15,8 +15,8 @@ A creative digital studio. Art-directed, editorial, and engineered to feel inevi
 
 ## Pages
 
-- [Home](https://vantadevs.com): Studio overview, selected work, services, and origin story.
-- [Start a Project](https://vantadevs.com/start-project): Guided intake to share what you're building and receive a tailored proposal.
+- [Home](https://www.vantadevs.com): Studio overview, selected work, services, and origin story.
+- [Start a Project](https://www.vantadevs.com/start-project): Guided intake to share what you're building and receive a tailored proposal.
 
 ## Contact
 

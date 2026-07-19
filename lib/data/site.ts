@@ -2,8 +2,8 @@ export const site = {
   name: "VANTA",
   /** The wordmark, rendered letter-by-letter — the "A" is the signature apex (Λ). */
   wordmark: ["V", "Λ", "N", "T", "Λ"] as const,
-  domain: "vantadevs.com",
-  url: "https://vantadevs.com",
+  domain: "www.vantadevs.com",
+  url: "https://www.vantadevs.com",
   email: "hello@vantadevs.com",
   tagline: "A creative digital studio.",
   description:

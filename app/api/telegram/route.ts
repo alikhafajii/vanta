@@ -18,8 +18,10 @@ const isString = (v: unknown): v is string => typeof v === "string";
 const isNullableString = (v: unknown): boolean => v === null || isString(v);
 
 // ── Same-origin guard ───────────────────────────────────────────────────────
-const SITE_HOST = new URL(site.url).host; // vantadevs.com
-const ALLOWED_HOSTS = new Set([SITE_HOST, `www.${SITE_HOST}`]);
+// Derived so it works whether site.url is the apex or the www host — always
+// allows both, regardless of which one is canonical.
+const BASE_HOST = new URL(site.url).host.replace(/^www\./, ""); // vantadevs.com
+const ALLOWED_HOSTS = new Set([BASE_HOST, `www.${BASE_HOST}`]);
 
 function hostFromHeader(value: string | null): string | null {
   if (!value) return null;

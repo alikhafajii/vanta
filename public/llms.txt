@@ -1,0 +1,27 @@
+# VANTA
+
+> VANTA is a creative digital studio crafting premium websites, web applications, brand systems and motion for companies that refuse to look ordinary.
+
+A creative digital studio. Art-directed, editorial, and engineered to feel inevitable — VANTA builds premium marketing sites, complex web applications, brand identity systems, and interface motion for companies that want to stand out.
+
+## Services
+
+- **Web Design**: Premium marketing sites built as brand statements — art-directed, editorial, and engineered to feel inevitable.
+- **Web Applications**: Complex products made to feel effortless — considered interfaces, robust architecture, and interactions that reward attention.
+- **UI / UX**: Interfaces designed around intent — clarity, hierarchy, and rhythm that make the right thing the obvious thing.
+- **Branding**: Identity systems with a point of view — typography, tone, and a visual language that stays composed under pressure.
+- **Motion Design**: Motion as craft, not decoration — transitions and micro-interactions timed to feel invisible yet unmistakably premium.
+- **Performance**: Speed as a feature — lean, accessible builds that score in the high nineties and load like they weigh nothing.
+
+## Pages
+
+- [Home](https://vantadevs.com): Studio overview, selected work, services, and origin story.
+- [Start a Project](https://vantadevs.com/start-project): Guided intake to share what you're building and receive a tailored proposal.
+
+## Contact
+
+- Email: hello@vantadevs.com
+- Instagram: https://instagram.com/vantadevs
+- Twitter/X: https://x.com/vantadevs
+- LinkedIn: https://linkedin.com/company/vantadevs
+- Dribbble: https://dribbble.com/vantadevs

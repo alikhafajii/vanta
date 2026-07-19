@@ -1,7 +1,7 @@
 import { BackgroundStars } from "@/components/hero/BackgroundStars";
 import { ShootingStars } from "@/components/hero/ShootingStars";
 
-const HERO_IMAGE = "/images/projects/hero-eclipse.jpg";
+const HERO_IMAGE = "/images/projects/hero-eclipse.png";
 
 /**
  * Hero backdrop: a single photographic plate (the eclipse/horizon scene) with

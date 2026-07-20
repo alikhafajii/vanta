@@ -231,7 +231,7 @@ export function StartExperience() {
                 className="mb-10 flex items-center gap-4"
               >
                 <span className="eyebrow text-muted">Project</span>
-                <span className="h-px w-8 bg-line-strong" />
+                <span className="h-px w-8 bg-accent/50" />
                 <span className="eyebrow text-white">
                   {pad(clamped + 1)}{" "}
                   <span className="text-faint">/ {pad(total)}</span>
@@ -353,7 +353,7 @@ export function StartExperience() {
                     onClick={goNext}
                     disabled={!complete}
                     data-cursor="hover"
-                    className="rounded-full border border-line-strong px-8 py-3.5 text-[0.95rem] font-medium text-white transition-all duration-300 hover:border-white/60 hover:bg-white/[0.04] disabled:pointer-events-none disabled:opacity-30"
+                    className="rounded-full border border-accent-bright/50 bg-black/40 px-8 py-3.5 text-[0.95rem] font-medium text-white backdrop-blur-sm transition-all duration-300 hover:border-accent-bright hover:bg-black/55 disabled:pointer-events-none disabled:opacity-30"
                   >
                     Continue →
                   </button>

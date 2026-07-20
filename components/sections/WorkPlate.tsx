@@ -158,16 +158,19 @@ export function WorkPlate({ project, order }: { project: Project; order: number 
         )}
 
         {project.metrics && project.metrics.length > 0 && (
-          <div className="mt-4 grid grid-cols-2 gap-x-6 gap-y-5 sm:grid-cols-4 sm:gap-4">
-            {project.metrics.map((m, idx) => (
-              <div key={idx} className="flex flex-col gap-1">
-                <span className="font-sans text-[clamp(1.2rem,4vw,1.4rem)] font-light text-white tracking-tight leading-none tabular-nums">{m.value}</span>
-                <span className="text-[0.6rem] font-mono tracking-wider text-faint uppercase leading-tight">
-                  {m.label}
-                </span>
-              </div>
-            ))}
-          </div>
+          <>
+            <div className="mt-4 grid grid-cols-2 gap-x-6 gap-y-5 sm:grid-cols-4 sm:gap-4">
+              {project.metrics.map((m, idx) => (
+                <div key={idx} className="flex flex-col gap-1">
+                  <span className="font-sans text-[clamp(1.2rem,4vw,1.4rem)] font-light text-white tracking-tight leading-none tabular-nums">{m.value}</span>
+                  <span className="text-[0.6rem] font-mono tracking-wider text-faint uppercase leading-tight">
+                    {m.label}
+                  </span>
+                </div>
+              ))}
+            </div>
+            <p className="mt-1 text-[0.65rem] text-faint">Client-reported results.</p>
+          </>
         )}
       </div>
     </motion.article>

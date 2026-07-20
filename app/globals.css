@@ -277,43 +277,6 @@
   will-change: transform, opacity;
 }
 
-/* Sparse hero star field — near-imperceptible, no motion beyond a slow breathe */
-@keyframes vanta-twinkle {
-  0%,
-  100% {
-    opacity: var(--star-o, 0.5);
-  }
-  50% {
-    opacity: calc(var(--star-o, 0.5) * 0.35);
-  }
-}
-.star-twinkle {
-  animation: vanta-twinkle var(--star-dur, 7s) ease-in-out infinite;
-  animation-delay: var(--star-delay, 0s);
-}
-
-/* Rare diagonal streak — invisible for most of its cycle, brief when it fires */
-@keyframes vanta-shooting-star {
-  0%,
-  91% {
-    transform: translate(0, 0);
-    opacity: 0;
-  }
-  92% {
-    opacity: 1;
-  }
-  97%,
-  100% {
-    transform: translate(220px, 0);
-    opacity: 0;
-  }
-}
-.shooting-star {
-  transform-origin: left center;
-  animation: vanta-shooting-star var(--shoot-dur, 14s) linear infinite;
-  animation-delay: var(--shoot-delay, 0s);
-}
-
 /* Edge fade mask for marquees / overflow rows */
 .edge-fade-x {
   -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);

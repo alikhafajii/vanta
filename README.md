@@ -88,12 +88,17 @@ Colors, the fluid type scale, and easings are defined once in [`app/globals.css`
 
 | Token | Value |
 | --- | --- |
-| `--color-void` | `#090909` (background) |
-| `--color-secondary` | `#141414` |
-| `--color-surface` | `#1b1b1b` |
+| `--color-void` | `#000000` (background) |
+| `--color-secondary` | `#141418` |
+| `--color-surface` | `#1b1b20` |
+| `--color-elevated` | `#26262a` |
 | `--color-text` | `#ffffff` |
 | `--color-muted` | `#a1a1aa` |
+| `--color-faint` | `#8a8a93` |
+| `--color-line` | `rgba(255,255,255,0.1)` |
+| `--color-line-strong` | `rgba(255,255,255,0.2)` |
 | `--color-accent` | `#7c5cff` (deep ultraviolet, used sparingly) |
+| `--color-accent-bright` | `#9a80ff` |
 
 ## Deploy
 

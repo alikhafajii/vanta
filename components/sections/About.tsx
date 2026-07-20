@@ -1,25 +1,7 @@
 import { Container } from "@/components/ui/Container";
 import { SectionHeader } from "@/components/layout/SectionHeader";
 import { Reveal } from "@/components/ui/Reveal";
-
-const principles = [
-  {
-    title: "Quality over quantity",
-    body: "We take on fewer projects so each one receives the attention it deserves.",
-  },
-  {
-    title: "Timeless over trendy",
-    body: "We design for the long run — work that still looks composed in five years.",
-  },
-  {
-    title: "Craft you can feel",
-    body: "Down to the last transition. The details you cannot name are the ones you sense.",
-  },
-  {
-    title: "Partners, not vendors",
-    body: "We embed with your team and treat your outcomes as our own.",
-  },
-];
+import { about, principles } from "@/lib/data/about";
 
 export function About() {
   return (
@@ -32,15 +14,12 @@ export function About() {
 
         <div className="max-w-4xl">
           <p className="text-title font-medium text-balance text-white">
-            VANTA is a small studio with a single obsession — making digital work that
-            looks <span className="serif">timeless</span> instead of trendy. We choose
-            fewer projects, and give them <span className="serif">everything.</span>
+            {about.statementLead}{" "}
+            <span className="serif">{about.statementEmphasis1}</span>{" "}
+            {about.statementMid}{" "}
+            <span className="serif">{about.statementEmphasis2}</span>
           </p>
-          <p className="mt-8 max-w-2xl text-lead text-muted">
-            We believe confidence is quiet. That the best interface is the one you never
-            notice. That performance is a feature, accessibility is a baseline, and
-            restraint is the hardest discipline of all. Every pixel earns its place.
-          </p>
+          <p className="mt-8 max-w-2xl text-lead text-muted">{about.body}</p>
         </div>
 
         <div className="mt-16 grid grid-cols-1 gap-px overflow-hidden rounded-sm border border-line bg-line sm:grid-cols-2 lg:mt-24 lg:grid-cols-4">

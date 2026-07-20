@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { switzer, instrument, mono } from "./fonts";
 import { Providers } from "./providers";
-import { Grain } from "@/components/ui/Grain";
 import { site, socials } from "@/lib/data/site";
 import { services } from "@/lib/data/services";
 import "./globals.css";
@@ -98,7 +97,6 @@ export default function RootLayout({
         />
       </head>
       <body className="bg-void text-text antialiased">
-        <Grain />
         <Providers>{children}</Providers>
       </body>
     </html>

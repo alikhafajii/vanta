@@ -9,6 +9,10 @@
 /vendor
 *.tgz
 pnpm-lock.yaml.bak
+
+# raw source archives (frame dumps, etc.) — never ship the source material,
+# only the processed production assets in public/
+*.zip
 .yarn/*
 !.yarn/patches
 !.yarn/plugins

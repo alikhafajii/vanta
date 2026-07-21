@@ -32,25 +32,16 @@ export function Hero() {
       </div>
 
       <div className="flex flex-1 flex-col items-center px-6 pt-[calc(10svh+72px)] text-center">
-        <span
-          className="fade-up mb-5 inline-block h-1.5 w-1.5 rounded-full bg-accent"
-          style={delay(60)}
-          aria-hidden="true"
-        />
-        <p className="eyebrow fade-up" style={delay(140)}>
-          Creative Digital Studio — Est. 2025
-        </p>
-
         <h1
-          className="fade-up mt-7 font-serif text-[clamp(3rem,1.4rem+5.6vw,6.25rem)] leading-[1.02] tracking-[-0.01em] text-white"
-          style={delay(240)}
+          className="fade-up font-serif text-[clamp(3rem,1.4rem+5.6vw,6.25rem)] leading-[1.02] tracking-[-0.01em] text-white"
+          style={delay(80)}
         >
           We build in the <span className="italic">dark.</span>
         </h1>
 
         <p
           className="fade-up mt-7 max-w-md text-base leading-relaxed text-muted sm:text-lg"
-          style={delay(360)}
+          style={delay(220)}
         >
           Premium websites, brands and digital experiences crafted with obsessive
           attention to detail.
@@ -58,12 +49,12 @@ export function Hero() {
 
         <div
           className="fade-up mt-11 flex flex-col items-center gap-6 sm:flex-row sm:gap-8"
-          style={delay(470)}
+          style={delay(360)}
         >
           <MagneticButton
             href="/start-project"
             variant="outline"
-            className="border-accent/40 px-7 py-3.5 font-mono text-xs tracking-[0.18em] uppercase hover:border-accent/80 hover:bg-accent/10"
+            className="px-7 py-3.5 font-mono text-xs tracking-[0.18em] uppercase"
           >
             Start a Project <span aria-hidden="true">→</span>
           </MagneticButton>
@@ -85,7 +76,7 @@ export function Hero() {
 
       <div
         className="fade-up absolute bottom-7 left-1/2 flex -translate-x-1/2 items-center gap-3"
-        style={delay(680)}
+        style={delay(520)}
       >
         <span className="h-5 w-px bg-white/30" aria-hidden="true" />
         <span className="eyebrow">Scroll</span>

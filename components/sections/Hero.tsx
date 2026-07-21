@@ -9,22 +9,27 @@ export function Hero() {
       id="top"
       className="relative isolate flex h-svh flex-col overflow-hidden bg-black"
     >
-      {/* Eclipse animation — the final VANTA hero background, encoded from the
-          production frame sequence (190 frames, 1920x1080, 30fps). webm first
-          (smaller, VP9) with mp4 (h264) fallback for Safari/older browsers. */}
-      <video
-        className="pointer-events-none absolute inset-0 -z-10 h-full w-full object-cover"
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="auto"
-        poster="/hero/eclipse-poster.jpg"
+      {/* Layer 1 — deep-space background plate, full-bleed */}
+      <img
+        src="/hero/space-bg.png"
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 -z-20 h-full w-full object-cover"
+      />
+
+      {/* Layer 2 — VANTA mark, an independent layer over the background (never
+          merged into one asset). The source render sits on solid black, so
+          mix-blend-mode: screen drops the black and keeps only the glow. */}
+      <div
+        className="pointer-events-none absolute inset-x-0 top-[58%] -z-10 flex justify-center sm:top-[36%]"
         aria-hidden="true"
       >
-        <source src="/hero/eclipse.mp4" type="video/mp4" />
-        <source src="/hero/eclipse.webm" type="video/webm" />
-      </video>
+        <img
+          src="/hero/vanta-mark.jpg"
+          alt=""
+          className="w-[78vw] max-w-[820px] mix-blend-screen sm:w-[60vw]"
+        />
+      </div>
 
       <div className="flex flex-1 flex-col items-center px-6 pt-[calc(10svh+72px)] text-center">
         <span

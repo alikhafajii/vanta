@@ -32,10 +32,10 @@ export function HeroStarField({ stars }: { stars: HeroStar[] }) {
       if (cancelled) return;
       animations = els.map((el, i) => {
         const star = stars[i];
-        const floor = (star?.peak ?? 0.7) * 0.45;
+        const floor = (star?.peak ?? 0.7) * 0.65;
         return animate(el, {
           opacity: [floor, star?.peak ?? 0.7],
-          scale: [0.7, 1],
+          scale: [0.8, 1.15],
           duration: (star?.duration ?? 3.5) * 1000,
           delay: (star?.delay ?? 0) * 1000,
           loop: true,

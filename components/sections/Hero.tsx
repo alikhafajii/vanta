@@ -1,7 +1,10 @@
 import type { CSSProperties } from "react";
 import { MagneticButton } from "@/components/ui/MagneticButton";
+import { generateHeroStars } from "@/lib/generateHeroStars";
 
 const delay = (ms: number) => ({ "--rise-delay": `${ms}ms` }) as CSSProperties;
+
+const stars = generateHeroStars();
 
 export function Hero() {
   return (
@@ -9,26 +12,32 @@ export function Hero() {
       id="top"
       className="relative isolate flex h-svh flex-col overflow-hidden bg-black"
     >
-      {/* Layer 1 — deep-space background plate, full-bleed */}
+      {/* Background plate — deep-space photo with the VANTA eclipse mark baked in */}
       <img
-        src="/hero/space-bg.png"
+        src="/hero/hero-bg.jpg"
         alt=""
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 -z-20 h-full w-full object-cover"
+        className="pointer-events-none absolute inset-0 -z-20 h-full w-full object-cover object-[center_72%]"
       />
 
-      {/* Layer 2 — VANTA mark, an independent layer over the background (never
-          merged into one asset). The source render sits on solid black, so
-          mix-blend-mode: screen drops the black and keeps only the glow. */}
-      <div
-        className="pointer-events-none absolute inset-x-0 top-[58%] -z-10 flex justify-center sm:top-[36%]"
-        aria-hidden="true"
-      >
-        <img
-          src="/hero/vanta-mark.jpg"
-          alt=""
-          className="w-[78vw] max-w-[820px] mix-blend-screen sm:w-[60vw]"
-        />
+      {/* Star field — pulsing glow layer, sits above the photo, behind content */}
+      <div className="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
+        {stars.map((star) => (
+          <span
+            key={star.id}
+            className={star.cross ? "hero-star hero-star--cross" : "hero-star"}
+            style={
+              {
+                left: `${star.left}%`,
+                top: `${star.top}%`,
+                "--star-size": `${star.size}px`,
+                "--star-peak": star.peak,
+                "--star-duration": `${star.duration}s`,
+                "--star-delay": `${star.delay}s`,
+              } as CSSProperties
+            }
+          />
+        ))}
       </div>
 
       <div className="flex flex-1 flex-col items-center px-6 pt-[calc(10svh+72px)] text-center">

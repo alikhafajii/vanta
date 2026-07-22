@@ -73,7 +73,7 @@ export function generateHeroStars(seed = 1337): HeroStar[] {
               : shape === "diamond"
                 ? 2.3 + rand() * 1.8
                 : 1.9 + rand() * 1.8,
-        peak: 0.8 + rand() * 0.2,
+        peak: 0.94 + rand() * 0.06,
         duration: 2.4 + rand() * 3.4,
         delay: rand() * 5,
         shape,

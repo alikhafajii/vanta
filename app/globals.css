@@ -292,12 +292,12 @@
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle, #fff 0%, rgba(255, 255, 255, 0.9) 40%, transparent 75%);
+  background: radial-gradient(circle, #fff 0%, #f2fbff 30%, rgba(226, 248, 255, 0.9) 50%, transparent 76%);
   box-shadow:
-    0 0 calc(var(--star-size) * 1.5) rgba(255, 255, 255, 1),
-    0 0 calc(var(--star-size) * 5) rgba(255, 255, 255, 0.85),
-    0 0 calc(var(--star-size) * 10) rgba(255, 255, 255, 0.5),
-    0 0 calc(var(--star-size) * 18) rgba(255, 255, 255, 0.22);
+    0 0 calc(var(--star-size) * 1.5) #fff,
+    0 0 calc(var(--star-size) * 5) rgba(233, 250, 255, 0.95),
+    0 0 calc(var(--star-size) * 11) rgba(210, 244, 255, 0.7),
+    0 0 calc(var(--star-size) * 20) rgba(190, 235, 255, 0.4);
 }
 
 /* Dot — plain round star, the common case */
@@ -330,8 +330,8 @@
   width: calc(var(--star-size) * 7);
   height: 1.4px;
   transform: translate(-50%, -50%);
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.95), transparent);
-  box-shadow: 0 0 4px rgba(255, 255, 255, 0.6);
+  background: linear-gradient(90deg, transparent, #f2fbff, transparent);
+  box-shadow: 0 0 5px rgba(210, 244, 255, 0.85);
 }
 .hero-star--sparkle {
   --spike-w: calc(var(--star-size) * 7);
@@ -343,8 +343,8 @@
   width: 1.4px;
   height: var(--spike-w);
   transform: translate(-50%, -50%);
-  background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.95), transparent);
-  box-shadow: 0 0 4px rgba(255, 255, 255, 0.6);
+  background: linear-gradient(180deg, transparent, #f2fbff, transparent);
+  box-shadow: 0 0 5px rgba(210, 244, 255, 0.85);
 }
 
 /* Edge fade mask for marquees / overflow rows */

@@ -46,17 +46,17 @@ export function generateHeroStars(seed = 1337): HeroStar[] {
       const inContentColumn = x > 25 && x < 75 && y > 8 && y < 78;
       const nearMark = x > 38 && x < 62 && y > 76;
 
-      const keepChance = nearMark ? 0.12 : inContentColumn ? 0.22 : 0.85;
+      const keepChance = nearMark ? 0.08 : inContentColumn ? 0.12 : 0.55;
       if (rand() > keepChance) continue;
 
-      const cross = !inContentColumn && rand() < 0.16;
+      const cross = !inContentColumn && rand() < 0.28;
 
       stars.push({
         id: id++,
         left: x,
         top: y,
-        size: cross ? 3 + rand() * 1.6 : 1.5 + rand() * 1.7,
-        peak: cross ? 0.75 + rand() * 0.25 : 0.4 + rand() * 0.45,
+        size: cross ? 5 + rand() * 4.5 : 2.6 + rand() * 3,
+        peak: cross ? 0.85 + rand() * 0.15 : 0.55 + rand() * 0.35,
         duration: 2.6 + rand() * 3.2,
         delay: rand() * 5,
         cross,

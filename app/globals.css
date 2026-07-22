@@ -277,13 +277,15 @@
   will-change: transform, opacity;
 }
 
-/* Hero star field — soft dot + halo, independent per-star pulse so the field
-   never reads as one synced blink. Opacity/scale only (compositor-friendly). */
+/* Hero star field — bright core + layered bloom, independent per-star pulse so
+   the field never reads as one synced blink. Opacity/scale only (compositor-
+   friendly). Sized and lit to read clearly against the photo's own starfield,
+   not just blend into it. */
 @keyframes vanta-star-pulse {
   0%,
   100% {
-    opacity: calc(var(--star-peak) * 0.25);
-    transform: scale(0.75);
+    opacity: calc(var(--star-peak) * 0.45);
+    transform: scale(0.7);
   }
   50% {
     opacity: var(--star-peak);
@@ -295,8 +297,11 @@
   width: var(--star-size);
   height: var(--star-size);
   border-radius: 50%;
-  background: radial-gradient(circle, #fff 0%, rgba(255, 255, 255, 0.4) 45%, transparent 75%);
-  box-shadow: 0 0 calc(var(--star-size) * 2.5) rgba(255, 255, 255, 0.55);
+  background: radial-gradient(circle, #fff 0%, rgba(255, 255, 255, 0.75) 35%, transparent 72%);
+  box-shadow:
+    0 0 calc(var(--star-size) * 1.4) rgba(255, 255, 255, 0.95),
+    0 0 calc(var(--star-size) * 4.5) rgba(255, 255, 255, 0.6),
+    0 0 calc(var(--star-size) * 9) rgba(255, 255, 255, 0.25);
   animation: vanta-star-pulse var(--star-duration) ease-in-out infinite;
   animation-delay: var(--star-delay);
   will-change: opacity, transform;
@@ -307,16 +312,16 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.9), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.95), transparent);
 }
 .hero-star--cross::before {
-  width: calc(var(--star-size) * 6);
-  height: 1px;
+  width: calc(var(--star-size) * 7);
+  height: 1.5px;
   transform: translate(-50%, -50%);
 }
 .hero-star--cross::after {
-  width: 1px;
-  height: calc(var(--star-size) * 6);
+  width: 1.5px;
+  height: calc(var(--star-size) * 7);
   transform: translate(-50%, -50%);
 }
 

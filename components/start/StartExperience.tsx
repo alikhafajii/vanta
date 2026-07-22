@@ -14,6 +14,7 @@ import {
 import Aurora from "@/components/start/Aurora";
 import { StepFields } from "@/components/start/fields";
 import { Wordmark } from "@/components/ui/Wordmark";
+import { site } from "@/lib/data/site";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 const pad = (n: number) => String(n).padStart(2, "0");
@@ -309,11 +310,11 @@ export function StartExperience() {
                         Try again
                       </button>
                       <a
-                        href="mailto:hello@vantadevs.com"
+                        href={`mailto:${site.email}`}
                         data-cursor="hover"
                         className="text-[0.9rem] text-muted transition-colors duration-300 hover:text-white"
                       >
-                        hello@vantadevs.com ↗
+                        {site.email} ↗
                       </a>
                     </div>
                   </motion.div>

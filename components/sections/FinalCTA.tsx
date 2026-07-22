@@ -1,7 +1,8 @@
 import { Container } from "@/components/ui/Container";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 import { MaskReveal } from "@/components/ui/MaskReveal";
-import { site } from "@/lib/data/site";
+import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
+import { site, whatsapp } from "@/lib/data/site";
 
 export function FinalCTA() {
   return (
@@ -28,13 +29,25 @@ export function FinalCTA() {
           inevitable.
         </p>
         <div className="mt-12 flex flex-col items-center gap-8">
-          <MagneticButton
-            href="/start-project"
-            strength={0.5}
-            className="px-9 py-4 text-base"
-          >
-            Start a project
-          </MagneticButton>
+          <div className="flex flex-col items-center gap-4 sm:flex-row">
+            <MagneticButton
+              href="/start-project"
+              strength={0.5}
+              className="px-9 py-4 text-base"
+            >
+              Start a project
+            </MagneticButton>
+            <MagneticButton
+              href={whatsapp.href}
+              variant="outline"
+              strength={0.5}
+              className="px-9 py-4 text-base"
+              ariaLabel={`Message VANTA on WhatsApp at ${whatsapp.number}`}
+            >
+              <WhatsAppIcon className="h-5 w-5" />
+              WhatsApp us
+            </MagneticButton>
+          </div>
           <a
             href={`mailto:${site.email}`}
             className="link-underline text-subtitle text-white"

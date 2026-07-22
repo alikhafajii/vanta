@@ -4,10 +4,15 @@ export const site = {
   wordmark: ["V", "Λ", "N", "T", "Λ"] as const,
   domain: "www.vantadevs.com",
   url: "https://www.vantadevs.com",
-  email: "hello@vantadevs.com",
+  email: "vantadevss@gmail.com",
   tagline: "A creative digital studio.",
   description:
     "VANTA is a creative digital studio crafting premium websites, web applications, brand systems and motion for companies that refuse to look ordinary.",
+} as const;
+
+export const whatsapp = {
+  number: "+961 81 049 409",
+  href: "https://wa.me/96181049409",
 } as const;
 
 export type NavItem = { label: string; href: string; index: string };

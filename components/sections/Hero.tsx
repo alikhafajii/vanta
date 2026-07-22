@@ -1,5 +1,6 @@
 import type { CSSProperties } from "react";
 import { MagneticButton } from "@/components/ui/MagneticButton";
+import { HeroStarField } from "@/components/sections/HeroStarField";
 import { generateHeroStars } from "@/lib/generateHeroStars";
 
 const delay = (ms: number) => ({ "--rise-delay": `${ms}ms` }) as CSSProperties;
@@ -20,25 +21,10 @@ export function Hero() {
         className="pointer-events-none absolute inset-0 -z-20 h-full w-full object-cover object-[center_72%]"
       />
 
-      {/* Star field — pulsing glow layer, sits above the photo, behind content */}
-      <div className="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
-        {stars.map((star) => (
-          <span
-            key={star.id}
-            className={star.cross ? "hero-star hero-star--cross" : "hero-star"}
-            style={
-              {
-                left: `${star.left}%`,
-                top: `${star.top}%`,
-                "--star-size": `${star.size}px`,
-                "--star-peak": star.peak,
-                "--star-duration": `${star.duration}s`,
-                "--star-delay": `${star.delay}s`,
-              } as CSSProperties
-            }
-          />
-        ))}
-      </div>
+      {/* Star field — pulsing glow layer, sits above the photo, behind content.
+          Anime.js-driven (client island); positions/shapes still render as
+          static server markup so there's no layout shift before hydration. */}
+      <HeroStarField stars={stars} />
 
       <div className="flex flex-1 flex-col items-center px-6 pt-[calc(10svh+72px)] text-center">
         <h1

@@ -277,52 +277,73 @@
   will-change: transform, opacity;
 }
 
-/* Hero star field — bright core + layered bloom, independent per-star pulse so
-   the field never reads as one synced blink. Opacity/scale only (compositor-
-   friendly). Sized and lit to read clearly against the photo's own starfield,
-   not just blend into it. */
-@keyframes vanta-star-pulse {
-  0%,
-  100% {
-    opacity: calc(var(--star-peak) * 0.45);
-    transform: scale(0.7);
-  }
-  50% {
-    opacity: var(--star-peak);
-    transform: scale(1);
-  }
-}
+/* Hero star field — bright core + layered bloom. The pulse itself is driven
+   by anime.js (components/sections/HeroStarField.tsx) animating opacity/
+   scale on this element directly; this rule just sets the static shape/glow
+   and the pre-hydration resting look. Sized and lit to read clearly against
+   the photo's own starfield, not just blend into it. */
 .hero-star {
   position: absolute;
   width: var(--star-size);
   height: var(--star-size);
-  border-radius: 50%;
-  background: radial-gradient(circle, #fff 0%, rgba(255, 255, 255, 0.75) 35%, transparent 72%);
-  box-shadow:
-    0 0 calc(var(--star-size) * 1.4) rgba(255, 255, 255, 0.95),
-    0 0 calc(var(--star-size) * 4.5) rgba(255, 255, 255, 0.6),
-    0 0 calc(var(--star-size) * 9) rgba(255, 255, 255, 0.25);
-  animation: vanta-star-pulse var(--star-duration) ease-in-out infinite;
-  animation-delay: var(--star-delay);
   will-change: opacity, transform;
 }
-.hero-star--cross::before,
-.hero-star--cross::after {
+.hero-star::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, #fff 0%, rgba(255, 255, 255, 0.8) 35%, transparent 72%);
+  box-shadow:
+    0 0 calc(var(--star-size) * 2) rgba(255, 255, 255, 1),
+    0 0 calc(var(--star-size) * 6) rgba(255, 255, 255, 0.65),
+    0 0 calc(var(--star-size) * 13) rgba(255, 255, 255, 0.3);
+}
+
+/* Dot — plain round star, the common case */
+.hero-star--dot::before {
+  border-radius: 50%;
+}
+
+/* Diamond — rotated-square silhouette via clip-path (keeps transform free for the pulse scale) */
+.hero-star--diamond::before {
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+}
+
+/* Star4 — four-pointed sparkle silhouette, sharper accent than the diamond */
+.hero-star--star4::before {
+  clip-path: polygon(
+    50% 0%, 63% 37%, 100% 50%, 63% 63%, 50% 100%, 37% 63%, 0% 50%, 37% 37%
+  );
+}
+
+/* Sparkle — thin cross-spikes through a bright center point, no filled body */
+.hero-star--sparkle::before {
+  border-radius: 50%;
+  transform: scale(0.35);
+}
+.hero-star--sparkle::after {
   content: "";
   position: absolute;
   top: 50%;
   left: 50%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.95), transparent);
-}
-.hero-star--cross::before {
   width: calc(var(--star-size) * 7);
-  height: 1.5px;
+  height: 1.4px;
   transform: translate(-50%, -50%);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.95), transparent);
+  box-shadow: 0 0 4px rgba(255, 255, 255, 0.6);
 }
-.hero-star--cross::after {
-  width: 1.5px;
-  height: calc(var(--star-size) * 7);
+.hero-star--sparkle {
+  --spike-w: calc(var(--star-size) * 7);
+}
+.hero-star--sparkle > .hero-star-spike {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1.4px;
+  height: var(--spike-w);
   transform: translate(-50%, -50%);
+  background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.95), transparent);
+  box-shadow: 0 0 4px rgba(255, 255, 255, 0.6);
 }
 
 /* Edge fade mask for marquees / overflow rows */

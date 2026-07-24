@@ -258,6 +258,35 @@ export function isValidWebsite(value: string): boolean {
   }
 }
 
+// ── Field bounds & option validation ─────────────────────────────────────────
+// Shared with route.ts's shape guard so a scripted client bypassing the UI
+// can't inject unbounded or off-menu values — client and server can't drift
+// since both read from the same `steps` config and constants.
+const NOTES_MAX = 2000;
+const GOALS_MAX_ITEMS = 10;
+const GOAL_MAX_LEN = 60;
+
+function singleSelectOptions(id: StepId): readonly string[] {
+  const step = steps.find((s) => s.id === id);
+  return step && step.kind === "single" ? step.options : [];
+}
+
+/** True when a nullable single-select answer is unset or one of the real options for that step. */
+export function isValidSingleSelect(id: StepId, value: string | null): boolean {
+  return value === null || singleSelectOptions(id).includes(value);
+}
+
+export function isValidNotes(value: string): boolean {
+  return value.length <= NOTES_MAX;
+}
+
+export function isValidGoals(value: string[]): boolean {
+  return (
+    value.length <= GOALS_MAX_ITEMS &&
+    value.every((g) => g.length <= GOAL_MAX_LEN)
+  );
+}
+
 /** True when the contact block is both filled in and well-formed. */
 export function isContactValid(a: Answers): boolean {
   const c = a.contact;

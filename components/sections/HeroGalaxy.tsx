@@ -4,8 +4,7 @@ import { useEffect, useState } from "react";
 import Galaxy from "@/components/Galaxy";
 
 /** Client island for the official React Bits Galaxy background.
- *  Fills its absolutely-positioned wrapper (the hero), keeps pointer events so
- *  the Galaxy's own mouse-repulsion listeners work, and honours
+ *  Fills its absolutely-positioned wrapper (the hero) and honours
  *  prefers-reduced-motion via the component's official disableAnimation prop
  *  instead of altering the locked visual settings. */
 export function HeroGalaxy() {
@@ -22,14 +21,14 @@ export function HeroGalaxy() {
   return (
     <div className="absolute inset-0 z-0" aria-hidden="true">
       <Galaxy
-        starSpeed={3}
-        density={3}
+        starSpeed={0.4}
+        density={1.5}
         hueShift={0}
-        speed={0.3}
+        speed={0.1}
         glowIntensity={0.3}
         saturation={0}
-        mouseRepulsion
-        repulsionStrength={0.5}
+        mouseRepulsion={false}
+        repulsionStrength={0}
         twinkleIntensity={1}
         rotationSpeed={0.05}
         transparent={false}

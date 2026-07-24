@@ -29,20 +29,13 @@ export const services: Service[] = [
   },
   {
     index: "04",
-    title: "Branding",
-    description:
-      "Identity systems with a point of view — typography, tone, and a visual language that stays composed under pressure.",
-    capabilities: ["Naming", "Logo & Wordmark", "Visual Identity", "Guidelines"],
-  },
-  {
-    index: "05",
     title: "Motion Design",
     description:
       "Motion as craft, not decoration — transitions and micro-interactions timed to feel invisible yet unmistakably premium.",
     capabilities: ["Interface Motion", "Scroll Choreography", "Prototyping", "3D & WebGL"],
   },
   {
-    index: "06",
+    index: "05",
     title: "Performance",
     description:
       "Speed as a feature — lean, accessible builds that score in the high nineties and load like they weigh nothing.",

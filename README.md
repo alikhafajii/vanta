@@ -104,6 +104,15 @@ Colors, the fluid type scale, and easings are defined once in [`app/globals.css`
 
 Optimized for [Vercel](https://vercel.com) — zero config. `pnpm build` produces a statically‑prerendered homepage.
 
+## Security — accepted advisories
+
+`pnpm audit --prod` reports 2 High advisories against `next@16.2.11` (the latest 16.2.x release as of this note) that are **accepted, not fixed**:
+
+- **`sharp <0.35.0`** (CVE-2026-33327, CVE-2026-33328, CVE-2026-35590, CVE-2026-35591 — libvips) — bundled transitively inside `next` itself (its built-in image-optimization pipeline), not a direct dependency of this project. Non-reachable here: the site has no user image uploads anywhere, and `next.config.ts` sets no `images.remotePatterns` — nothing ever hands `sharp` an untrusted image to process.
+- **`postcss <=8.5.11`** (arbitrary file read / info disclosure via attacker-controlled `sourceMappingURL` in CSS comments) — also bundled transitively inside `next` (a second, unaffected `postcss` copy already exists separately via `@tailwindcss/postcss`). Non-reachable here: this copy of postcss only runs at build time compiling `app/globals.css`; it's never invoked on the request path or on any user-supplied input.
+
+Both versions are pinned inside `next`'s own dependency tree — no released `next` version has patched them yet. **Decision: do not force these via `pnpm.overrides`.** Overriding a version next bundles internally risks breaking its own image/CSS pipelines in ways that are hard to predict from outside, for advisories that aren't actually reachable in this app's threat model. Re-run `pnpm audit --prod` after each future `next` upgrade and remove this note once both clear.
+
 ---
 
 © VΛNTΛ. All rights reserved.

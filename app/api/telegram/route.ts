@@ -5,7 +5,14 @@ import {
   buildTelegramMessage,
   getActiveSteps,
   isStepComplete,
+  isValidEmail,
+  isValidGoals,
+  isValidNotes,
+  isValidPhone,
+  isValidSingleSelect,
+  isValidWebsite,
   type Answers,
+  type StepId,
 } from "@/lib/data/onboarding";
 import { site } from "@/lib/data/site";
 
@@ -73,46 +80,34 @@ const ratelimit =
       })
     : null;
 
-/** Per-IP key from x-forwarded-for; a shared bucket when the header is absent. */
+/**
+ * Per-request client IP for the rate limiter. Deployment target is Vercel
+ * (see CLAUDE.md) — Vercel's edge sets `x-real-ip` itself from the actual
+ * TCP peer, so it can't be spoofed by a request header the way the first
+ * hop of `x-forwarded-for` can (proxies append to XFF rather than replace
+ * it, so a direct API caller can freely forge its leading entry and get a
+ * fresh rate-limit bucket every request). `x-forwarded-for` is kept only
+ * as a fallback for local dev / non-Vercel environments where `x-real-ip`
+ * is absent — if this is ever deployed somewhere other than Vercel, that
+ * fallback's spoofability applies again and the trusted header should be
+ * whatever that platform actually guarantees.
+ */
 function clientIp(req: Request): string {
+  const realIp = req.headers.get("x-real-ip")?.trim();
+  if (realIp) return realIp;
   const forwarded = req.headers.get("x-forwarded-for");
   const first = forwarded?.split(",")[0]?.trim();
   return first && first.length > 0 ? first : "shared";
 }
 
 // ── Contact format validation ───────────────────────────────────────────────
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const PHONE_ALLOWED_RE = /^[+()\-.\s\d]{7,20}$/;
-
-function isValidEmail(value: string): boolean {
-  const v = value.trim();
-  return v.length <= 254 && EMAIL_RE.test(v);
-}
-
-function isValidPhone(value: string): boolean {
-  const v = value.trim();
-  const digits = v.replace(/\D/g, "");
-  return PHONE_ALLOWED_RE.test(v) && digits.length >= 7 && digits.length <= 15;
-}
+// isValidEmail / isValidPhone / isValidWebsite live in onboarding.ts — shared
+// with the client so server and client format rules can never drift apart.
 
 /** Free-text human field: non-empty after trim, bounded, single line. */
 function isValidText(value: string, max: number): boolean {
   const v = value.trim();
   return v.length >= 1 && v.length <= max && !/[\r\n]/.test(v);
-}
-
-/** Website is optional. Empty passes; otherwise it must resolve to a host with a dot. */
-function isValidWebsite(value: string): boolean {
-  const v = value.trim();
-  if (v === "") return true;
-  if (v.length > 200) return false;
-  const candidate = /^https?:\/\//i.test(v) ? v : `https://${v}`;
-  try {
-    const host = new URL(candidate).host;
-    return host.includes(".");
-  } catch {
-    return false;
-  }
 }
 
 /** True when every contact field is well-formed. Distinct from the empty check. */
@@ -131,7 +126,6 @@ function hasValidContactFormat(a: Answers): boolean {
   if (failed.length > 0) {
     console.warn(
       `[telegram] validation detail: failed fields: ${failed.join(", ")}`,
-      { name: c.name, company: c.company, email: c.email, phone: c.phone, website: c.website },
     );
   }
   return failed.length === 0;
@@ -145,18 +139,25 @@ function isAnswers(value: unknown): value is Answers {
   if (typeof value !== "object" || value === null) return false;
   const a = value as Record<string, unknown>;
 
-  const nullableFields = [
-    a.type,
-    a.timeline,
-    a.budget,
-    a.branding,
-    a.meeting,
-    a.meetingPlatform,
-  ];
-  if (!nullableFields.every(isNullableString)) return false;
+  // Single-select fields: must be null or one of the real options for that
+  // step — rejects both wrong types and off-menu/oversized injected values.
+  const SINGLE_SELECT_FIELDS = [
+    "type",
+    "timeline",
+    "budget",
+    "meeting",
+    "meetingPlatform",
+  ] as const satisfies readonly StepId[];
+  for (const field of SINGLE_SELECT_FIELDS) {
+    const value = a[field];
+    if (!isNullableString(value)) return false;
+    if (!isValidSingleSelect(field, value as string | null)) return false;
+  }
 
   if (!Array.isArray(a.goals) || !a.goals.every(isString)) return false;
+  if (!isValidGoals(a.goals)) return false;
   if (!isString(a.notes)) return false;
+  if (!isValidNotes(a.notes)) return false;
 
   const contact = a.contact;
   if (typeof contact !== "object" || contact === null) return false;
@@ -285,7 +286,13 @@ export async function POST(req: Request) {
 
     console.info("[telegram] sent successfully");
   } catch (err) {
-    console.error("[telegram] fetch threw:", err);
+    // Log only the message, never the raw error object — the request URL
+    // (which embeds the bot token) could theoretically surface via a richer
+    // error shape from a future fetch/runtime change.
+    console.error(
+      "[telegram] fetch threw:",
+      err instanceof Error ? err.message : String(err),
+    );
     return invalid("Could not send your project. Please try again.", 502);
   }
 

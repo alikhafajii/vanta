@@ -29,7 +29,5 @@ export type Social = { label: string; handle: string; href: string };
 
 export const socials: Social[] = [
   { label: "Instagram", handle: "@vantadevs", href: "https://instagram.com/vantadevs" },
-  { label: "Twitter", handle: "@vantadevs", href: "https://x.com/vantadevs" },
-  { label: "LinkedIn", handle: "/vantadevs", href: "https://linkedin.com/company/vantadevs" },
-  { label: "Dribbble", handle: "/vantadevs", href: "https://dribbble.com/vantadevs" },
+  { label: "WhatsApp", handle: "Chat", href: whatsapp.href },
 ];

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import {
   HONEYPOT_FIELD,
@@ -96,14 +96,19 @@ function TextField({
   field,
   value,
   index,
+  error,
   onChange,
 }: {
   field: ContactField;
   value: string;
   index: number;
+  error?: string;
   onChange: (v: string) => void;
 }) {
+  const [touched, setTouched] = useState(false);
   const id = `contact-${field.name}`;
+  const errorId = `${id}-error`;
+  const showError = touched && !!error;
   return (
     <motion.div {...optionMotion(index)} className="flex flex-col gap-2">
       <label htmlFor={id} className="eyebrow">
@@ -135,8 +140,21 @@ function TextField({
         value={value}
         placeholder={field.placeholder}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full border-b border-line bg-transparent pb-2.5 text-subtitle text-white placeholder:text-faint focus:border-white/60 focus:outline-none"
+        onBlur={() => setTouched(true)}
+        aria-invalid={showError}
+        aria-describedby={showError ? errorId : undefined}
+        className={cn(
+          "w-full border-b bg-transparent pb-2.5 text-subtitle text-white placeholder:text-faint focus:outline-none",
+          showError
+            ? "border-danger focus:border-danger"
+            : "border-line focus:border-white/60",
+        )}
       />
+      {showError ? (
+        <p id={errorId} role="alert" className="text-[0.8rem] text-danger">
+          {error}
+        </p>
+      ) : null}
     </motion.div>
   );
 }
@@ -146,6 +164,7 @@ export function StepFields({
   step,
   answers,
   honeypot,
+  errors,
   onSingle,
   onSingleCommit,
   onToggle,
@@ -156,6 +175,7 @@ export function StepFields({
   step: Step;
   answers: Answers;
   honeypot: string;
+  errors?: Partial<Record<ContactField["name"], string>>;
   onSingle: (value: string) => void;
   onSingleCommit: (value: string) => void;
   onToggle: (value: string) => void;
@@ -244,6 +264,7 @@ export function StepFields({
               field={field}
               index={i}
               value={answers.contact[field.name]}
+              error={errors?.[field.name]}
               onChange={(v) => onContact(field.name, v)}
             />
           ))}

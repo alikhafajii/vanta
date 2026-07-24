@@ -20,7 +20,6 @@ export type StepId =
   | "timeline"
   | "budget"
   | "goals"
-  | "branding"
   | "meeting"
   | "meetingPlatform"
   | "notes"
@@ -132,13 +131,6 @@ export const steps: Step[] = [
     ],
   },
   {
-    id: "branding",
-    kind: "single",
-    title: "Need branding too?",
-    accent: "branding",
-    options: ["Yes", "No", "Maybe"],
-  },
-  {
     id: "meeting",
     kind: "single",
     title: "Would you like to book a meeting?",
@@ -201,7 +193,6 @@ export type Answers = {
   timeline: string | null;
   budget: string | null;
   goals: string[];
-  branding: string | null;
   meeting: string | null;
   meetingPlatform: string | null;
   notes: string;
@@ -219,7 +210,6 @@ export const initialAnswers: Answers = {
   timeline: null,
   budget: null,
   goals: [],
-  branding: null,
   meeting: null,
   meetingPlatform: null,
   notes: "",
@@ -236,6 +226,79 @@ export function getActiveSteps(a: Answers): Step[] {
   );
 }
 
+// ── Contact validation ───────────────────────────────────────────────────────
+// Single source of truth for format rules — the client (inline field errors,
+// button gating) and the server (route.ts) both import these, so they can
+// never drift apart.
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const PHONE_ALLOWED_RE = /^[+()\-.\s\d]{7,20}$/;
+
+export function isValidEmail(value: string): boolean {
+  const v = value.trim();
+  return v.length <= 254 && EMAIL_RE.test(v);
+}
+
+export function isValidPhone(value: string): boolean {
+  const v = value.trim();
+  const digits = v.replace(/\D/g, "");
+  return PHONE_ALLOWED_RE.test(v) && digits.length >= 7 && digits.length <= 15;
+}
+
+/** Website is optional. Empty passes; otherwise it must resolve to a host with a dot. */
+export function isValidWebsite(value: string): boolean {
+  const v = value.trim();
+  if (v === "") return true;
+  if (v.length > 200) return false;
+  const candidate = /^https?:\/\//i.test(v) ? v : `https://${v}`;
+  try {
+    const host = new URL(candidate).host;
+    return host.includes(".");
+  } catch {
+    return false;
+  }
+}
+
+// ── Field bounds & option validation ─────────────────────────────────────────
+// Shared with route.ts's shape guard so a scripted client bypassing the UI
+// can't inject unbounded or off-menu values — client and server can't drift
+// since both read from the same `steps` config and constants.
+const NOTES_MAX = 2000;
+const GOALS_MAX_ITEMS = 10;
+const GOAL_MAX_LEN = 60;
+
+function singleSelectOptions(id: StepId): readonly string[] {
+  const step = steps.find((s) => s.id === id);
+  return step && step.kind === "single" ? step.options : [];
+}
+
+/** True when a nullable single-select answer is unset or one of the real options for that step. */
+export function isValidSingleSelect(id: StepId, value: string | null): boolean {
+  return value === null || singleSelectOptions(id).includes(value);
+}
+
+export function isValidNotes(value: string): boolean {
+  return value.length <= NOTES_MAX;
+}
+
+export function isValidGoals(value: string[]): boolean {
+  return (
+    value.length <= GOALS_MAX_ITEMS &&
+    value.every((g) => g.length <= GOAL_MAX_LEN)
+  );
+}
+
+/** True when the contact block is both filled in and well-formed. */
+export function isContactValid(a: Answers): boolean {
+  const c = a.contact;
+  return (
+    c.name.trim() !== "" &&
+    c.company.trim() !== "" &&
+    isValidEmail(c.email) &&
+    isValidPhone(c.phone) &&
+    isValidWebsite(c.website)
+  );
+}
+
 /** True when the given step has enough input to advance. */
 export function isStepComplete(step: Step, a: Answers): boolean {
   switch (step.id) {
@@ -247,8 +310,6 @@ export function isStepComplete(step: Step, a: Answers): boolean {
       return a.budget !== null;
     case "goals":
       return a.goals.length > 0;
-    case "branding":
-      return a.branding !== null;
     case "meeting":
       return a.meeting !== null;
     case "meetingPlatform":
@@ -256,12 +317,7 @@ export function isStepComplete(step: Step, a: Answers): boolean {
     case "notes":
       return true; // optional
     case "contact":
-      return (
-        a.contact.name.trim() !== "" &&
-        a.contact.company.trim() !== "" &&
-        a.contact.email.trim() !== "" &&
-        a.contact.phone.trim() !== ""
-      );
+      return isContactValid(a);
   }
 }
 
@@ -284,7 +340,6 @@ function summaryEntries(a: Answers): SummaryEntry[] {
     { label: "Timeline", values: [a.timeline ?? "—"] },
     { label: "Budget", values: [a.budget ?? "—"] },
     { label: "Primary Goal", values: a.goals.length ? a.goals : ["—"], bullet: true },
-    { label: "Branding", values: [a.branding ?? "—"] },
     { label: "Meeting", values: [meetingSummary(a)] },
     { label: "Notes", values: [a.notes.trim() || "—"] },
     { label: "Name", values: [a.contact.name.trim() || "—"] },

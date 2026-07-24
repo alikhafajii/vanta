@@ -21,6 +21,7 @@
   --color-line-strong: rgba(255, 255, 255, 0.2);
   --color-accent: #7c5cff;
   --color-accent-bright: #9a80ff;
+  --color-danger: #ff5c5c;
 
   /* ---- Type families (wired to next/font variables on <html>) ---- */
   --font-sans: var(--font-switzer), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;

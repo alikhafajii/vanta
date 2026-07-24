@@ -18,6 +18,9 @@ export function Cursor() {
     const fine = window.matchMedia("(pointer: fine)").matches;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (!fine || reduce) return;
+    // Client-only capability check (window.matchMedia) — can't be computed during
+    // render since this component SSRs first.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setEnabled(true);
     document.body.dataset.cursor = "on";
 

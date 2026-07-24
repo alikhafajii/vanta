@@ -8,6 +8,8 @@ import {
   initialAnswers,
   INSTAGRAM_URL,
   isStepComplete,
+  isValidEmail,
+  isValidPhone,
   type Answers,
   type ContactFieldName,
 } from "@/lib/data/onboarding";
@@ -65,7 +67,9 @@ export function StartExperience() {
   const startedAtRef = useRef<number>(0);
 
   const answersRef = useRef(answers);
-  answersRef.current = answers;
+  useEffect(() => {
+    answersRef.current = answers;
+  });
 
   const activeSteps = useMemo(() => getActiveSteps(answers), [answers]);
   const total = activeSteps.length;
@@ -73,6 +77,16 @@ export function StartExperience() {
   const step = activeSteps[clamped];
   const isLast = clamped === total - 1;
   const complete = isStepComplete(step, answers);
+
+  // Inline format errors for the contact step — same validators the server
+  // enforces, so a field that passes here can never fail on submit.
+  const contactErrors: Partial<Record<ContactFieldName, string>> = {};
+  if (answers.contact.email.trim() !== "" && !isValidEmail(answers.contact.email)) {
+    contactErrors.email = "Enter a valid email address.";
+  }
+  if (answers.contact.phone.trim() !== "" && !isValidPhone(answers.contact.phone)) {
+    contactErrors.phone = "Enter a valid phone number.";
+  }
 
   // Aurora settles first; the flow fades in ~400ms later.
   useEffect(() => {
@@ -271,6 +285,7 @@ export function StartExperience() {
                           step={step}
                           answers={answers}
                           honeypot={honeypot}
+                          errors={contactErrors}
                           onSingle={onSingle}
                           onSingleCommit={onSingleCommit}
                           onToggle={onToggle}

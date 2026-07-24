@@ -83,7 +83,7 @@ export function Services() {
             <div className="lg:sticky lg:top-28">
               <SectionHeader index="(02)" label="Services">
                 <h2 className="text-title max-w-xs font-medium text-white">
-                  Six disciplines, <span className="serif">one</span> standard.
+                  Five disciplines, <span className="serif">one</span> standard.
                 </h2>
                 <p className="mt-6 max-w-xs text-muted">
                   Everything we make is held to the same bar: considered, crafted, and

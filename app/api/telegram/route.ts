@@ -5,6 +5,9 @@ import {
   buildTelegramMessage,
   getActiveSteps,
   isStepComplete,
+  isValidEmail,
+  isValidPhone,
+  isValidWebsite,
   type Answers,
 } from "@/lib/data/onboarding";
 import { site } from "@/lib/data/site";
@@ -81,38 +84,13 @@ function clientIp(req: Request): string {
 }
 
 // ── Contact format validation ───────────────────────────────────────────────
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const PHONE_ALLOWED_RE = /^[+()\-.\s\d]{7,20}$/;
-
-function isValidEmail(value: string): boolean {
-  const v = value.trim();
-  return v.length <= 254 && EMAIL_RE.test(v);
-}
-
-function isValidPhone(value: string): boolean {
-  const v = value.trim();
-  const digits = v.replace(/\D/g, "");
-  return PHONE_ALLOWED_RE.test(v) && digits.length >= 7 && digits.length <= 15;
-}
+// isValidEmail / isValidPhone / isValidWebsite live in onboarding.ts — shared
+// with the client so server and client format rules can never drift apart.
 
 /** Free-text human field: non-empty after trim, bounded, single line. */
 function isValidText(value: string, max: number): boolean {
   const v = value.trim();
   return v.length >= 1 && v.length <= max && !/[\r\n]/.test(v);
-}
-
-/** Website is optional. Empty passes; otherwise it must resolve to a host with a dot. */
-function isValidWebsite(value: string): boolean {
-  const v = value.trim();
-  if (v === "") return true;
-  if (v.length > 200) return false;
-  const candidate = /^https?:\/\//i.test(v) ? v : `https://${v}`;
-  try {
-    const host = new URL(candidate).host;
-    return host.includes(".");
-  } catch {
-    return false;
-  }
 }
 
 /** True when every contact field is well-formed. Distinct from the empty check. */
@@ -131,7 +109,6 @@ function hasValidContactFormat(a: Answers): boolean {
   if (failed.length > 0) {
     console.warn(
       `[telegram] validation detail: failed fields: ${failed.join(", ")}`,
-      { name: c.name, company: c.company, email: c.email, phone: c.phone, website: c.website },
     );
   }
   return failed.length === 0;
@@ -149,7 +126,6 @@ function isAnswers(value: unknown): value is Answers {
     a.type,
     a.timeline,
     a.budget,
-    a.branding,
     a.meeting,
     a.meetingPlatform,
   ];

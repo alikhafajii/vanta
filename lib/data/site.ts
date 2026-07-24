@@ -7,7 +7,7 @@ export const site = {
   email: "vantadevss@gmail.com",
   tagline: "A creative digital studio.",
   description:
-    "VANTA is a creative digital studio crafting premium websites, web applications, brand systems and motion for companies that refuse to look ordinary.",
+    "We build in the dark. Digital experiences crafted to make brands impossible to ignore.",
 } as const;
 
 export const whatsapp = {

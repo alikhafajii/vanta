@@ -5,13 +5,13 @@ import { site, socials } from "@/lib/data/site";
 import { services } from "@/lib/data/services";
 import "./globals.css";
 
-const title = "VANTA — Creative Digital Studio";
+const title = "VΛNTΛ";
 
-/** Absolute URL for the social-share card — an existing brand asset, 3:2. */
+/** Absolute URL for the social-share card. */
 const ogImage = {
-  url: "/images/projects/hero-eclipse.png",
-  width: 1536,
-  height: 1024,
+  url: "/og/og-image.jpg",
+  width: 1600,
+  height: 900,
   alt: `${site.name} — ${site.tagline}`,
 };
 
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
     default: title,
-    template: "%s — VANTA",
+    template: `%s — ${title}`,
   },
   description: site.description,
   alternates: { canonical: site.url },

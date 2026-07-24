@@ -1,81 +1,38 @@
-import type { CSSProperties } from "react";
-import { MagneticButton } from "@/components/ui/MagneticButton";
-import { HeroStarField } from "@/components/sections/HeroStarField";
-import { generateHeroStars } from "@/lib/generateHeroStars";
+import { HeroGalaxy } from "@/components/sections/HeroGalaxy";
 
-const delay = (ms: number) => ({ "--rise-delay": `${ms}ms` }) as CSSProperties;
-
-const stars = generateHeroStars();
-
+/** Hero = live galaxy + navigation (mounted by the marketing layout) + the
+ *  VANTA symbol. Nothing else — the composition works through scale, space,
+ *  motion and simplicity.
+ *
+ *  Layers: black base (section bg) → Galaxy canvas (z-0, receives pointer
+ *  events for mouse repulsion) → navbar readability fade (z-10, pointer
+ *  transparent) → fixed site navbar (z-50, own file) → VANTA symbol (z-20,
+ *  pointer transparent). */
 export function Hero() {
   return (
-    <section
-      id="top"
-      className="relative isolate flex h-svh flex-col overflow-hidden bg-black"
-    >
-      {/* Background plate — deep-space photo with the VANTA eclipse mark baked in */}
-      <img
-        src="/hero/hero-bg.jpg"
-        alt=""
+    <section id="top" className="relative isolate h-svh overflow-hidden bg-black">
+      <h1 className="sr-only">VANTA</h1>
+
+      <HeroGalaxy />
+
+      {/* Near-invisible black fade so the fixed navbar stays readable over
+          moving stars — deliberately not a boxed navbar background. */}
+      <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 -z-20 h-full w-full object-cover object-[center_72%]"
+        className="pointer-events-none absolute inset-x-0 top-0 z-10 h-36 bg-linear-to-b from-black/70 via-black/20 to-transparent"
       />
 
-      {/* Star field — pulsing glow layer, sits above the photo, behind content.
-          Anime.js-driven (client island); positions/shapes still render as
-          static server markup so there's no layout shift before hydration. */}
-      <HeroStarField stars={stars} />
-
-      <div className="flex flex-1 flex-col items-center px-6 pt-[calc(10svh+72px)] text-center">
-        <h1
-          className="fade-up font-serif text-[clamp(3rem,1.4rem+5.6vw,6.25rem)] leading-[1.02] tracking-[-0.01em] text-white"
-          style={delay(80)}
-        >
-          We build in the <span className="italic">dark.</span>
-        </h1>
-
-        <p
-          className="fade-up mt-7 max-w-md text-base leading-relaxed text-muted sm:text-lg"
-          style={delay(220)}
-        >
-          Premium websites, brands and digital experiences crafted with obsessive
-          attention to detail.
-        </p>
-
-        <div
-          className="fade-up mt-11 flex flex-col items-center gap-6 sm:flex-row sm:gap-8"
-          style={delay(360)}
-        >
-          <MagneticButton
-            href="/start-project"
-            variant="outline"
-            className="px-7 py-3.5 font-mono text-xs tracking-[0.18em] uppercase"
-          >
-            Start a Project <span aria-hidden="true">→</span>
-          </MagneticButton>
-          <a
-            href="#work"
-            data-cursor="hover"
-            className="group font-mono text-xs tracking-[0.18em] uppercase text-white transition-colors duration-300 hover:text-muted"
-          >
-            See Our Work{" "}
-            <span
-              aria-hidden="true"
-              className="inline-block transition-transform duration-300 group-hover:translate-x-1"
-            >
-              →
-            </span>
-          </a>
-        </div>
-      </div>
-
-      <div
-        className="fade-up absolute bottom-7 left-1/2 flex -translate-x-1/2 items-center gap-3"
-        style={delay(520)}
-      >
-        <span className="h-5 w-px bg-white/30" aria-hidden="true" />
-        <span className="eyebrow">Scroll</span>
-      </div>
+      {/* The VANTA symbol — the real mark asset (background flood-filled to
+          true transparency, geometry untouched), lower-middle anchor.
+          Pointer-transparent so the Galaxy keeps receiving mouse movement. */}
+      <img
+        src="/brand/vanta-symbol.png"
+        alt=""
+        width={623}
+        height={623}
+        fetchPriority="high"
+        className="pointer-events-none absolute top-[65%] left-1/2 z-20 w-[clamp(180px,17vw,280px)] -translate-x-1/2 -translate-y-1/2 drop-shadow-[0_0_28px_rgba(255,255,255,0.18)]"
+      />
     </section>
   );
 }

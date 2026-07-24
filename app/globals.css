@@ -223,42 +223,6 @@
   animation-play-state: paused;
 }
 
-/* CSS-only reveals for above-the-fold content — they animate on first paint,
-   so the LCP element never waits for JS hydration. */
-@keyframes vanta-rise {
-  from {
-    transform: translateY(115%);
-    filter: blur(6px);
-  }
-  to {
-    transform: translateY(0);
-    filter: blur(0);
-  }
-}
-.rise-line {
-  display: block;
-  will-change: transform, filter;
-  transform: translateY(115%);
-  animation: vanta-rise 1s var(--ease-out-expo) forwards;
-  animation-delay: var(--rise-delay, 0ms);
-}
-@keyframes vanta-fade-up {
-  from {
-    opacity: 0;
-    transform: translateY(22px);
-    filter: blur(4px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-    filter: blur(0);
-  }
-}
-.fade-up {
-  animation: vanta-fade-up 0.9s var(--ease-out-expo) both;
-  animation-delay: var(--rise-delay, 0ms);
-}
-
 /* Live status dot — slow radar halo so "live" projects feel alive without flash.
    Animates transform + opacity only (compositor-friendly); reduced-motion stills it. */
 @keyframes vanta-live-pulse {
@@ -275,76 +239,6 @@
 .live-dot-pulse {
   animation: vanta-live-pulse 3.2s var(--ease-out-expo) infinite;
   will-change: transform, opacity;
-}
-
-/* Hero star field — bright core + layered bloom. The pulse itself is driven
-   by anime.js (components/sections/HeroStarField.tsx) animating opacity/
-   scale on this element directly; this rule just sets the static shape/glow
-   and the pre-hydration resting look. Sized and lit to read clearly against
-   the photo's own starfield, not just blend into it. */
-.hero-star {
-  position: absolute;
-  width: var(--star-size);
-  height: var(--star-size);
-  will-change: opacity, transform;
-}
-.hero-star::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle, #fff 0%, #f2fbff 30%, rgba(226, 248, 255, 0.9) 50%, transparent 76%);
-  box-shadow:
-    0 0 calc(var(--star-size) * 1.5) #fff,
-    0 0 calc(var(--star-size) * 5) rgba(233, 250, 255, 0.95),
-    0 0 calc(var(--star-size) * 11) rgba(210, 244, 255, 0.7),
-    0 0 calc(var(--star-size) * 20) rgba(190, 235, 255, 0.4);
-}
-
-/* Dot — plain round star, the common case */
-.hero-star--dot::before {
-  border-radius: 50%;
-}
-
-/* Diamond — rotated-square silhouette via clip-path (keeps transform free for the pulse scale) */
-.hero-star--diamond::before {
-  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-}
-
-/* Star4 — four-pointed sparkle silhouette, sharper accent than the diamond */
-.hero-star--star4::before {
-  clip-path: polygon(
-    50% 0%, 63% 37%, 100% 50%, 63% 63%, 50% 100%, 37% 63%, 0% 50%, 37% 37%
-  );
-}
-
-/* Sparkle — thin cross-spikes through a bright center point, no filled body */
-.hero-star--sparkle::before {
-  border-radius: 50%;
-  transform: scale(0.35);
-}
-.hero-star--sparkle::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: calc(var(--star-size) * 7);
-  height: 1.4px;
-  transform: translate(-50%, -50%);
-  background: linear-gradient(90deg, transparent, #f2fbff, transparent);
-  box-shadow: 0 0 5px rgba(210, 244, 255, 0.85);
-}
-.hero-star--sparkle {
-  --spike-w: calc(var(--star-size) * 7);
-}
-.hero-star--sparkle > .hero-star-spike {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 1.4px;
-  height: var(--spike-w);
-  transform: translate(-50%, -50%);
-  background: linear-gradient(180deg, transparent, #f2fbff, transparent);
-  box-shadow: 0 0 5px rgba(210, 244, 255, 0.85);
 }
 
 /* Edge fade mask for marquees / overflow rows */

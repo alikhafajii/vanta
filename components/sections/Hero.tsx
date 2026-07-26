@@ -44,12 +44,12 @@ export function Hero() {
 
       {/* VANTA mark — transparent asset, so the galaxy reads through it */}
       <img
-        src="/brand/newlg.png"
+        src="/brand/newlg.webp"
         alt=""
         aria-hidden="true"
-        width={1024}
-        height={1024}
-        fetchPriority="high"
+        width={768}
+        height={768}
+        decoding="async"
         className="pointer-events-none absolute top-[78%] left-1/2 z-20 w-[clamp(215px,20vw,340px)] -translate-x-1/2 -translate-y-1/2"
       />
     </section>

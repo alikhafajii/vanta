@@ -15,12 +15,24 @@ export function SmoothScroll() {
       touchMultiplier: 1.6,
     });
 
-    let raf = 0;
+    let raf: number | null = null;
     const loop = (time: number) => {
       lenis.raf(time);
       raf = requestAnimationFrame(loop);
     };
-    raf = requestAnimationFrame(loop);
+    const start = () => {
+      if (raf === null) raf = requestAnimationFrame(loop);
+    };
+    const stop = () => {
+      if (raf !== null) {
+        cancelAnimationFrame(raf);
+        raf = null;
+      }
+    };
+    // No reason to keep a rAF loop alive in a backgrounded tab.
+    const onVisibility = () => (document.hidden ? stop() : start());
+    document.addEventListener("visibilitychange", onVisibility);
+    start();
 
     const onClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement | null;
@@ -36,7 +48,8 @@ export function SmoothScroll() {
     document.addEventListener("click", onClick);
 
     return () => {
-      cancelAnimationFrame(raf);
+      stop();
+      document.removeEventListener("visibilitychange", onVisibility);
       document.removeEventListener("click", onClick);
       lenis.destroy();
     };

@@ -27,9 +27,9 @@ export const origin = {
     eyebrow: "The mark",
     caption: "A razorbill's silhouette. A black hole's corona. One mark.",
     steps: [
-      { image: "/images/origin/razorbill.jpg", label: "Inspiration" },
-      { image: "/images/origin/razorbill-poster.jpg", label: "Abstraction" },
-      { image: "/images/origin/logo-glow.jpg", label: "The mark" },
+      { image: "/images/origin/razorbill.webp", label: "Inspiration" },
+      { image: "/images/origin/razorbill-poster.webp", label: "Abstraction" },
+      { image: "/images/origin/logo-glow.webp", label: "The mark" },
     ] satisfies OriginMarkStep[],
   },
 
@@ -61,5 +61,5 @@ export const origin = {
     "We're not building an agency. We're building a reputation — one project at a time, until the work speaks and we don't have to.",
 
   /** Atmospheric backdrop behind the closing vision block (very low opacity). */
-  atmosphere: "/images/origin/logo-cosmic.jpg",
+  atmosphere: "/images/origin/logo-cosmic.webp",
 } as const;

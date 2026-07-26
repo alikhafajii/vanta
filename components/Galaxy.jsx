@@ -259,13 +259,23 @@ export default function Galaxy({
     });
 
     const mesh = new Mesh(gl, { geometry, program });
-    let animateId;
+    let animateId = null;
+
+    // This shader is full-screen and costs real GPU on every frame, so it only
+    // runs while the canvas is actually on screen and the tab is foregrounded.
+    // `pausedFor` accumulates time spent stopped and is subtracted from the
+    // clock, so resuming continues the animation instead of jumping ahead.
+    let onScreen = true;
+    let pageVisible = !document.hidden;
+    let pausedFor = 0;
+    let pausedAt = 0;
 
     function update(t) {
       animateId = requestAnimationFrame(update);
+      const time = t - pausedFor;
       if (!disableAnimation) {
-        program.uniforms.uTime.value = t * 0.001;
-        program.uniforms.uStarSpeed.value = (t * 0.001 * starSpeed) / 10.0;
+        program.uniforms.uTime.value = time * 0.001;
+        program.uniforms.uStarSpeed.value = (time * 0.001 * starSpeed) / 10.0;
       }
 
       const lerpFactor = 0.05;
@@ -280,7 +290,44 @@ export default function Galaxy({
 
       renderer.render({ scene: mesh });
     }
-    animateId = requestAnimationFrame(update);
+
+    function start() {
+      if (animateId !== null) return;
+      if (pausedAt) {
+        pausedFor += performance.now() - pausedAt;
+        pausedAt = 0;
+      }
+      animateId = requestAnimationFrame(update);
+    }
+
+    function stop() {
+      if (animateId === null) return;
+      cancelAnimationFrame(animateId);
+      animateId = null;
+      pausedAt = performance.now();
+    }
+
+    function sync() {
+      if (onScreen && pageVisible) start();
+      else stop();
+    }
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        onScreen = entry.isIntersecting;
+        sync();
+      },
+      { rootMargin: "200px" },
+    );
+    io.observe(ctn);
+
+    function handleVisibility() {
+      pageVisible = !document.hidden;
+      sync();
+    }
+    document.addEventListener("visibilitychange", handleVisibility);
+
+    start();
     ctn.appendChild(gl.canvas);
 
     function handleMouseMove(e) {
@@ -301,7 +348,9 @@ export default function Galaxy({
     }
 
     return () => {
-      cancelAnimationFrame(animateId);
+      stop();
+      io.disconnect();
+      document.removeEventListener('visibilitychange', handleVisibility);
       window.removeEventListener('resize', resize);
       if (mouseInteraction) {
         ctn.removeEventListener('mousemove', handleMouseMove);
@@ -310,9 +359,15 @@ export default function Galaxy({
       ctn.removeChild(gl.canvas);
       gl.getExtension('WEBGL_lose_context')?.loseContext();
     };
+    // Depend on primitives only: `focal`/`rotation` are array literals, so a
+    // fresh identity on every parent render would otherwise tear down and
+    // rebuild the entire WebGL context (renderer, shaders, program).
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
-    focal,
-    rotation,
+    focal[0],
+    focal[1],
+    rotation[0],
+    rotation[1],
     starSpeed,
     density,
     hueShift,

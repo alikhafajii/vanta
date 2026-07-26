@@ -173,26 +173,69 @@ export default function Aurora(props) {
     const mesh = new Mesh(gl, { geometry, program });
     ctn.appendChild(gl.canvas);
 
-    let animateId = 0;
+    let animateId = null;
+    let pageVisible = !document.hidden;
+    let pausedFor = 0;
+    let pausedAt = 0;
+
+    // Colour stops are re-parsed only when they actually change. Rebuilding
+    // three Color objects every frame was allocating ~180 objects/sec straight
+    // into the GC for a value that is effectively constant.
+    let cachedStopsKey = '';
+    let cachedStops = null;
+
     const update = t => {
       animateId = requestAnimationFrame(update);
-      const { time = t * 0.01, speed = 1.0 } = propsRef.current;
+      const elapsed = t - pausedFor;
+      const { time = elapsed * 0.01, speed = 1.0 } = propsRef.current;
       program.uniforms.uTime.value = time * speed * 0.1;
       program.uniforms.uAmplitude.value = propsRef.current.amplitude ?? 1.0;
       program.uniforms.uBlend.value = propsRef.current.blend ?? blend;
+
       const stops = propsRef.current.colorStops ?? colorStops;
-      program.uniforms.uColorStops.value = stops.map(hex => {
-        const c = new Color(hex);
-        return [c.r, c.g, c.b];
-      });
+      const key = stops.join('|');
+      if (key !== cachedStopsKey) {
+        cachedStopsKey = key;
+        cachedStops = stops.map(hex => {
+          const c = new Color(hex);
+          return [c.r, c.g, c.b];
+        });
+      }
+      program.uniforms.uColorStops.value = cachedStops;
+
       renderer.render({ scene: mesh });
     };
-    animateId = requestAnimationFrame(update);
 
+    const start = () => {
+      if (animateId !== null) return;
+      if (pausedAt) {
+        pausedFor += performance.now() - pausedAt;
+        pausedAt = 0;
+      }
+      animateId = requestAnimationFrame(update);
+    };
+
+    const stop = () => {
+      if (animateId === null) return;
+      cancelAnimationFrame(animateId);
+      animateId = null;
+      pausedAt = performance.now();
+    };
+
+    // A backgrounded tab should not keep a full-screen shader on the GPU.
+    const handleVisibility = () => {
+      pageVisible = !document.hidden;
+      if (pageVisible) start();
+      else stop();
+    };
+    document.addEventListener('visibilitychange', handleVisibility);
+
+    start();
     resize();
 
     return () => {
-      cancelAnimationFrame(animateId);
+      stop();
+      document.removeEventListener('visibilitychange', handleVisibility);
       window.removeEventListener('resize', resize);
       if (ctn && gl.canvas.parentNode === ctn) {
         ctn.removeChild(gl.canvas);

@@ -28,7 +28,7 @@ export const projects: Project[] = [
     services: ["Web Design", "Development", "SEO"],
     summary:
       "A commanding digital presence for a premier construction and development firm — built with structural grid layouts, rich portfolio staging, and optimized search performance.",
-    cover: { from: "#1b2226", to: "#0a0e10", image: "/images/projects/ek-constructions.png" },
+    cover: { from: "#1b2226", to: "#0a0e10", image: "/images/projects/ek-constructions.webp" },
     status: "live",
     url: "https://ekconstructionsau.com/",
     metrics: [
@@ -48,7 +48,7 @@ export const projects: Project[] = [
   //   services: ["Creative Direction", "Design System", "Development"],
   //   summary:
   //     "The official portfolio of the CEO. A minimalist, typography-driven digital archive highlighting creative leadership, brand transformations, and interactive experiences.",
-  //   cover: { from: "#241b2b", to: "#0d0a11", image: "/images/projects/aliamirhusseini.png", accent: true },
+  //   cover: { from: "#241b2b", to: "#0d0a11", image: "/images/projects/aliamirhusseini.webp", accent: true },
   //   status: "live",
   //   url: "https://www.aliamirhusseini.com/",
   //   metrics: [
@@ -67,7 +67,7 @@ export const projects: Project[] = [
   //   services: ["Web Design", "Development", "Motion"],
   //   summary:
   //     "A bespoke interactive portfolio showcasing high-end visual design, frontend craftsmanship, and fluid motion systems for next-generation digital interfaces.",
-  //   cover: { from: "#1f241e", to: "#0a0d09", image: "/images/projects/alikhafaji.png" },
+  //   cover: { from: "#1f241e", to: "#0a0d09", image: "/images/projects/alikhafaji.webp" },
   //   status: "live",
   //   url: "https://www.alikhafaji.com/",
   //   metrics: [

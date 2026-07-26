@@ -1,79 +1,56 @@
+import Link from "next/link";
 import { HeroGalaxy } from "@/components/sections/HeroGalaxy";
-import { ArrowLink } from "@/components/ui/ArrowLink";
-import { MagneticButton } from "@/components/ui/MagneticButton";
-import { ScrollSignal } from "@/components/ui/ScrollSignal";
-import { hero } from "@/lib/data/site";
+import { ArrowIcon } from "@/components/ui/ArrowIcon";
 
-/** Hero = live galaxy + navigation (mounted by the marketing layout) + centered
- *  copy block + the VANTA symbol. The composition works through scale, space,
- *  motion and simplicity.
+/**
+ * Hero — live galaxy field, a single line of display type, one CTA, and the
+ * VANTA mark anchored lower-middle.
  *
- *  Layers: black base (section bg) → Galaxy canvas (z-0, receives pointer
- *  events for mouse repulsion) → navbar readability fade (z-10, pointer
- *  transparent) → fixed site navbar (z-50, own file) → VANTA symbol (z-20,
- *  pointer transparent) → copy block + scroll cue (z-30, pointer transparent
- *  except the CTAs). */
+ * Layering: black base → Galaxy canvas (z-0) → navbar legibility fade (z-10,
+ * pointer-transparent) → copy + mark (z-20). The copy block is bounded to the
+ * space *above* the mark so the two can never collide at any viewport height.
+ */
 export function Hero() {
   return (
     <section id="top" className="relative isolate h-svh overflow-hidden bg-black">
       <HeroGalaxy />
 
-      {/* Near-invisible black fade so the fixed navbar stays readable over
-          moving stars — deliberately not a boxed navbar background. */}
+      {/* Ambient top fade — keeps the fixed navbar legible over moving stars */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 z-10 h-36 bg-linear-to-b from-black/70 via-black/20 to-transparent"
+        className="pointer-events-none absolute inset-x-0 top-0 z-10 h-40 bg-linear-to-b from-black/85 via-black/35 to-transparent"
       />
 
-      {/* The VANTA symbol — same mark asset as the site favicon (its flat
-          JPEG background flood-filled to true transparency, geometry
-          untouched), lower-middle anchor. Pointer-transparent so the Galaxy
-          keeps receiving mouse movement. */}
+      {/* Copy — optically centred in the field above the mark */}
+      <div className="absolute inset-x-0 top-17 bottom-[34%] z-20 flex flex-col items-center justify-center px-6 text-center">
+        <h1 className="max-w-[16ch] text-[clamp(2.5rem,1.2rem+5.4vw,5.25rem)] leading-[1.04] font-medium tracking-[-0.035em] text-balance text-white">
+          Crafted for <span className="serif text-white/95">distinction</span>
+        </h1>
+
+        <p className="mt-6 max-w-[44ch] text-[0.95rem] leading-relaxed tracking-[-0.01em] text-balance text-white/55 sm:text-base">
+          Digital experiences created to make brands impossible to ignore.
+        </p>
+
+        <Link
+          href="/start-project"
+          data-cursor="hover"
+          className="group mt-10 inline-flex items-center gap-2.5 rounded-full border border-white/20 bg-white/6 px-7 py-3.5 text-sm font-medium tracking-[-0.01em] text-white backdrop-blur-md transition-[background-color,border-color,color,box-shadow] duration-300 hover:border-white hover:bg-white hover:text-black hover:shadow-[0_0_36px_-4px_rgba(255,255,255,0.35)]"
+        >
+          <span>Start a Project</span>
+          <ArrowIcon className="h-3.5 w-3.5 transition-transform duration-300 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+        </Link>
+      </div>
+
+      {/* VANTA mark — transparent asset, so the galaxy reads through it */}
       <img
-        src="/brand/vanta-symbol.png"
+        src="/brand/newlg.png"
         alt=""
+        aria-hidden="true"
         width={1024}
         height={1024}
         fetchPriority="high"
-        className="pointer-events-none absolute top-[72%] left-1/2 z-20 w-[clamp(240px,24vw,440px)] -translate-x-1/2 -translate-y-1/2 drop-shadow-[0_0_28px_rgba(255,255,255,0.18)]"
+        className="pointer-events-none absolute top-[78%] left-1/2 z-20 w-[clamp(170px,16vw,270px)] -translate-x-1/2 -translate-y-1/2"
       />
-
-      {/* Centered copy block — sits above the symbol so the mark reads as
-          ground beneath the headline. */}
-      <div className="pointer-events-none absolute inset-x-0 top-[34%] z-30 flex -translate-y-1/2 flex-col items-center gap-6 px-6 text-center">
-        <div className="flex flex-col items-center gap-3">
-          <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-accent-bright" />
-          <span className="font-mono text-[0.72rem] tracking-[0.25em] text-white/55 uppercase">
-            {hero.eyebrow}
-          </span>
-        </div>
-
-        <h1 className="max-w-4xl font-serif text-[clamp(3rem,9vw,7rem)] leading-[0.95] font-normal text-white">
-          {hero.headline[0]}
-          <span className="serif">{hero.headline[1]}</span>
-        </h1>
-
-        <p className="max-w-md text-white/60">{hero.sub}</p>
-
-        <div className="pointer-events-auto mt-2 flex flex-wrap items-center justify-center gap-4">
-          <MagneticButton
-            href={hero.ctaPrimary.href}
-            variant="outline"
-            className="border-white/15 shadow-[0_0_24px_-8px_var(--color-accent)] hover:shadow-[0_0_32px_-6px_var(--color-accent)]"
-          >
-            {hero.ctaPrimary.label}
-          </MagneticButton>
-          <ArrowLink href={hero.ctaSecondary.href}>{hero.ctaSecondary.label}</ArrowLink>
-        </div>
-      </div>
-
-      {/* Scroll cue — bottom-center, above the symbol/galaxy. */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-10 z-30 flex flex-col items-center gap-3">
-        <ScrollSignal className="h-10" />
-        <span className="font-mono text-[0.65rem] tracking-[0.25em] text-white/40 uppercase">
-          {hero.scrollLabel}
-        </span>
-      </div>
     </section>
   );
 }

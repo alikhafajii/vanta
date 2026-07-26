@@ -21,16 +21,16 @@ export function HeroGalaxy() {
   return (
     <div className="absolute inset-0 z-0" aria-hidden="true">
       <Galaxy
-        starSpeed={0.4}
-        density={1.5}
+        starSpeed={1}
+        density={3}
         hueShift={0}
-        speed={0.1}
-        glowIntensity={0.3}
+        speed={0.5}
+        glowIntensity={0.2}
         saturation={0}
         mouseRepulsion={false}
         repulsionStrength={0}
-        twinkleIntensity={1}
-        rotationSpeed={0.05}
+        twinkleIntensity={0}
+        rotationSpeed={0}
         transparent={false}
         disableAnimation={reducedMotion}
       />

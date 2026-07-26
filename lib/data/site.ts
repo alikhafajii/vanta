@@ -7,21 +7,12 @@ export const site = {
   email: "vantadevss@gmail.com",
   tagline: "A creative digital studio.",
   description:
-    "We build in the dark. Digital experiences crafted to make brands impossible to ignore.",
+    "Crafted for distinction. Digital experiences created to make brands impossible to ignore.",
 } as const;
 
 export const whatsapp = {
   number: "+961 81 049 409",
   href: "https://wa.me/96181049409",
-} as const;
-
-export const hero = {
-  eyebrow: "CREATIVE DIGITAL STUDIO — EST. 2025",
-  headline: ["We build in the ", "dark."] as const,
-  sub: "Premium websites, brands and digital experiences crafted with obsessive attention to detail.",
-  ctaPrimary: { label: "START A PROJECT", href: "/start-project" },
-  ctaSecondary: { label: "SEE OUR WORK", href: "#work" },
-  scrollLabel: "SCROLL",
 } as const;
 
 export type NavItem = { label: string; href: string; index: string };

@@ -1,9 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Link from "next/link";
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/react";
-import { nav, socials } from "@/lib/data/site";
+import { nav, socials, whatsapp } from "@/lib/data/site";
 import { Logo } from "@/components/ui/Logo";
 import { ArrowIcon } from "@/components/ui/ArrowIcon";
 import { cn } from "@/lib/utils";
@@ -60,7 +59,7 @@ export function Navbar() {
             : "border-b border-transparent bg-transparent",
         )}
       >
-        <div className="mx-auto flex h-[68px] max-w-[1600px] items-center justify-between px-6 sm:px-10 lg:px-16">
+        <div className="flex h-17 w-full items-center justify-between px-5 sm:px-7 lg:px-9">
           {/* Logo */}
           <a
             href="#top"
@@ -86,14 +85,17 @@ export function Navbar() {
           {/* Right Action & Mobile Toggle */}
           <div className="flex items-center gap-5">
             <div className="hidden sm:block">
-              <Link
-                href="/start-project"
-                className="group relative inline-flex items-center gap-2 rounded-full border border-white/25 font-display bg-white/6 px-5 py-2 text-[0.72rem] font-medium tracking-[0.14em] text-white uppercase backdrop-blur-md transition-[background-color,border-color,color,box-shadow] duration-300 hover:border-white hover:bg-white hover:text-black hover:shadow-[0_0_28px_-6px_rgba(255,255,255,0.35)]"
+              <a
+                href={whatsapp.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`Contact VANTA on WhatsApp at ${whatsapp.number}`}
+                className="group relative inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/6 px-5 py-2 font-display text-[0.72rem] font-medium tracking-[0.14em] text-white uppercase backdrop-blur-md transition-[background-color,border-color,color,box-shadow] duration-300 hover:border-white hover:bg-white hover:text-black hover:shadow-[0_0_28px_-6px_rgba(255,255,255,0.35)]"
                 data-cursor="hover"
               >
-                <span>Start Project</span>
+                <span>Contact Us</span>
                 <ArrowIcon className="h-3 w-3 transition-transform duration-300 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-              </Link>
+              </a>
             </div>
 
             {/* Mobile Hamburger Button */}
@@ -163,13 +165,16 @@ export function Navbar() {
                   </a>
                 ))}
               </div>
-              <Link
-                href="/start-project"
+              <a
+                href={whatsapp.href}
+                target="_blank"
+                rel="noopener noreferrer"
                 onClick={() => setOpen(false)}
+                aria-label={`Contact VANTA on WhatsApp at ${whatsapp.number}`}
                 className="rounded-full border border-white/30 bg-white px-5 py-2 font-display text-xs font-medium tracking-wider text-black uppercase"
               >
-                Start Project
-              </Link>
+                Contact Us
+              </a>
             </div>
           </motion.div>
         ) : null}

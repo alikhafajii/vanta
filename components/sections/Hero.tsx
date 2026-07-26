@@ -22,19 +22,20 @@ export function Hero() {
       />
 
       {/* Copy — optically centred in the field above the mark */}
-      <div className="absolute inset-x-0 top-17 bottom-[34%] z-20 flex flex-col items-center justify-center px-6 text-center">
-        <h1 className="max-w-[16ch] text-[clamp(2.5rem,1.2rem+5.4vw,5.25rem)] leading-[1.04] font-medium tracking-[-0.035em] text-balance text-white">
-          Crafted for <span className="emphasis text-white/95">distinction</span>
+      <div className="absolute inset-x-0 top-17 bottom-[38%] z-20 flex flex-col items-center justify-center px-6 text-center">
+        <h1 className="max-w-[22ch] text-[clamp(2.5rem,1.2rem+5.4vw,5.25rem)] leading-[1.02] font-medium tracking-[-0.035em] text-balance text-white">
+          We build in the <span className="emphasis text-white/95">dark.</span>
         </h1>
 
-        <p className="mt-6 max-w-[44ch] text-[0.95rem] leading-relaxed tracking-[-0.01em] text-balance text-white/55 sm:text-base">
-          Digital experiences created to make brands impossible to ignore.
+        <p className="mt-7 max-w-[50ch] text-[0.95rem] leading-[1.65] tracking-[-0.005em] text-balance text-white/60 sm:text-base">
+          A studio for brands that intend to be remembered — websites,
+          identities and interfaces built with uncommon precision.
         </p>
 
         <Link
           href="/start-project"
           data-cursor="hover"
-          className="group mt-10 inline-flex items-center gap-2.5 rounded-full border border-white/20 font-display bg-white/6 px-7 py-3.5 text-sm font-medium tracking-[-0.01em] text-white backdrop-blur-md transition-[background-color,border-color,color,box-shadow] duration-300 hover:border-white hover:bg-white hover:text-black hover:shadow-[0_0_36px_-4px_rgba(255,255,255,0.35)]"
+          className="group mt-11 inline-flex items-center gap-2.5 rounded-full border border-white/20 bg-white/6 px-7 py-3.5 font-display text-sm font-medium tracking-[-0.01em] text-white backdrop-blur-md transition-[background-color,border-color,color,box-shadow] duration-300 hover:border-white hover:bg-white hover:text-black hover:shadow-[0_0_36px_-4px_rgba(255,255,255,0.35)]"
         >
           <span>Start a Project</span>
           <ArrowIcon className="h-3.5 w-3.5 transition-transform duration-300 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -49,7 +50,7 @@ export function Hero() {
         width={1024}
         height={1024}
         fetchPriority="high"
-        className="pointer-events-none absolute top-[78%] left-1/2 z-20 w-[clamp(170px,16vw,270px)] -translate-x-1/2 -translate-y-1/2"
+        className="pointer-events-none absolute top-[78%] left-1/2 z-20 w-[clamp(215px,20vw,340px)] -translate-x-1/2 -translate-y-1/2"
       />
     </section>
   );

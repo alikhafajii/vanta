@@ -24,7 +24,7 @@ export function Hero() {
       {/* Copy — optically centred in the field above the mark */}
       <div className="absolute inset-x-0 top-17 bottom-[34%] z-20 flex flex-col items-center justify-center px-6 text-center">
         <h1 className="max-w-[16ch] text-[clamp(2.5rem,1.2rem+5.4vw,5.25rem)] leading-[1.04] font-medium tracking-[-0.035em] text-balance text-white">
-          Crafted for <span className="serif text-white/95">distinction</span>
+          Crafted for <span className="emphasis text-white/95">distinction</span>
         </h1>
 
         <p className="mt-6 max-w-[44ch] text-[0.95rem] leading-relaxed tracking-[-0.01em] text-balance text-white/55 sm:text-base">
@@ -34,7 +34,7 @@ export function Hero() {
         <Link
           href="/start-project"
           data-cursor="hover"
-          className="group mt-10 inline-flex items-center gap-2.5 rounded-full border border-white/20 bg-white/6 px-7 py-3.5 text-sm font-medium tracking-[-0.01em] text-white backdrop-blur-md transition-[background-color,border-color,color,box-shadow] duration-300 hover:border-white hover:bg-white hover:text-black hover:shadow-[0_0_36px_-4px_rgba(255,255,255,0.35)]"
+          className="group mt-10 inline-flex items-center gap-2.5 rounded-full border border-white/20 font-display bg-white/6 px-7 py-3.5 text-sm font-medium tracking-[-0.01em] text-white backdrop-blur-md transition-[background-color,border-color,color,box-shadow] duration-300 hover:border-white hover:bg-white hover:text-black hover:shadow-[0_0_36px_-4px_rgba(255,255,255,0.35)]"
         >
           <span>Start a Project</span>
           <ArrowIcon className="h-3.5 w-3.5 transition-transform duration-300 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />

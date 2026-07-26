@@ -69,7 +69,7 @@ export function Cursor() {
         transition={{ type: "spring", stiffness: 260, damping: 26 }}
       >
         {label ? (
-          <span className="font-mono text-[10px] uppercase tracking-[0.15em] text-void">
+          <span className="text-[10px] uppercase tracking-[0.15em] text-void">
             {label}
           </span>
         ) : null}

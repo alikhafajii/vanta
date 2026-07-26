@@ -19,7 +19,7 @@ export function SelectedWork() {
             <h2 className="text-headline max-w-3xl font-medium text-white">
               <MaskReveal as="div">Work we are</MaskReveal>
               <MaskReveal as="div" delay={0.08}>
-                proud to <span className="serif">sign.</span>
+                proud to <span className="emphasis">sign.</span>
               </MaskReveal>
             </h2>
             <p className="max-w-sm text-muted">

@@ -17,7 +17,7 @@ export const origin = {
 
   name: {
     headline: "Born from a material that swallows light.",
-    /** Word within `headline` rendered in serif italic. */
+    /** Word within `headline` rendered in the light display weight. */
     emphasis: "swallows",
     body: "Vanta Black absorbs 99.965% of visible light — nothing escapes, nothing reflects. We took the name because it is the philosophy: strip away every distraction until only the work remains. Black isn't empty. It's everything else, removed.",
   },
@@ -37,7 +37,7 @@ export const origin = {
     number: "02",
     eyebrow: "Founders",
     headline: "Two friends who decided to build what they couldn't find.",
-    /** Phrase within `headline` rendered in serif italic. */
+    /** Phrase within `headline` rendered in the light display weight. */
     emphasis: "couldn't find",
     linkLabel: "View portfolio",
     members: [

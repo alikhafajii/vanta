@@ -1,34 +1,38 @@
 import localFont from "next/font/local";
 
-/** Switzer — neutral Swiss grotesque. Structure, headlines, body, UI. */
-export const switzer = localFont({
-  variable: "--font-switzer",
+/**
+ * VANTA runs on exactly two typefaces, both self-hosted as woff2 so there are
+ * no external font requests and no build-time font fetch.
+ *
+ * Satoshi (Fontshare)  — display: headings, navigation, buttons, chips, cards.
+ * Montserrat (Google)  — text: body, descriptions, labels, forms, footer.
+ *
+ * No italic faces are loaded anywhere: emphasis is carried by weight, size and
+ * spacing instead.
+ */
+
+/** Satoshi — geometric grotesque. Primary/display face. */
+export const satoshi = localFont({
+  variable: "--font-satoshi",
   display: "swap",
   preload: true,
   src: [
-    { path: "./switzer-300.woff2", weight: "300", style: "normal" },
-    { path: "./switzer-400.woff2", weight: "400", style: "normal" },
-    { path: "./switzer-500.woff2", weight: "500", style: "normal" },
-    { path: "./switzer-600.woff2", weight: "600", style: "normal" },
-    { path: "./switzer-700.woff2", weight: "700", style: "normal" },
+    { path: "./satoshi-300.woff2", weight: "300", style: "normal" },
+    { path: "./satoshi-400.woff2", weight: "400", style: "normal" },
+    { path: "./satoshi-500.woff2", weight: "500", style: "normal" },
+    { path: "./satoshi-700.woff2", weight: "700", style: "normal" },
   ],
 });
 
-/** Instrument Serif — high-contrast editorial accent (emphasis words, quotes). */
-export const instrument = localFont({
-  variable: "--font-instrument",
+/** Montserrat — humanist geometric sans. Secondary/text face. */
+export const montserrat = localFont({
+  variable: "--font-montserrat",
   display: "swap",
   preload: true,
   src: [
-    { path: "./instrument-normal.woff2", weight: "400", style: "normal" },
-    { path: "./instrument-italic.woff2", weight: "400", style: "italic" },
+    { path: "./montserrat-300.woff2", weight: "300", style: "normal" },
+    { path: "./montserrat-400.woff2", weight: "400", style: "normal" },
+    { path: "./montserrat-500.woff2", weight: "500", style: "normal" },
+    { path: "./montserrat-600.woff2", weight: "600", style: "normal" },
   ],
-});
-
-/** JetBrains Mono — technical register: indices, labels, captions, meta. */
-export const mono = localFont({
-  variable: "--font-jbmono",
-  display: "swap",
-  preload: false,
-  src: [{ path: "./jbmono-400.woff2", weight: "400", style: "normal" }],
 });

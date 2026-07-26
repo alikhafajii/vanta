@@ -135,7 +135,7 @@ export function WorkPlate({ project, order }: { project: Project; order: number 
           {project.services.map((s) => (
             <span
               key={s}
-              className="rounded-full border border-line px-3 py-1 font-mono text-[0.7rem] tracking-wider text-faint uppercase"
+              className="rounded-full border border-line px-3 py-1 font-display text-[0.7rem] tracking-wider text-faint uppercase"
             >
               {s}
             </span>
@@ -148,7 +148,7 @@ export function WorkPlate({ project, order }: { project: Project; order: number 
               href={project.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="group/btn inline-flex items-center gap-2 font-mono text-[0.8rem] tracking-wider text-white uppercase transition-colors hover:text-accent"
+              className="group/btn inline-flex items-center gap-2 font-display text-[0.8rem] tracking-wider text-white uppercase transition-colors hover:text-accent"
             >
               <span>↗ View Project</span>
               <span className="text-accent group-hover/btn:translate-x-0.5 transition-transform duration-300">♦</span>
@@ -163,7 +163,7 @@ export function WorkPlate({ project, order }: { project: Project; order: number 
               {project.metrics.map((m, idx) => (
                 <div key={idx} className="flex flex-col gap-1">
                   <span className="font-sans text-[clamp(1.2rem,4vw,1.4rem)] font-light text-white tracking-tight leading-none tabular-nums">{m.value}</span>
-                  <span className="text-[0.6rem] font-mono tracking-wider text-faint uppercase leading-tight">
+                  <span className="text-[0.6rem] tracking-wider text-faint uppercase leading-tight">
                     {m.label}
                   </span>
                 </div>

@@ -44,7 +44,7 @@ function ServiceRow({
                 {service.capabilities.map((c) => (
                   <span
                     key={c}
-                    className="rounded-full border border-line px-3 py-1 font-mono text-[0.68rem] tracking-wider text-faint uppercase"
+                    className="rounded-full border border-line px-3 py-1 font-display text-[0.68rem] tracking-wider text-faint uppercase"
                   >
                     {c}
                   </span>
@@ -83,7 +83,7 @@ export function Services() {
             <div className="lg:sticky lg:top-28">
               <SectionHeader index="(02)" label="Services">
                 <h2 className="text-title max-w-xs font-medium text-white">
-                  Five disciplines, <span className="serif">one</span> standard.
+                  Five disciplines, <span className="emphasis">one</span> standard.
                 </h2>
                 <p className="mt-6 max-w-xs text-muted">
                   Everything we make is held to the same bar: considered, crafted, and

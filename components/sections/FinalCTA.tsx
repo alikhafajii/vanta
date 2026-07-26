@@ -21,7 +21,7 @@ export function FinalCTA() {
         <h2 className="text-display font-medium text-white">
           <MaskReveal as="div">Let us make something</MaskReveal>
           <MaskReveal as="div" delay={0.08}>
-            that <span className="serif">outlasts</span> the trend.
+            that <span className="emphasis">outlasts</span> the trend.
           </MaskReveal>
         </h2>
         <p className="mt-8 max-w-lg text-lead text-muted">

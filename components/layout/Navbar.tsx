@@ -76,7 +76,7 @@ export function Navbar() {
               <a
                 key={item.href}
                 href={item.href}
-                className="link-underline font-mono text-[0.7rem] tracking-[0.18em] text-white/70 uppercase transition-colors duration-300 hover:text-white"
+                className="link-underline font-display text-[0.7rem] tracking-[0.18em] text-white/70 uppercase transition-colors duration-300 hover:text-white"
               >
                 {item.label}
               </a>
@@ -88,7 +88,7 @@ export function Navbar() {
             <div className="hidden sm:block">
               <Link
                 href="/start-project"
-                className="group relative inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/6 px-5 py-2 text-[0.72rem] font-medium tracking-[0.14em] text-white uppercase backdrop-blur-md transition-[background-color,border-color,color,box-shadow] duration-300 hover:border-white hover:bg-white hover:text-black hover:shadow-[0_0_28px_-6px_rgba(255,255,255,0.35)]"
+                className="group relative inline-flex items-center gap-2 rounded-full border border-white/25 font-display bg-white/6 px-5 py-2 text-[0.72rem] font-medium tracking-[0.14em] text-white uppercase backdrop-blur-md transition-[background-color,border-color,color,box-shadow] duration-300 hover:border-white hover:bg-white hover:text-black hover:shadow-[0_0_28px_-6px_rgba(255,255,255,0.35)]"
                 data-cursor="hover"
               >
                 <span>Start Project</span>
@@ -157,7 +157,7 @@ export function Navbar() {
                   <a
                     key={s.label}
                     href={s.href}
-                    className="font-mono text-xs tracking-wider text-white/50 transition-colors hover:text-white uppercase"
+                    className="font-display text-xs tracking-wider text-white/50 transition-colors hover:text-white uppercase"
                   >
                     {s.label}
                   </a>
@@ -166,7 +166,7 @@ export function Navbar() {
               <Link
                 href="/start-project"
                 onClick={() => setOpen(false)}
-                className="rounded-full border border-white/30 bg-white px-5 py-2 text-xs font-medium tracking-wider text-black uppercase"
+                className="rounded-full border border-white/30 bg-white px-5 py-2 font-display text-xs font-medium tracking-wider text-black uppercase"
               >
                 Start Project
               </Link>

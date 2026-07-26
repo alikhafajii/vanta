@@ -15,9 +15,9 @@ export function About() {
         <div className="max-w-4xl">
           <p className="text-title font-medium text-balance text-white">
             {about.statementLead}{" "}
-            <span className="serif">{about.statementEmphasis1}</span>{" "}
+            <span className="emphasis">{about.statementEmphasis1}</span>{" "}
             {about.statementMid}{" "}
-            <span className="serif">{about.statementEmphasis2}</span>
+            <span className="emphasis">{about.statementEmphasis2}</span>
           </p>
           <p className="mt-8 max-w-2xl text-lead text-muted">{about.body}</p>
         </div>

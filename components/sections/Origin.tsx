@@ -10,14 +10,14 @@ import { origin, type OriginMarkStep } from "@/lib/data/origin";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-/** Wrap the emphasis phrase within a headline in serif italic — copy stays in data. */
+/** Wrap the emphasis phrase within a headline in the light display weight — copy stays in data. */
 function Emphasized({ text, word }: { text: string; word: string }) {
   const idx = text.indexOf(word);
   if (idx === -1) return <>{text}</>;
   return (
     <>
       {text.slice(0, idx)}
-      <span className="serif">{word}</span>
+      <span className="emphasis">{word}</span>
       {text.slice(idx + word.length)}
     </>
   );
@@ -129,7 +129,7 @@ export function Origin() {
             ))}
           </div>
           <Reveal delay={0.1}>
-            <p className="serif mx-auto mt-10 max-w-xl text-center text-muted text-subtitle">
+            <p className="emphasis mx-auto mt-10 max-w-xl text-center text-muted text-subtitle">
               {mark.caption}
             </p>
           </Reveal>
@@ -160,14 +160,14 @@ export function Origin() {
               <Reveal key={m.url} delay={0.1 + i * 0.1}>
                 <div className="flex items-start gap-5 rounded-sm border border-line p-6 transition-colors duration-[400ms] ease-out hover:border-accent/30 hover:bg-white/[0.02]">
                   <span
-                    className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full border border-accent/30 font-mono text-sm tracking-wider text-white/80"
+                    className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full border border-accent/30 font-display text-sm tracking-wider text-white/80"
                     aria-hidden="true"
                   >
                     {m.initials}
                   </span>
                   <div className="flex flex-col gap-2">
                     <h3 className="text-subtitle font-medium text-white">{m.name}</h3>
-                    <span className="font-mono text-[0.72rem] tracking-wider text-faint uppercase">
+                    <span className="text-[0.72rem] tracking-wider text-faint uppercase">
                       {m.role}
                     </span>
                     <a
@@ -175,7 +175,7 @@ export function Origin() {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={`${founders.linkLabel} — ${m.name}`}
-                      className="mt-3 inline-flex items-center gap-2 font-mono text-[0.8rem] tracking-wider text-white uppercase transition-colors hover:text-accent"
+                      className="mt-3 inline-flex items-center gap-2 font-display text-[0.8rem] tracking-wider text-white uppercase transition-colors hover:text-accent"
                     >
                       <span>{founders.linkLabel} ↗</span>
                     </a>
@@ -201,7 +201,7 @@ export function Origin() {
           />
           <div className="relative z-10 mx-auto max-w-4xl text-center">
             <MaskReveal as="div" className="mx-auto" duration={1.1}>
-              <span className="serif text-headline text-white">{vision}</span>
+              <span className="emphasis text-headline text-white">{vision}</span>
             </MaskReveal>
           </div>
         </div>

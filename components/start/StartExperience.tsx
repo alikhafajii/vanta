@@ -40,14 +40,14 @@ const block = {
   },
 };
 
-/** Render the heading with its accent word set in the editorial serif. */
+/** Render the heading with its accent word set in the light display weight. */
 function Heading({ title, accent }: { title: string; accent?: string }) {
   if (!accent || !title.includes(accent)) return <>{title}</>;
   const [before, after] = title.split(accent);
   return (
     <>
       {before}
-      <span className="serif">{accent}</span>
+      <span className="emphasis">{accent}</span>
       {after}
     </>
   );
@@ -212,7 +212,7 @@ export function StartExperience() {
             >
               <span className="eyebrow mb-6 text-muted">VANTA</span>
               <h1 className="text-[clamp(2.6rem,7vw,5rem)] leading-[0.98] font-medium tracking-tight text-white">
-                Thank <span className="serif">you.</span>
+                Thank <span className="emphasis">you.</span>
               </h1>
               <p className="mt-7 max-w-md text-lead text-muted">
                 We&rsquo;ve received your project. We&rsquo;ll reach out shortly.
@@ -221,7 +221,7 @@ export function StartExperience() {
                 <Link
                   href="/"
                   data-cursor="hover"
-                  className="rounded-full bg-white px-7 py-3.5 text-[0.95rem] font-medium text-void transition-colors duration-300 hover:bg-white/90"
+                  className="rounded-full bg-white px-7 py-3.5 font-display text-[0.95rem] font-medium text-void transition-colors duration-300 hover:bg-white/90"
                 >
                   Back home
                 </Link>
@@ -230,7 +230,7 @@ export function StartExperience() {
                   target="_blank"
                   rel="noopener noreferrer"
                   data-cursor="hover"
-                  className="rounded-full border border-line-strong px-7 py-3.5 text-[0.95rem] font-medium text-white transition-colors duration-300 hover:border-white/60 hover:bg-white/[0.04]"
+                  className="rounded-full border border-line-strong px-7 py-3.5 font-display text-[0.95rem] font-medium text-white transition-colors duration-300 hover:border-white/60 hover:bg-white/[0.04]"
                 >
                   Instagram ↗
                 </a>

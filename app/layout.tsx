@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { switzer, instrument, mono } from "./fonts";
+import { satoshi, montserrat } from "./fonts";
 import { Providers } from "./providers";
 import { site, socials } from "@/lib/data/site";
 import { services } from "@/lib/data/services";
@@ -84,7 +84,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${switzer.variable} ${instrument.variable} ${mono.variable}`}
+      className={`${satoshi.variable} ${montserrat.variable}`}
     >
       <head>
         <meta

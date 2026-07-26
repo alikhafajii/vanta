@@ -13,7 +13,7 @@ const MotionLink = motion.create(Link);
 type Variant = "solid" | "outline" | "ghost";
 
 const base =
-  "group relative inline-flex items-center justify-center gap-2.5 rounded-full font-medium tracking-tight transition-[color,background-color,border-color,box-shadow] duration-300 select-none px-7 py-3.5 text-[0.95rem]";
+  "group relative inline-flex items-center justify-center gap-2.5 rounded-full font-display font-medium tracking-tight transition-[color,background-color,border-color,box-shadow] duration-300 select-none px-7 py-3.5 text-[0.95rem]";
 
 const variants: Record<Variant, string> = {
   solid:

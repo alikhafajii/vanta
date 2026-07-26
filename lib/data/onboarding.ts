@@ -28,7 +28,7 @@ export type StepId =
 type StepBase = {
   id: StepId;
   title: string;
-  /** One emphasised word inside the heading, set in the editorial serif. */
+  /** One emphasised word inside the heading, set in the light display weight. */
   accent?: string;
   subtitle?: string;
 };

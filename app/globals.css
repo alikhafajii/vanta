@@ -23,10 +23,13 @@
   --color-accent-bright: #9a80ff;
   --color-danger: #ff5c5c;
 
-  /* ---- Type families (wired to next/font variables on <html>) ---- */
-  --font-sans: var(--font-switzer), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-serif: var(--font-instrument), ui-serif, Georgia, "Times New Roman", serif;
-  --font-mono: var(--font-jbmono), ui-monospace, "SFMono-Regular", "Cascadia Mono", monospace;
+  /* ---- Type families (wired to next/font variables on <html>) ----
+     Exactly two faces site-wide. Satoshi is the display/primary voice
+     (headings, navigation, buttons, chips); Montserrat is the text voice
+     (body, descriptions, labels, forms, footer). Neither stack loads an
+     italic face — emphasis comes from weight, size and spacing. */
+  --font-sans: var(--font-montserrat), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: var(--font-satoshi), var(--font-montserrat), ui-sans-serif, system-ui, sans-serif;
 
   /* ---- Fluid editorial type scale ---- */
   --text-display: clamp(2.2rem, 1rem + 7.7vw, 9.5rem);
@@ -121,9 +124,29 @@
     border-radius: 1px;
   }
 
+  /* Headings always speak in the display face. */
   h1, h2, h3, h4 {
+    font-family: var(--font-display);
     font-weight: 500;
     text-wrap: balance;
+  }
+
+  /* No italics anywhere — emphasis is weight/size/spacing, never slant. */
+  i, em, address, cite, dfn, var {
+    font-style: normal;
+  }
+
+  /* Buttons are prominent UI → display face. Form inputs are text → text face
+     (browsers otherwise fall back to a system font on both). */
+  button,
+  [role="button"] {
+    font-family: var(--font-display);
+  }
+
+  input,
+  textarea,
+  select {
+    font-family: var(--font-sans);
   }
 
   p {
@@ -150,12 +173,15 @@
    Reusable classes
 ================================================================== */
 
-/* Mono eyebrow / section label */
+/* Eyebrow / small label — the text face, tracked out and uppercased.
+   Carries a little extra weight because Montserrat at label size with heavy
+   tracking would otherwise read thin. */
 .eyebrow {
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: var(--text-label);
+  font-weight: 500;
   line-height: 1;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--color-faint);
   /* Fixed-width digits so live counters (clock) and indices never reflow. */
@@ -163,12 +189,13 @@
   font-feature-settings: "tnum" 1, "kern" 1;
 }
 
-/* High-contrast serif italic for emphasis words inside headlines */
-.serif {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-weight: 400;
-  letter-spacing: 0;
+/* Emphasis word inside a headline. Was a serif italic; now the same display
+   face dropped to a light weight, so the accent reads as a change in tone
+   rather than a change in voice — and never slants. */
+.emphasis {
+  font-family: var(--font-display);
+  font-weight: 300;
+  letter-spacing: -0.005em;
 }
 
 /* Large outlined display numerals / ghost type */

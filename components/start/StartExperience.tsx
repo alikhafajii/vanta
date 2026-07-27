@@ -193,7 +193,7 @@ export function StartExperience() {
         transition={{ duration: 0.6, delay: 0.2 }}
         className="fixed top-7 left-6 z-20 sm:left-10"
       >
-        <Link href="/" aria-label="VANTA — back to home" className="text-white" data-cursor="hover">
+        <Link href="/" aria-label="VANTA — back to home" className="text-white">
           <Wordmark className="h-3" strokeWidth={3} />
         </Link>
       </motion.div>
@@ -220,7 +220,6 @@ export function StartExperience() {
               <div className="mt-12 flex flex-wrap items-center gap-4">
                 <Link
                   href="/"
-                  data-cursor="hover"
                   className="rounded-full bg-white px-7 py-3.5 font-display text-[0.95rem] font-medium text-void transition-colors duration-300 hover:bg-white/90"
                 >
                   Back home
@@ -229,7 +228,6 @@ export function StartExperience() {
                   href={INSTAGRAM_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  data-cursor="hover"
                   className="rounded-full border border-line-strong px-7 py-3.5 font-display text-[0.95rem] font-medium text-white transition-colors duration-300 hover:border-white/60 hover:bg-white/[0.04]"
                 >
                   Instagram ↗
@@ -319,14 +317,12 @@ export function StartExperience() {
                       <button
                         type="button"
                         onClick={submit}
-                        data-cursor="hover"
                         className="text-[0.9rem] font-medium text-white underline underline-offset-4 transition-colors duration-300 hover:text-white/70"
                       >
                         Try again
                       </button>
                       <a
                         href={`mailto:${site.email}`}
-                        data-cursor="hover"
                         className="text-[0.9rem] text-muted transition-colors duration-300 hover:text-white"
                       >
                         {site.email} ↗
@@ -347,7 +343,6 @@ export function StartExperience() {
                   type="button"
                   onClick={goBack}
                   disabled={clamped === 0}
-                  data-cursor="hover"
                   className="text-[0.9rem] text-muted transition-colors duration-300 hover:text-white disabled:pointer-events-none disabled:opacity-0"
                 >
                   ← Back
@@ -358,7 +353,6 @@ export function StartExperience() {
                     type="button"
                     onClick={submit}
                     disabled={!complete}
-                    data-cursor="hover"
                     className="rounded-full bg-white px-8 py-3.5 text-[0.95rem] font-medium text-void transition-all duration-300 hover:bg-white/90 disabled:pointer-events-none disabled:opacity-40"
                   >
                     Send Project →
@@ -368,7 +362,6 @@ export function StartExperience() {
                     type="button"
                     onClick={goNext}
                     disabled={!complete}
-                    data-cursor="hover"
                     className="rounded-full border border-accent-bright/50 bg-black/40 px-8 py-3.5 text-[0.95rem] font-medium text-white backdrop-blur-sm transition-all duration-300 hover:border-accent-bright hover:bg-black/55 disabled:pointer-events-none disabled:opacity-30"
                   >
                     Continue →

@@ -38,7 +38,6 @@ export function WorkPlate({ project, order }: { project: Project; order: number 
         target={project.url ? "_blank" : undefined}
         rel={project.url ? "noopener noreferrer" : undefined}
         aria-label={`View the ${project.title} project`}
-        data-cursor-label="View"
         className={cn(
           "relative block overflow-hidden rounded-sm lg:col-span-7",
           reverse && "lg:order-2",

@@ -26,14 +26,14 @@ export function ArrowLink({
 
   if (href.startsWith("/")) {
     return (
-      <Link href={href} className={cls} data-cursor="hover">
+      <Link href={href} className={cls}>
         {content}
       </Link>
     );
   }
 
   return (
-    <a href={href} className={cls} data-cursor="hover">
+    <a href={href} className={cls}>
       {content}
     </a>
   );

@@ -47,7 +47,6 @@ export function Footer() {
             <a
               href={`mailto:${site.email}`}
               className="link-underline w-fit text-subtitle text-white"
-              data-cursor-label="Email"
             >
               {site.email}
             </a>

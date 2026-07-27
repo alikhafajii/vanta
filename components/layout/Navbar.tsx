@@ -91,7 +91,6 @@ export function Navbar() {
                 rel="noopener noreferrer"
                 aria-label={`Contact VANTA on WhatsApp at ${whatsapp.number}`}
                 className="group relative inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/6 px-5 py-2 font-display text-[0.72rem] font-medium tracking-[0.14em] text-white uppercase backdrop-blur-md transition-[background-color,border-color,color,box-shadow] duration-300 hover:border-white hover:bg-white hover:text-black hover:shadow-[0_0_28px_-6px_rgba(255,255,255,0.35)]"
-                data-cursor="hover"
               >
                 <span>Contact Us</span>
                 <ArrowIcon className="h-3 w-3 transition-transform duration-300 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />

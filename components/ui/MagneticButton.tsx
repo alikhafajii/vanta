@@ -38,6 +38,8 @@ export function MagneticButton({
   className,
   ariaLabel,
   icon = false,
+  target,
+  rel,
 }: {
   children: ReactNode;
   href?: string;
@@ -47,6 +49,8 @@ export function MagneticButton({
   className?: string;
   ariaLabel?: string;
   icon?: boolean;
+  target?: string;
+  rel?: string;
 }) {
   const ref = useRef<HTMLElement | null>(null);
   const reduce = useReducedMotion();
@@ -79,7 +83,6 @@ export function MagneticButton({
       onClick,
       style: { x: sx, y: sy },
       className: cls,
-      "data-cursor": "hover",
     };
 
     // Internal routes use Next Link (same-tab client navigation); external
@@ -94,7 +97,7 @@ export function MagneticButton({
     }
 
     return (
-      <motion.a href={href} {...commonProps}>
+      <motion.a href={href} target={target} rel={rel} {...commonProps}>
         {children}
         {icon ? <ArrowIcon className={buttonArrowCls} /> : null}
       </motion.a>
@@ -113,7 +116,6 @@ export function MagneticButton({
       onClick={onClick}
       style={{ x: sx, y: sy }}
       className={cls}
-      data-cursor="hover"
     >
       {children}
       {icon ? <ArrowIcon className={buttonArrowCls} /> : null}

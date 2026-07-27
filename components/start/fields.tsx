@@ -42,7 +42,6 @@ function Pill({
       aria-checked={selected}
       onClick={onClick}
       onDoubleClick={onDoubleClick}
-      data-cursor="hover"
       {...optionMotion(index)}
       className={cn(
         "rounded-full border px-5 py-3 text-[0.95rem] tracking-tight transition-colors duration-300 outline-none select-none",

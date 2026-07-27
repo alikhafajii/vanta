@@ -275,17 +275,6 @@
   mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
 }
 
-/* Hide native cursor when custom cursor is active (fine pointers only) */
-@media (pointer: fine) {
-  body[data-cursor="on"] {
-    cursor: none;
-  }
-  body[data-cursor="on"] a,
-  body[data-cursor="on"] button {
-    cursor: none;
-  }
-}
-
 /* ==================================================================
    Reduced motion — honour user preference everywhere
 ================================================================== */

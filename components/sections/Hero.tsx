@@ -34,7 +34,6 @@ export function Hero() {
 
         <Link
           href="/start-project"
-          data-cursor="hover"
           className="group mt-11 inline-flex items-center gap-2.5 rounded-full border border-white/20 bg-white/6 px-7 py-3.5 font-display text-sm font-medium tracking-[-0.01em] text-white backdrop-blur-md transition-[background-color,border-color,color,box-shadow] duration-300 hover:border-white hover:bg-white hover:text-black hover:shadow-[0_0_36px_-4px_rgba(255,255,255,0.35)]"
         >
           <span>Start a Project</span>

@@ -13,7 +13,7 @@ export type Project = {
   summary: string;
   /** Generative cover treatment — dark duotone; `accent` tints it ultraviolet. */
   cover: { from: string; to: string; accent?: boolean; image?: string };
-  status: "live" | "in-progress";
+  status?: "live" | "in-progress";
   url?: string;
   metrics?: ProjectMetric[];
 };
@@ -24,8 +24,16 @@ export const projects: Project[] = [
     title: "EK Constructions",
     client: "EK Constructions",
     discipline: "Architecture · Construction",
-    year: "2025",
-    services: ["Web Design", "Development", "SEO"],
+    year: "June 2026",
+    services: [
+      "SEO",
+      "GEO",
+      "Web Design",
+      "UI/UX",
+      "Security",
+      "Custom Template",
+      "Business Portfolio",
+    ],
     summary:
       "A commanding digital presence for a premier construction and development firm — built with structural grid layouts, rich portfolio staging, and optimized search performance.",
     cover: {
@@ -33,13 +41,11 @@ export const projects: Project[] = [
       to: "#0a0e10",
       image: "/images/projects/ek-constructions.webp",
     },
-    status: "live",
     url: "https://ekconstructionsau.com/",
     metrics: [
-      { value: "+120%", label: "Inquiries" },
-      { value: "+85%", label: "Site Engagement" },
+      { value: "1.2–2s", label: "Load Time" },
+      { value: "$350", label: "Budget" },
       { value: "100%", label: "Mobile Friendly" },
-      { value: "<2.1s", label: "Load Time" },
     ],
   },
   // Hidden for now — keep object + /public images in place, just not shown.

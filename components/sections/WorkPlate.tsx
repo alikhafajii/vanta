@@ -122,28 +122,30 @@ export function WorkPlate({
           reverse && "lg:order-1",
         )}
       >
-        <div className="flex items-center gap-3">
-          <span className="relative flex h-1.5 w-1.5 items-center justify-center">
-            {project.status === "live" && (
-              <span
-                className="live-dot-pulse absolute inline-flex h-full w-full rounded-full bg-accent"
-                aria-hidden="true"
-              />
-            )}
-            <span
-              className={cn(
-                "relative h-1.5 w-1.5 rounded-full",
-                project.status === "live"
-                  ? "bg-accent shadow-[0_0_6px_rgba(124,92,255,0.85)]"
-                  : "bg-faint",
+        {project.status && (
+          <div className="flex items-center gap-3">
+            <span className="relative flex h-1.5 w-1.5 items-center justify-center">
+              {project.status === "live" && (
+                <span
+                  className="live-dot-pulse absolute inline-flex h-full w-full rounded-full bg-accent"
+                  aria-hidden="true"
+                />
               )}
-            />
-          </span>
-          <span className="eyebrow">
-            {project.status === "live" ? "Live" : "In progress"} ·{" "}
-            {project.discipline}
-          </span>
-        </div>
+              <span
+                className={cn(
+                  "relative h-1.5 w-1.5 rounded-full",
+                  project.status === "live"
+                    ? "bg-accent shadow-[0_0_6px_rgba(124,92,255,0.85)]"
+                    : "bg-faint",
+                )}
+              />
+            </span>
+            <span className="eyebrow">
+              {project.status === "live" ? "Live" : "In progress"} ·{" "}
+              {project.discipline}
+            </span>
+          </div>
+        )}
         <h3 className="text-headline font-medium text-white">
           {project.title}
         </h3>
@@ -179,23 +181,18 @@ export function WorkPlate({
         )}
 
         {project.metrics && project.metrics.length > 0 && (
-          <>
-            <div className="mt-4 grid grid-cols-2 gap-x-6 gap-y-5 sm:grid-cols-4 sm:gap-4">
-              {project.metrics.map((m, idx) => (
-                <div key={idx} className="flex flex-col gap-1">
-                  <span className="font-sans text-[clamp(1.2rem,4vw,1.4rem)] font-light text-white tracking-tight leading-none tabular-nums">
-                    {m.value}
-                  </span>
-                  <span className="text-[0.6rem] tracking-wider text-faint uppercase leading-tight">
-                    {m.label}
-                  </span>
-                </div>
-              ))}
-            </div>
-            <p className="mt-1 text-[0.65rem] text-faint">
-              Client-reported results.
-            </p>
-          </>
+          <div className="mt-4 grid grid-cols-3 gap-4">
+            {project.metrics.map((m, idx) => (
+              <div key={idx} className="flex flex-col gap-1">
+                <span className="font-sans text-[clamp(1.2rem,4vw,1.4rem)] font-light text-white tracking-tight leading-none tabular-nums">
+                  {m.value}
+                </span>
+                <span className="text-[0.6rem] tracking-wider text-faint uppercase leading-tight">
+                  {m.label}
+                </span>
+              </div>
+            ))}
+          </div>
         )}
       </div>
     </motion.article>

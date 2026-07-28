@@ -11,28 +11,48 @@ export const services: Service[] = [
     title: "Web Design",
     description:
       "Premium marketing sites built as brand statements — art-directed, editorial, and engineered to feel inevitable.",
-    capabilities: ["Art Direction", "Editorial Layout", "Design Systems", "Prototyping"],
+    capabilities: [
+      "Art Direction",
+      "Editorial Layout",
+      "Design Systems",
+      "Prototyping",
+    ],
   },
   {
     index: "02",
     title: "Web Applications",
     description:
       "Complex products made to feel effortless — considered interfaces, robust architecture, and interactions that reward attention.",
-    capabilities: ["Product Design", "Next.js Engineering", "Dashboards", "Design Systems"],
+    capabilities: [
+      "Product Design",
+      "Next.js Engineering",
+      "Dashboards",
+      "Design Systems",
+    ],
   },
   {
     index: "03",
     title: "UI / UX",
     description:
       "Interfaces designed around intent — clarity, hierarchy, and rhythm that make the right thing the obvious thing.",
-    capabilities: ["Interaction Design", "Wireframing", "Usability", "Accessibility"],
+    capabilities: [
+      "Interaction Design",
+      "Wireframing",
+      "Usability",
+      "Accessibility",
+    ],
   },
   {
     index: "04",
     title: "Motion Design",
     description:
       "Motion as craft, not decoration — transitions and micro-interactions timed to feel invisible yet unmistakably premium.",
-    capabilities: ["Interface Motion", "Scroll Choreography", "Prototyping", "3D & WebGL"],
+    capabilities: [
+      "Interface Motion",
+      "Scroll Choreography",
+      "Prototyping",
+      "3D & WebGL",
+    ],
   },
   {
     index: "05",

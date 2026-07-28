@@ -19,14 +19,14 @@ An editorial, near‑black design experience built to feel like a premium studio
 
 ## Tech stack
 
-| Area | Choice |
-| --- | --- |
-| Framework | Next.js 16 (App Router, Turbopack) |
-| UI | React 19, TypeScript (strict) |
-| Styling | Tailwind CSS v4 (CSS‑first `@theme`) |
-| Animation | `motion` (Framer Motion successor) |
-| Smooth scroll | Lenis |
-| Utilities | `clsx` + `tailwind-merge` (`cn()`) |
+| Area          | Choice                               |
+| ------------- | ------------------------------------ |
+| Framework     | Next.js 16 (App Router, Turbopack)   |
+| UI            | React 19, TypeScript (strict)        |
+| Styling       | Tailwind CSS v4 (CSS‑first `@theme`) |
+| Animation     | `motion` (Framer Motion successor)   |
+| Smooth scroll | Lenis                                |
+| Utilities     | `clsx` + `tailwind-merge` (`cn()`)   |
 
 ## Getting started
 
@@ -86,19 +86,19 @@ All copy lives in [`lib/data/`](lib/data/) — no hard‑coded strings in compon
 
 Colors, the fluid type scale, and easings are defined once in [`app/globals.css`](app/globals.css):
 
-| Token | Value |
-| --- | --- |
-| `--color-void` | `#000000` (background) |
-| `--color-secondary` | `#141418` |
-| `--color-surface` | `#1b1b20` |
-| `--color-elevated` | `#26262a` |
-| `--color-text` | `#ffffff` |
-| `--color-muted` | `#a1a1aa` |
-| `--color-faint` | `#8a8a93` |
-| `--color-line` | `rgba(255,255,255,0.1)` |
-| `--color-line-strong` | `rgba(255,255,255,0.2)` |
-| `--color-accent` | `#7c5cff` (deep ultraviolet, used sparingly) |
-| `--color-accent-bright` | `#9a80ff` |
+| Token                   | Value                                        |
+| ----------------------- | -------------------------------------------- |
+| `--color-void`          | `#000000` (background)                       |
+| `--color-secondary`     | `#141418`                                    |
+| `--color-surface`       | `#1b1b20`                                    |
+| `--color-elevated`      | `#26262a`                                    |
+| `--color-text`          | `#ffffff`                                    |
+| `--color-muted`         | `#a1a1aa`                                    |
+| `--color-faint`         | `#8a8a93`                                    |
+| `--color-line`          | `rgba(255,255,255,0.1)`                      |
+| `--color-line-strong`   | `rgba(255,255,255,0.2)`                      |
+| `--color-accent`        | `#7c5cff` (deep ultraviolet, used sparingly) |
+| `--color-accent-bright` | `#9a80ff`                                    |
 
 ## Deploy
 

@@ -54,7 +54,12 @@ function ServiceRow({
           </div>
         </div>
         <span className="pt-2 text-faint transition-all duration-300 ease-out lg:group-hover:rotate-45 lg:group-hover:text-accent/70">
-          <svg viewBox="0 0 14 14" className="h-3.5 w-3.5" fill="none" aria-hidden="true">
+          <svg
+            viewBox="0 0 14 14"
+            className="h-3.5 w-3.5"
+            fill="none"
+            aria-hidden="true"
+          >
             <path
               d="M7 1v12M1 7h12"
               stroke="currentColor"
@@ -83,11 +88,12 @@ export function Services() {
             <div className="lg:sticky lg:top-28">
               <SectionHeader index="(02)" label="Services">
                 <h2 className="text-title max-w-xs font-medium text-white">
-                  Five disciplines, <span className="emphasis">one</span> standard.
+                  Five disciplines, <span className="emphasis">one</span>{" "}
+                  standard.
                 </h2>
                 <p className="mt-6 max-w-xs text-muted">
-                  Everything we make is held to the same bar: considered, crafted, and
-                  quietly technical.
+                  Everything we make is held to the same bar: considered,
+                  crafted, and quietly technical.
                 </p>
               </SectionHeader>
 
@@ -113,7 +119,12 @@ export function Services() {
 
           <ul className="lg:col-span-8" onMouseLeave={() => setHovered(null)}>
             {services.map((s, i) => (
-              <ServiceRow key={s.index} service={s} order={i} onHover={setHovered} />
+              <ServiceRow
+                key={s.index}
+                service={s}
+                order={i}
+                onHover={setHovered}
+              />
             ))}
           </ul>
         </div>

@@ -28,6 +28,10 @@ export const nav: NavItem[] = [
 export type Social = { label: string; handle: string; href: string };
 
 export const socials: Social[] = [
-  { label: "Instagram", handle: "@vantadevs", href: "https://instagram.com/vantadevs" },
+  {
+    label: "Instagram",
+    handle: "@vantadevs",
+    href: "https://instagram.com/vantadevs",
+  },
   { label: "WhatsApp", handle: "Chat", href: whatsapp.href },
 ];

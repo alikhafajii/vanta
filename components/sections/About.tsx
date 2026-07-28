@@ -29,7 +29,9 @@ export function About() {
                 <span className="eyebrow text-accent">
                   {String(i + 1).padStart(2, "0")}
                 </span>
-                <h3 className="text-subtitle font-medium text-white">{p.title}</h3>
+                <h3 className="text-subtitle font-medium text-white">
+                  {p.title}
+                </h3>
                 <p className="text-[0.95rem] text-muted">{p.body}</p>
               </div>
             </Reveal>

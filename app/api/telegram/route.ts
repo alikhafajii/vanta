@@ -260,7 +260,9 @@ export async function POST(req: Request) {
   const token = process.env.TELEGRAM_BOT_TOKEN;
   const chatId = process.env.TELEGRAM_CHAT_ID;
   if (!token || !chatId) {
-    console.error("[telegram] env missing: TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID not set");
+    console.error(
+      "[telegram] env missing: TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID not set",
+    );
     return invalid("Messaging is not configured.", 500);
   }
 
@@ -280,7 +282,9 @@ export async function POST(req: Request) {
     if (!res.ok) {
       const errBody = await res.text().catch(() => "(unreadable)");
       // Log status + response body for debugging — the URL is NOT logged (contains token).
-      console.error(`[telegram] sendMessage failed: ${res.status} — ${errBody}`);
+      console.error(
+        `[telegram] sendMessage failed: ${res.status} — ${errBody}`,
+      );
       return invalid("Could not send your project. Please try again.", 502);
     }
 

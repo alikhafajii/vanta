@@ -28,8 +28,12 @@
      (headings, navigation, buttons, chips); Montserrat is the text voice
      (body, descriptions, labels, forms, footer). Neither stack loads an
      italic face — emphasis comes from weight, size and spacing. */
-  --font-sans: var(--font-montserrat), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-display: var(--font-satoshi), var(--font-montserrat), ui-sans-serif, system-ui, sans-serif;
+  --font-sans:
+    var(--font-montserrat), ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    sans-serif;
+  --font-display:
+    var(--font-satoshi), var(--font-montserrat), ui-sans-serif, system-ui,
+    sans-serif;
 
   /* ---- Fluid editorial type scale ---- */
   --text-display: clamp(2.2rem, 1rem + 7.7vw, 9.5rem);
@@ -107,7 +111,10 @@
     font-synthesis-weight: none;
     font-optical-sizing: auto;
     font-kerning: normal;
-    font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+    font-feature-settings:
+      "kern" 1,
+      "liga" 1,
+      "calt" 1;
     font-variant-ligatures: common-ligatures contextual;
     -webkit-tap-highlight-color: transparent;
     overflow-x: hidden;
@@ -125,14 +132,22 @@
   }
 
   /* Headings always speak in the display face. */
-  h1, h2, h3, h4 {
+  h1,
+  h2,
+  h3,
+  h4 {
     font-family: var(--font-display);
     font-weight: 500;
     text-wrap: balance;
   }
 
   /* No italics anywhere — emphasis is weight/size/spacing, never slant. */
-  i, em, address, cite, dfn, var {
+  i,
+  em,
+  address,
+  cite,
+  dfn,
+  var {
     font-style: normal;
   }
 
@@ -186,7 +201,9 @@
   color: var(--color-faint);
   /* Fixed-width digits so live counters (clock) and indices never reflow. */
   font-variant-numeric: tabular-nums;
-  font-feature-settings: "tnum" 1, "kern" 1;
+  font-feature-settings:
+    "tnum" 1,
+    "kern" 1;
 }
 
 /* Emphasis word inside a headline. Was a serif italic; now the same display
@@ -271,8 +288,20 @@
 
 /* Edge fade mask for marquees / overflow rows */
 .edge-fade-x {
-  -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
-  mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 8%,
+    #000 92%,
+    transparent
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 8%,
+    #000 92%,
+    transparent
+  );
 }
 
 /* ==================================================================

@@ -37,12 +37,16 @@ export function Footer() {
       <Container className="pt-20 pb-10 lg:pt-28">
         <Reveal className="grid gap-14 lg:grid-cols-12">
           <div className="flex flex-col gap-7 lg:col-span-5">
-            <a href="#top" aria-label="VANTA — home" className="w-fit text-white">
+            <a
+              href="#top"
+              aria-label="VANTA — home"
+              className="w-fit text-white"
+            >
               <Wordmark className="h-5" strokeWidth={2.6} />
             </a>
             <p className="max-w-xs text-lead text-muted">
-              A creative digital studio building work that looks timeless instead of
-              trendy.
+              A creative digital studio building work that looks timeless
+              instead of trendy.
             </p>
             <a
               href={`mailto:${site.email}`}
@@ -75,7 +79,10 @@ export function Footer() {
           </div>
         </Reveal>
 
-        <div className="pointer-events-none mt-20 select-none" aria-hidden="true">
+        <div
+          className="pointer-events-none mt-20 select-none"
+          aria-hidden="true"
+        >
           <Wordmark
             className="h-24 w-auto text-white/[0.05] sm:h-32 lg:h-44"
             strokeWidth={1.4}

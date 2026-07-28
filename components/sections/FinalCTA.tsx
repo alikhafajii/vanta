@@ -13,7 +13,9 @@ export function FinalCTA() {
       <div className="pointer-events-none absolute inset-0 -z-10 flex items-center justify-center">
         <div
           className="h-[60vmin] w-[60vmin] rounded-full opacity-[0.12] blur-[130px]"
-          style={{ background: "radial-gradient(circle, #7c5cff 0%, transparent 60%)" }}
+          style={{
+            background: "radial-gradient(circle, #7c5cff 0%, transparent 60%)",
+          }}
         />
       </div>
       <Container className="flex flex-col items-center text-center">
@@ -25,8 +27,8 @@ export function FinalCTA() {
           </MaskReveal>
         </h2>
         <p className="mt-8 max-w-lg text-lead text-muted">
-          Tell us what you are building. We will tell you how we would make it feel
-          inevitable.
+          Tell us what you are building. We will tell you how we would make it
+          feel inevitable.
         </p>
         <div className="mt-12 flex flex-col items-center gap-8">
           <div className="flex flex-col items-center gap-4 sm:flex-row">

@@ -12,7 +12,10 @@ import { ArrowIcon } from "@/components/ui/ArrowIcon";
  */
 export function Hero() {
   return (
-    <section id="top" className="relative isolate h-svh overflow-hidden bg-black">
+    <section
+      id="top"
+      className="relative isolate h-svh overflow-hidden bg-black"
+    >
       <HeroGalaxy />
 
       {/* Ambient top fade — keeps the fixed navbar legible over moving stars */}

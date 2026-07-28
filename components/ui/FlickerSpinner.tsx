@@ -8,7 +8,13 @@ export default function FlickerSpinner({ size = 16 }: { size?: number }) {
       viewBox="0 0 30 30"
       xmlns="http://www.w3.org/2000/svg"
       role="img"
-      style={{ "--on": "#F5F5F5", "--off": "#404040", "--dur": "1.200s" } as CSSProperties}
+      style={
+        {
+          "--on": "#F5F5F5",
+          "--off": "#404040",
+          "--dur": "1.200s",
+        } as CSSProperties
+      }
     >
       <title>Loading</title>
       <style>{`
@@ -31,26 +37,82 @@ export default function FlickerSpinner({ size = 16 }: { size?: number }) {
       <circle cx="27" cy="3" r="2" />
       <circle cx="3" cy="9" r="2" />
       <circle cx="9" cy="9" r="2" />
-      <circle className="on" cx="9" cy="9" r="2" opacity={1} style={{ animation: "fs11100001 var(--dur) linear infinite" }} />
+      <circle
+        className="on"
+        cx="9"
+        cy="9"
+        r="2"
+        opacity={1}
+        style={{ animation: "fs11100001 var(--dur) linear infinite" }}
+      />
       <circle cx="15" cy="9" r="2" />
-      <circle className="on" cx="15" cy="9" r="2" opacity={1} style={{ animation: "fs11110000 var(--dur) linear infinite" }} />
+      <circle
+        className="on"
+        cx="15"
+        cy="9"
+        r="2"
+        opacity={1}
+        style={{ animation: "fs11110000 var(--dur) linear infinite" }}
+      />
       <circle cx="21" cy="9" r="2" />
-      <circle className="on" cx="21" cy="9" r="2" opacity={0} style={{ animation: "fs01111000 var(--dur) linear infinite" }} />
+      <circle
+        className="on"
+        cx="21"
+        cy="9"
+        r="2"
+        opacity={0}
+        style={{ animation: "fs01111000 var(--dur) linear infinite" }}
+      />
       <circle cx="27" cy="9" r="2" />
       <circle cx="3" cy="15" r="2" />
       <circle cx="9" cy="15" r="2" />
-      <circle className="on" cx="9" cy="15" r="2" opacity={1} style={{ animation: "fs11000011 var(--dur) linear infinite" }} />
+      <circle
+        className="on"
+        cx="9"
+        cy="15"
+        r="2"
+        opacity={1}
+        style={{ animation: "fs11000011 var(--dur) linear infinite" }}
+      />
       <circle cx="15" cy="15" r="2" />
       <circle cx="21" cy="15" r="2" />
-      <circle className="on" cx="21" cy="15" r="2" opacity={0} style={{ animation: "fs00111100 var(--dur) linear infinite" }} />
+      <circle
+        className="on"
+        cx="21"
+        cy="15"
+        r="2"
+        opacity={0}
+        style={{ animation: "fs00111100 var(--dur) linear infinite" }}
+      />
       <circle cx="27" cy="15" r="2" />
       <circle cx="3" cy="21" r="2" />
       <circle cx="9" cy="21" r="2" />
-      <circle className="on" cx="9" cy="21" r="2" opacity={1} style={{ animation: "fs10000111 var(--dur) linear infinite" }} />
+      <circle
+        className="on"
+        cx="9"
+        cy="21"
+        r="2"
+        opacity={1}
+        style={{ animation: "fs10000111 var(--dur) linear infinite" }}
+      />
       <circle cx="15" cy="21" r="2" />
-      <circle className="on" cx="15" cy="21" r="2" opacity={0} style={{ animation: "fs00001111 var(--dur) linear infinite" }} />
+      <circle
+        className="on"
+        cx="15"
+        cy="21"
+        r="2"
+        opacity={0}
+        style={{ animation: "fs00001111 var(--dur) linear infinite" }}
+      />
       <circle cx="21" cy="21" r="2" />
-      <circle className="on" cx="21" cy="21" r="2" opacity={0} style={{ animation: "fs00011110 var(--dur) linear infinite" }} />
+      <circle
+        className="on"
+        cx="21"
+        cy="21"
+        r="2"
+        opacity={0}
+        style={{ animation: "fs00011110 var(--dur) linear infinite" }}
+      />
       <circle cx="27" cy="21" r="2" />
       <circle cx="3" cy="27" r="2" />
       <circle cx="9" cy="27" r="2" />

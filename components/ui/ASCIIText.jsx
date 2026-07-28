@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 // Adapted from the React Bits ASCIIText component
 // (itself ported from https://codepen.io/JuanFuentes/pen/eYEeoyE).
@@ -21,8 +21,8 @@
 //     collapses to the single static frame
 //   * full teardown of texture, geometry, material, renderer and observers
 
-import { useEffect, useRef } from 'react';
-import * as THREE from 'three';
+import { useEffect, useRef } from "react";
+import * as THREE from "three";
 
 const vertexShader = `
 varying vec2 vUv;
@@ -63,27 +63,28 @@ class AsciiFilter {
   constructor(renderer, { fontSize, fontFamily, charset, invert } = {}) {
     this.renderer = renderer;
 
-    this.domElement = document.createElement('div');
-    this.domElement.style.position = 'absolute';
-    this.domElement.style.top = '0';
-    this.domElement.style.left = '0';
-    this.domElement.style.width = '100%';
-    this.domElement.style.height = '100%';
+    this.domElement = document.createElement("div");
+    this.domElement.style.position = "absolute";
+    this.domElement.style.top = "0";
+    this.domElement.style.left = "0";
+    this.domElement.style.width = "100%";
+    this.domElement.style.height = "100%";
 
-    this.pre = document.createElement('pre');
+    this.pre = document.createElement("pre");
     this.domElement.appendChild(this.pre);
 
     // Sampling surface only — never shown.
-    this.canvas = document.createElement('canvas');
-    this.context = this.canvas.getContext('2d', { willReadFrequently: true });
-    this.canvas.style.display = 'none';
+    this.canvas = document.createElement("canvas");
+    this.context = this.canvas.getContext("2d", { willReadFrequently: true });
+    this.canvas.style.display = "none";
     this.domElement.appendChild(this.canvas);
 
     this.invert = invert ?? true;
     this.fontSize = fontSize ?? 12;
     this.fontFamily = fontFamily ?? MONO_STACK;
     this.charset =
-      charset ?? ' .\'`^",:;Il!i~+_-?][}{1)(|/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$';
+      charset ??
+      " .'`^\",:;Il!i~+_-?][}{1)(|/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$";
 
     this.context.imageSmoothingEnabled = false;
   }
@@ -97,9 +98,11 @@ class AsciiFilter {
 
   reset() {
     this.context.font = `${this.fontSize}px ${this.fontFamily}`;
-    const charWidth = this.context.measureText('A').width;
+    const charWidth = this.context.measureText("A").width;
 
-    this.cols = Math.floor(this.width / (this.fontSize * (charWidth / this.fontSize)));
+    this.cols = Math.floor(
+      this.width / (this.fontSize * (charWidth / this.fontSize)),
+    );
     this.rows = Math.floor(this.height / this.fontSize);
 
     this.canvas.width = this.cols;
@@ -107,14 +110,14 @@ class AsciiFilter {
 
     this.pre.style.fontFamily = this.fontFamily;
     this.pre.style.fontSize = `${this.fontSize}px`;
-    this.pre.style.margin = '0';
-    this.pre.style.padding = '0';
-    this.pre.style.lineHeight = '1em';
-    this.pre.style.position = 'absolute';
-    this.pre.style.left = '0';
-    this.pre.style.top = '0';
-    this.pre.style.zIndex = '9';
-    this.pre.style.color = '#ffffff';
+    this.pre.style.margin = "0";
+    this.pre.style.padding = "0";
+    this.pre.style.lineHeight = "1em";
+    this.pre.style.position = "absolute";
+    this.pre.style.left = "0";
+    this.pre.style.top = "0";
+    this.pre.style.zIndex = "9";
+    this.pre.style.color = "#ffffff";
   }
 
   render(scene, camera) {
@@ -133,14 +136,19 @@ class AsciiFilter {
   asciify(ctx, w, h) {
     if (!w || !h) return;
     const imgData = ctx.getImageData(0, 0, w, h).data;
-    let str = '';
+    let str = "";
     for (let y = 0; y < h; y++) {
       for (let x = 0; x < w; x++) {
         const i = x * 4 + y * 4 * w;
-        const [r, g, b, a] = [imgData[i], imgData[i + 1], imgData[i + 2], imgData[i + 3]];
+        const [r, g, b, a] = [
+          imgData[i],
+          imgData[i + 1],
+          imgData[i + 2],
+          imgData[i + 3],
+        ];
 
         if (a === 0) {
-          str += ' ';
+          str += " ";
           continue;
         }
 
@@ -149,7 +157,7 @@ class AsciiFilter {
         if (this.invert) idx = this.charset.length - idx - 1;
         str += this.charset[idx];
       }
-      str += '\n';
+      str += "\n";
     }
     this.pre.textContent = str;
   }
@@ -161,9 +169,12 @@ class AsciiFilter {
 }
 
 class CanvasTxt {
-  constructor(txt, { fontSize = 200, fontFamily = 'sans-serif', color = '#ffffff' } = {}) {
-    this.canvas = document.createElement('canvas');
-    this.context = this.canvas.getContext('2d');
+  constructor(
+    txt,
+    { fontSize = 200, fontFamily = "sans-serif", color = "#ffffff" } = {},
+  ) {
+    this.canvas = document.createElement("canvas");
+    this.context = this.canvas.getContext("2d");
     this.txt = txt;
     this.fontSize = fontSize;
     this.fontFamily = fontFamily;
@@ -182,9 +193,13 @@ class CanvasTxt {
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.context.fillStyle = this.color;
     this.context.font = this.font;
-    this.context.textAlign = 'center';
-    this.context.textBaseline = 'middle';
-    this.context.fillText(this.txt, this.canvas.width / 2, this.canvas.height / 2);
+    this.context.textAlign = "center";
+    this.context.textBaseline = "middle";
+    this.context.fillText(
+      this.txt,
+      this.canvas.width / 2,
+      this.canvas.height / 2,
+    );
   }
 
   get width() {
@@ -202,7 +217,15 @@ class CanvasTxt {
 
 class CanvAscii {
   constructor(
-    { text, asciiFontSize, textFontSize, textColor, planeBaseHeight, enableWaves, textFontFamily },
+    {
+      text,
+      asciiFontSize,
+      textFontSize,
+      textColor,
+      planeBaseHeight,
+      enableWaves,
+      textFontFamily,
+    },
     containerElem,
     width,
     height,
@@ -218,13 +241,19 @@ class CanvAscii {
     this.height = height;
     this.enableWaves = enableWaves;
 
-    this.camera = new THREE.PerspectiveCamera(45, this.width / this.height, 1, 1000);
+    this.camera = new THREE.PerspectiveCamera(
+      45,
+      this.width / this.height,
+      1,
+      1000,
+    );
     this.camera.position.z = 30;
     this.scene = new THREE.Scene();
 
     this.animationFrameId = null;
     this.onScreen = true;
-    this.pageVisible = typeof document !== 'undefined' ? !document.hidden : true;
+    this.pageVisible =
+      typeof document !== "undefined" ? !document.hidden : true;
     this.pausedFor = 0;
     this.pausedAt = 0;
   }
@@ -233,7 +262,9 @@ class CanvAscii {
     // Our own face, not a Google font. If it fails to load we still render
     // with whatever the stack falls back to.
     try {
-      await document.fonts.load(`600 ${this.textFontSize}px ${this.textFontFamily}`);
+      await document.fonts.load(
+        `600 ${this.textFontSize}px ${this.textFontFamily}`,
+      );
     } catch {
       /* fall back silently */
     }
@@ -328,7 +359,7 @@ class CanvAscii {
       this.pageVisible = !document.hidden;
       this.sync();
     };
-    document.addEventListener('visibilitychange', this.handleVisibility);
+    document.addEventListener("visibilitychange", this.handleVisibility);
   }
 
   sync() {
@@ -364,7 +395,7 @@ class CanvAscii {
       this.io = null;
     }
     if (this.handleVisibility) {
-      document.removeEventListener('visibilitychange', this.handleVisibility);
+      document.removeEventListener("visibilitychange", this.handleVisibility);
       this.handleVisibility = null;
     }
 
@@ -399,10 +430,10 @@ class CanvAscii {
 }
 
 export default function ASCIIText({
-  text = '404',
+  text = "404",
   asciiFontSize = 8,
   textFontSize = 200,
-  textColor = '#ffffff',
+  textColor = "#ffffff",
   planeBaseHeight = 8,
   enableWaves = false,
 }) {
@@ -422,10 +453,13 @@ export default function ASCIIText({
 
       // Resolve the real (hashed) next/font family name off the live element,
       // so the asciified glyphs are drawn in Satoshi rather than a guess.
-      const textFontFamily = getComputedStyle(container).fontFamily || 'sans-serif';
+      const textFontFamily =
+        getComputedStyle(container).fontFamily || "sans-serif";
 
       // Reduced motion collapses to the same single static frame.
-      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const reduced = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
 
       const instance = new CanvAscii(
         {
@@ -469,7 +503,14 @@ export default function ASCIIText({
         asciiRef.current = null;
       }
     };
-  }, [text, asciiFontSize, textFontSize, textColor, planeBaseHeight, enableWaves]);
+  }, [
+    text,
+    asciiFontSize,
+    textFontSize,
+    textColor,
+    planeBaseHeight,
+    enableWaves,
+  ]);
 
   return (
     <div

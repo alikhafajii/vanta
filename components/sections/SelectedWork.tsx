@@ -14,7 +14,11 @@ export function SelectedWork() {
       <Container>
         <ScrollSignal className="mb-10 h-14 sm:h-16 lg:h-20" />
 
-        <SectionHeader index="(01)" label="Selected Work" className="mb-12 lg:mb-24">
+        <SectionHeader
+          index="(01)"
+          label="Selected Work"
+          className="mb-12 lg:mb-24"
+        >
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <h2 className="text-headline max-w-3xl font-medium text-white">
               <MaskReveal as="div">Work we are</MaskReveal>
@@ -23,8 +27,8 @@ export function SelectedWork() {
               </MaskReveal>
             </h2>
             <p className="max-w-sm text-muted">
-              A small, deliberate portfolio. Fewer projects, more attention — each one
-              built to outlast the trend cycle.
+              A small, deliberate portfolio. Fewer projects, more attention —
+              each one built to outlast the trend cycle.
             </p>
           </div>
         </SectionHeader>
@@ -38,4 +42,3 @@ export function SelectedWork() {
     </section>
   );
 }
-

@@ -1,6 +1,6 @@
-import { Renderer, Program, Mesh, Color, Triangle } from 'ogl';
-import { useEffect, useRef } from 'react';
-import './Galaxy.css';
+import { Renderer, Program, Mesh, Color, Triangle } from "ogl";
+import { useEffect, useRef } from "react";
+import "./Galaxy.css";
 
 const vertexShader = `
 attribute vec2 uv;
@@ -14,7 +14,8 @@ void main() {
 }
 `;
 
-const fragmentShader = `
+function buildFragmentShader(numLayer) {
+  return `
 precision highp float;
 
 uniform float uTime;
@@ -38,7 +39,7 @@ uniform bool uTransparent;
 
 varying vec2 vUv;
 
-#define NUM_LAYER 4.0
+#define NUM_LAYER ${numLayer.toFixed(1)}
 #define STAR_COLOR_CUTOFF 0.2
 #define MAT45 mat2(0.7071, -0.7071, 0.7071, 0.7071)
 #define PERIOD 3.0
@@ -169,6 +170,25 @@ void main() {
   }
 }
 `;
+}
+
+// Full quality is byte-identical to what shipped before perf tiering existed.
+// Reduced trades half the star layers for headroom on weak/software GPUs;
+// REDUCED_FRAGMENT is only ever compiled into a Program if a device actually
+// downgrades, so capable devices never pay a second shader compile.
+const FULL_FRAGMENT = buildFragmentShader(4.0);
+const REDUCED_FRAGMENT = buildFragmentShader(2.0);
+
+// Perf-tier tuning. Thresholds are our best estimate, not calibrated against
+// real low-power hardware (unavailable in the environment this was written
+// in) — revisit after testing on an actual weak device.
+const WARMUP_FRAMES = 5;
+const SAMPLE_FRAMES = 40;
+const GOOD_FRAME_MS = 40; // ~25fps floor
+const REDUCED_SCALE = 0.75;
+const REDUCED_FRAME_INTERVAL_MS = 1000 / 30;
+const SOFTWARE_RENDERER_PATTERN =
+  /swiftshader|llvmpipe|software|swangle|d3d11 warp/;
 
 export default function Galaxy({
   focal = [0.5, 0.5],
@@ -200,7 +220,7 @@ export default function Galaxy({
     const ctn = ctnDom.current;
     const renderer = new Renderer({
       alpha: transparent,
-      premultipliedAlpha: false
+      premultipliedAlpha: false,
     });
     const gl = renderer.gl;
 
@@ -212,51 +232,84 @@ export default function Galaxy({
       gl.clearColor(0, 0, 0, 1);
     }
 
+    // Perf tier: a direct GPU-capability query (the renderer string WebGL
+    // itself reports), not OS/user-agent sniffing. Software rasterizers
+    // (SwiftShader, llvmpipe, ANGLE's software fallback, D3D11 WARP) start
+    // degraded immediately instead of burning a full-quality frame first.
+    const debugInfo = gl.getExtension("WEBGL_debug_renderer_info");
+    const rendererString = debugInfo
+      ? String(gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL)).toLowerCase()
+      : "";
+    let tier = SOFTWARE_RENDERER_PATTERN.test(rendererString)
+      ? "reduced"
+      : "full";
+    let tierSettled = false;
+    let staticBailout = false;
+
     let program;
+    let reducedProgram = null;
 
     function resize() {
-      const scale = 1;
-      renderer.setSize(ctn.offsetWidth * scale, ctn.offsetHeight * scale);
+      // Scale the internal drawing buffer only (via dpr), not the
+      // width/height passed to setSize — setSize also drives the canvas's
+      // on-screen CSS size, so scaling those would visibly shrink the
+      // canvas inside its container instead of just lowering its
+      // resolution. The browser upscales the smaller buffer to fill the
+      // same box, which is the actual "resolution scale" perf lever.
+      renderer.dpr = tier === "reduced" ? REDUCED_SCALE : 1;
+      renderer.setSize(ctn.offsetWidth, ctn.offsetHeight);
       if (program) {
         program.uniforms.uResolution.value = new Color(
           gl.canvas.width,
           gl.canvas.height,
-          gl.canvas.width / gl.canvas.height
+          gl.canvas.width / gl.canvas.height,
         );
       }
     }
-    window.addEventListener('resize', resize, false);
+    window.addEventListener("resize", resize, false);
     resize();
 
     const geometry = new Triangle(gl);
+    // Shared by every program variant, so swapping `mesh.program` on a tier
+    // downgrade carries over live uTime/uMouse/etc. with no visual pop.
+    const uniforms = {
+      uTime: { value: 0 },
+      uResolution: {
+        value: new Color(
+          gl.canvas.width,
+          gl.canvas.height,
+          gl.canvas.width / gl.canvas.height,
+        ),
+      },
+      uFocal: { value: new Float32Array(focal) },
+      uRotation: { value: new Float32Array(rotation) },
+      uStarSpeed: { value: starSpeed },
+      uDensity: { value: density },
+      uHueShift: { value: hueShift },
+      uSpeed: { value: speed },
+      uMouse: {
+        value: new Float32Array([
+          smoothMousePos.current.x,
+          smoothMousePos.current.y,
+        ]),
+      },
+      uGlowIntensity: { value: glowIntensity },
+      uSaturation: { value: saturation },
+      uMouseRepulsion: { value: mouseRepulsion },
+      uTwinkleIntensity: { value: twinkleIntensity },
+      uRotationSpeed: { value: rotationSpeed },
+      uRepulsionStrength: { value: repulsionStrength },
+      uMouseActiveFactor: { value: 0.0 },
+      uAutoCenterRepulsion: { value: autoCenterRepulsion },
+      uTransparent: { value: transparent },
+    };
+
     program = new Program(gl, {
       vertex: vertexShader,
-      fragment: fragmentShader,
-      uniforms: {
-        uTime: { value: 0 },
-        uResolution: {
-          value: new Color(gl.canvas.width, gl.canvas.height, gl.canvas.width / gl.canvas.height)
-        },
-        uFocal: { value: new Float32Array(focal) },
-        uRotation: { value: new Float32Array(rotation) },
-        uStarSpeed: { value: starSpeed },
-        uDensity: { value: density },
-        uHueShift: { value: hueShift },
-        uSpeed: { value: speed },
-        uMouse: {
-          value: new Float32Array([smoothMousePos.current.x, smoothMousePos.current.y])
-        },
-        uGlowIntensity: { value: glowIntensity },
-        uSaturation: { value: saturation },
-        uMouseRepulsion: { value: mouseRepulsion },
-        uTwinkleIntensity: { value: twinkleIntensity },
-        uRotationSpeed: { value: rotationSpeed },
-        uRepulsionStrength: { value: repulsionStrength },
-        uMouseActiveFactor: { value: 0.0 },
-        uAutoCenterRepulsion: { value: autoCenterRepulsion },
-        uTransparent: { value: transparent }
-      }
+      fragment: tier === "reduced" ? REDUCED_FRAGMENT : FULL_FRAGMENT,
+      uniforms,
     });
+    if (tier === "reduced") reducedProgram = program;
 
     const mesh = new Mesh(gl, { geometry, program });
     let animateId = null;
@@ -270,25 +323,92 @@ export default function Galaxy({
     let pausedFor = 0;
     let pausedAt = 0;
 
+    // Startup perf check: samples real rAF-tick deltas (never the tier's own
+    // frame-skip cap, which only engages once settled) so the measurement
+    // reflects true device capability. Runs once; may cascade full->reduced
+    // ->static within this single startup pass, then never re-arms — the
+    // tier is fixed for the rest of the session, no periodic re-checks.
+    let warmupLeft = WARMUP_FRAMES;
+    let sampleCount = 0;
+    let sampleSum = 0;
+    let lastSampleT = null;
+    let lastRenderTime = 0;
+
+    function finishSampling(good) {
+      if (good) {
+        tierSettled = true;
+        return;
+      }
+      if (tier === "full") {
+        tier = "reduced";
+        if (!reducedProgram) {
+          reducedProgram = new Program(gl, {
+            vertex: vertexShader,
+            fragment: REDUCED_FRAGMENT,
+            uniforms,
+          });
+        }
+        program = reducedProgram;
+        mesh.program = program;
+        resize(); // re-applies REDUCED_SCALE now that tier changed
+        warmupLeft = WARMUP_FRAMES;
+        sampleCount = 0;
+        sampleSum = 0;
+        lastSampleT = null;
+      } else {
+        // Already at the lowest animated tier and still can't hold a usable
+        // framerate — stop rather than keep stuttering.
+        staticBailout = true;
+      }
+    }
+
     function update(t) {
+      if (staticBailout) {
+        stop();
+        return;
+      }
       animateId = requestAnimationFrame(update);
       const time = t - pausedFor;
-      if (!disableAnimation) {
-        program.uniforms.uTime.value = time * 0.001;
-        program.uniforms.uStarSpeed.value = (time * 0.001 * starSpeed) / 10.0;
-      }
+      program.uniforms.uTime.value = time * 0.001;
+      program.uniforms.uStarSpeed.value = (time * 0.001 * starSpeed) / 10.0;
 
       const lerpFactor = 0.05;
-      smoothMousePos.current.x += (targetMousePos.current.x - smoothMousePos.current.x) * lerpFactor;
-      smoothMousePos.current.y += (targetMousePos.current.y - smoothMousePos.current.y) * lerpFactor;
+      smoothMousePos.current.x +=
+        (targetMousePos.current.x - smoothMousePos.current.x) * lerpFactor;
+      smoothMousePos.current.y +=
+        (targetMousePos.current.y - smoothMousePos.current.y) * lerpFactor;
 
-      smoothMouseActive.current += (targetMouseActive.current - smoothMouseActive.current) * lerpFactor;
+      smoothMouseActive.current +=
+        (targetMouseActive.current - smoothMouseActive.current) * lerpFactor;
 
       program.uniforms.uMouse.value[0] = smoothMousePos.current.x;
       program.uniforms.uMouse.value[1] = smoothMousePos.current.y;
       program.uniforms.uMouseActiveFactor.value = smoothMouseActive.current;
 
-      renderer.render({ scene: mesh });
+      const skipRender =
+        tier === "reduced" &&
+        tierSettled &&
+        t - lastRenderTime < REDUCED_FRAME_INTERVAL_MS;
+      if (!skipRender) {
+        lastRenderTime = t;
+        renderer.render({ scene: mesh });
+      }
+
+      if (!tierSettled && !staticBailout) {
+        if (lastSampleT !== null) {
+          const delta = t - lastSampleT;
+          if (warmupLeft > 0) {
+            warmupLeft -= 1;
+          } else {
+            sampleSum += delta;
+            sampleCount += 1;
+          }
+        }
+        lastSampleT = t;
+        if (sampleCount >= SAMPLE_FRAMES) {
+          finishSampling(sampleSum / sampleCount <= GOOD_FRAME_MS);
+        }
+      }
     }
 
     function start() {
@@ -308,6 +428,10 @@ export default function Galaxy({
     }
 
     function sync() {
+      if (disableAnimation || staticBailout) {
+        stop();
+        return;
+      }
       if (onScreen && pageVisible) start();
       else stop();
     }
@@ -327,7 +451,14 @@ export default function Galaxy({
     }
     document.addEventListener("visibilitychange", handleVisibility);
 
-    start();
+    // Reduce-motion: paint exactly one real frame, never schedule rAF at
+    // all — the old behavior kept rendering every frame at full GPU cost
+    // with just the uniforms frozen, which paid for animation nobody saw.
+    if (disableAnimation) {
+      renderer.render({ scene: mesh });
+    } else {
+      start();
+    }
     ctn.appendChild(gl.canvas);
 
     function handleMouseMove(e) {
@@ -343,21 +474,21 @@ export default function Galaxy({
     }
 
     if (mouseInteraction) {
-      ctn.addEventListener('mousemove', handleMouseMove);
-      ctn.addEventListener('mouseleave', handleMouseLeave);
+      ctn.addEventListener("mousemove", handleMouseMove);
+      ctn.addEventListener("mouseleave", handleMouseLeave);
     }
 
     return () => {
       stop();
       io.disconnect();
-      document.removeEventListener('visibilitychange', handleVisibility);
-      window.removeEventListener('resize', resize);
+      document.removeEventListener("visibilitychange", handleVisibility);
+      window.removeEventListener("resize", resize);
       if (mouseInteraction) {
-        ctn.removeEventListener('mousemove', handleMouseMove);
-        ctn.removeEventListener('mouseleave', handleMouseLeave);
+        ctn.removeEventListener("mousemove", handleMouseMove);
+        ctn.removeEventListener("mouseleave", handleMouseLeave);
       }
       ctn.removeChild(gl.canvas);
-      gl.getExtension('WEBGL_lose_context')?.loseContext();
+      gl.getExtension("WEBGL_lose_context")?.loseContext();
     };
     // Depend on primitives only: `focal`/`rotation` are array literals, so a
     // fresh identity on every parent render would otherwise tear down and
@@ -381,7 +512,7 @@ export default function Galaxy({
     rotationSpeed,
     repulsionStrength,
     autoCenterRepulsion,
-    transparent
+    transparent,
   ]);
 
   return <div ref={ctnDom} className="galaxy-container" {...rest} />;

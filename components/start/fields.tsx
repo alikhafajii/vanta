@@ -112,7 +112,9 @@ function TextField({
     <motion.div {...optionMotion(index)} className="flex flex-col gap-2">
       <label htmlFor={id} className="eyebrow">
         {field.label}
-        {field.optional ? <span className="text-faint"> — optional</span> : null}
+        {field.optional ? (
+          <span className="text-faint"> — optional</span>
+        ) : null}
       </label>
       <input
         id={id}
@@ -188,7 +190,11 @@ export function StepFields({
       const note = selected ? step.optionNotes?.[selected] : undefined;
       return (
         <div className="flex flex-col gap-6">
-          <div role="radiogroup" aria-label={step.title} className="flex flex-wrap gap-3">
+          <div
+            role="radiogroup"
+            aria-label={step.title}
+            className="flex flex-wrap gap-3"
+          >
             {step.options.map((opt, i) => (
               <Pill
                 key={opt}
@@ -232,7 +238,11 @@ export function StepFields({
     case "multi": {
       const selected = (answers[step.id as "goals"] as string[]) ?? [];
       return (
-        <div role="group" aria-label={step.title} className="flex flex-wrap gap-3">
+        <div
+          role="group"
+          aria-label={step.title}
+          className="flex flex-wrap gap-3"
+        >
           {step.options.map((opt, i) => (
             <Pill
               key={opt}

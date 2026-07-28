@@ -28,7 +28,11 @@ export const projects: Project[] = [
     services: ["Web Design", "Development", "SEO"],
     summary:
       "A commanding digital presence for a premier construction and development firm — built with structural grid layouts, rich portfolio staging, and optimized search performance.",
-    cover: { from: "#1b2226", to: "#0a0e10", image: "/images/projects/ek-constructions.webp" },
+    cover: {
+      from: "#1b2226",
+      to: "#0a0e10",
+      image: "/images/projects/ek-constructions.webp",
+    },
     status: "live",
     url: "https://ekconstructionsau.com/",
     metrics: [

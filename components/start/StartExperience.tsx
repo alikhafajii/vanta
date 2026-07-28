@@ -81,10 +81,16 @@ export function StartExperience() {
   // Inline format errors for the contact step — same validators the server
   // enforces, so a field that passes here can never fail on submit.
   const contactErrors: Partial<Record<ContactFieldName, string>> = {};
-  if (answers.contact.email.trim() !== "" && !isValidEmail(answers.contact.email)) {
+  if (
+    answers.contact.email.trim() !== "" &&
+    !isValidEmail(answers.contact.email)
+  ) {
     contactErrors.email = "Enter a valid email address.";
   }
-  if (answers.contact.phone.trim() !== "" && !isValidPhone(answers.contact.phone)) {
+  if (
+    answers.contact.phone.trim() !== "" &&
+    !isValidPhone(answers.contact.phone)
+  ) {
     contactErrors.phone = "Enter a valid phone number.";
   }
 
@@ -140,7 +146,11 @@ export function StartExperience() {
       const res = await fetch("/api/telegram", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ answers, honeypot, startedAt: startedAtRef.current }),
+        body: JSON.stringify({
+          answers,
+          honeypot,
+          startedAt: startedAtRef.current,
+        }),
       });
       const data = (await res.json().catch(() => null)) as {
         ok?: boolean;
@@ -215,7 +225,8 @@ export function StartExperience() {
                 Thank <span className="emphasis">you.</span>
               </h1>
               <p className="mt-7 max-w-md text-lead text-muted">
-                We&rsquo;ve received your project. We&rsquo;ll reach out shortly.
+                We&rsquo;ve received your project. We&rsquo;ll reach out
+                shortly.
               </p>
               <div className="mt-12 flex flex-wrap items-center gap-4">
                 <Link

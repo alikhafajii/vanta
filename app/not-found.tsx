@@ -12,7 +12,12 @@ export default function NotFound() {
     <main className="relative flex min-h-svh flex-col items-center justify-center overflow-hidden bg-[#050505] px-6 py-20 text-center">
       {/* ASCII 404 — its own bounded, centred stage */}
       <div className="relative h-[30svh] w-full max-w-2xl shrink-0 sm:h-[34svh]">
-        <ASCIIText text="404" asciiFontSize={6} textFontSize={210} planeBaseHeight={17} />
+        <ASCIIText
+          text="404"
+          asciiFontSize={6}
+          textFontSize={210}
+          planeBaseHeight={17}
+        />
       </div>
 
       <h1 className="mt-4 text-[clamp(1.9rem,1.2rem+2.6vw,3.25rem)] leading-[1.05] font-medium tracking-[-0.03em] text-balance text-white">

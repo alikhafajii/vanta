@@ -6,7 +6,13 @@ import type { Project } from "@/lib/data/projects";
 import { cn } from "@/lib/utils";
 import { useInViewOnce } from "@/hooks/useInViewOnce";
 
-export function WorkPlate({ project, order }: { project: Project; order: number }) {
+export function WorkPlate({
+  project,
+  order,
+}: {
+  project: Project;
+  order: number;
+}) {
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -30,7 +36,11 @@ export function WorkPlate({ project, order }: { project: Project; order: number 
       ref={setRefs}
       initial={{ opacity: 0, y: 28 }}
       animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 28 }}
-      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: order * 0.09 }}
+      transition={{
+        duration: 0.7,
+        ease: [0.22, 1, 0.36, 1],
+        delay: order * 0.09,
+      }}
       className="group grid grid-cols-1 items-center gap-8 lg:grid-cols-12 lg:gap-14"
     >
       <a
@@ -106,7 +116,12 @@ export function WorkPlate({ project, order }: { project: Project; order: number 
         </div>
       </a>
 
-      <div className={cn("flex flex-col gap-5 lg:col-span-5 w-full min-w-0", reverse && "lg:order-1")}>
+      <div
+        className={cn(
+          "flex flex-col gap-5 lg:col-span-5 w-full min-w-0",
+          reverse && "lg:order-1",
+        )}
+      >
         <div className="flex items-center gap-3">
           <span className="relative flex h-1.5 w-1.5 items-center justify-center">
             {project.status === "live" && (
@@ -125,11 +140,16 @@ export function WorkPlate({ project, order }: { project: Project; order: number 
             />
           </span>
           <span className="eyebrow">
-            {project.status === "live" ? "Live" : "In progress"} · {project.discipline}
+            {project.status === "live" ? "Live" : "In progress"} ·{" "}
+            {project.discipline}
           </span>
         </div>
-        <h3 className="text-headline font-medium text-white">{project.title}</h3>
-        <p className="max-w-full text-muted text-[0.95rem] leading-relaxed">{project.summary}</p>
+        <h3 className="text-headline font-medium text-white">
+          {project.title}
+        </h3>
+        <p className="max-w-full text-muted text-[0.95rem] leading-relaxed">
+          {project.summary}
+        </p>
         <div className="mt-1 flex flex-wrap gap-2">
           {project.services.map((s) => (
             <span
@@ -150,7 +170,9 @@ export function WorkPlate({ project, order }: { project: Project; order: number 
               className="group/btn inline-flex items-center gap-2 font-display text-[0.8rem] tracking-wider text-white uppercase transition-colors hover:text-accent"
             >
               <span>↗ View Project</span>
-              <span className="text-accent group-hover/btn:translate-x-0.5 transition-transform duration-300">♦</span>
+              <span className="text-accent group-hover/btn:translate-x-0.5 transition-transform duration-300">
+                ♦
+              </span>
             </a>
             <div className="mt-4 h-px w-full bg-line" />
           </div>
@@ -161,14 +183,18 @@ export function WorkPlate({ project, order }: { project: Project; order: number 
             <div className="mt-4 grid grid-cols-2 gap-x-6 gap-y-5 sm:grid-cols-4 sm:gap-4">
               {project.metrics.map((m, idx) => (
                 <div key={idx} className="flex flex-col gap-1">
-                  <span className="font-sans text-[clamp(1.2rem,4vw,1.4rem)] font-light text-white tracking-tight leading-none tabular-nums">{m.value}</span>
+                  <span className="font-sans text-[clamp(1.2rem,4vw,1.4rem)] font-light text-white tracking-tight leading-none tabular-nums">
+                    {m.value}
+                  </span>
                   <span className="text-[0.6rem] tracking-wider text-faint uppercase leading-tight">
                     {m.label}
                   </span>
                 </div>
               ))}
             </div>
-            <p className="mt-1 text-[0.65rem] text-faint">Client-reported results.</p>
+            <p className="mt-1 text-[0.65rem] text-faint">
+              Client-reported results.
+            </p>
           </>
         )}
       </div>

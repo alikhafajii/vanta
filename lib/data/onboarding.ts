@@ -47,11 +47,7 @@ export type SingleStep = StepBase & {
 export type MultiStep = StepBase & { kind: "multi"; options: string[] };
 export type NotesStep = StepBase & { kind: "notes"; placeholder: string };
 export type ContactFieldName =
-  | "name"
-  | "company"
-  | "email"
-  | "phone"
-  | "website";
+  "name" | "company" | "email" | "phone" | "website";
 export type ContactField = {
   name: ContactFieldName;
   label: string;
@@ -59,7 +55,10 @@ export type ContactField = {
   placeholder: string;
   optional?: boolean;
 };
-export type ContactStep = StepBase & { kind: "contact"; fields: ContactField[] };
+export type ContactStep = StepBase & {
+  kind: "contact";
+  fields: ContactField[];
+};
 
 export type Step = SingleStep | MultiStep | NotesStep | ContactStep;
 
@@ -149,7 +148,8 @@ export const steps: Step[] = [
     kind: "notes",
     title: "Anything else?",
     accent: "else",
-    placeholder: "Share vision, references, links — anything that helps us understand...",
+    placeholder:
+      "Share vision, references, links — anything that helps us understand...",
   },
   {
     id: "contact",
@@ -221,9 +221,7 @@ export const initialAnswers: Answers = {
  * appears when the user wants a meeting.
  */
 export function getActiveSteps(a: Answers): Step[] {
-  return steps.filter(
-    (s) => s.id !== "meetingPlatform" || a.meeting === "Yes",
-  );
+  return steps.filter((s) => s.id !== "meetingPlatform" || a.meeting === "Yes");
 }
 
 // ── Contact validation ───────────────────────────────────────────────────────
@@ -339,7 +337,11 @@ function summaryEntries(a: Answers): SummaryEntry[] {
     { label: "Building", values: [a.type ?? "—"] },
     { label: "Timeline", values: [a.timeline ?? "—"] },
     { label: "Budget", values: [a.budget ?? "—"] },
-    { label: "Primary Goal", values: a.goals.length ? a.goals : ["—"], bullet: true },
+    {
+      label: "Primary Goal",
+      values: a.goals.length ? a.goals : ["—"],
+      bullet: true,
+    },
     { label: "Meeting", values: [meetingSummary(a)] },
     { label: "Notes", values: [a.notes.trim() || "—"] },
     { label: "Name", values: [a.contact.name.trim() || "—"] },
@@ -351,11 +353,7 @@ function summaryEntries(a: Answers): SummaryEntry[] {
 }
 
 /** Build types ambitious enough that a rushed, low-budget brief is worth flagging. */
-const AMBITIOUS_TYPES = new Set([
-  "E-commerce",
-  "Web Application",
-  "Dashboard",
-]);
+const AMBITIOUS_TYPES = new Set(["E-commerce", "Web Application", "Dashboard"]);
 
 /**
  * A non-blocking heads-up for whoever reads the Telegram lead: an ASAP timeline

@@ -65,7 +65,9 @@ function MarkStep({ step, order }: { step: OriginMarkStep; order: number }) {
           loading="lazy"
           className="h-full w-full object-cover transition-transform duration-[900ms] ease-out group-hover/step:scale-[1.04]"
         />
-        <span className="eyebrow absolute top-3 left-3 z-10 text-white/70">{num}</span>
+        <span className="eyebrow absolute top-3 left-3 z-10 text-white/70">
+          {num}
+        </span>
       </div>
       <span className="eyebrow text-center">{step.label}</span>
     </motion.figure>
@@ -73,8 +75,15 @@ function MarkStep({ step, order }: { step: OriginMarkStep; order: number }) {
 }
 
 export function Origin() {
-  const { sectionIndex, sectionLabel, name, mark, founders, vision, atmosphere } =
-    origin;
+  const {
+    sectionIndex,
+    sectionLabel,
+    name,
+    mark,
+    founders,
+    vision,
+    atmosphere,
+  } = origin;
 
   return (
     <section
@@ -166,7 +175,9 @@ export function Origin() {
                     {m.initials}
                   </span>
                   <div className="flex flex-col gap-2">
-                    <h3 className="text-subtitle font-medium text-white">{m.name}</h3>
+                    <h3 className="text-subtitle font-medium text-white">
+                      {m.name}
+                    </h3>
                     <span className="text-[0.72rem] tracking-wider text-faint uppercase">
                       {m.role}
                     </span>
@@ -186,7 +197,9 @@ export function Origin() {
           </div>
 
           <Reveal delay={0.2}>
-            <p className="mt-12 max-w-2xl text-muted text-lead">{founders.body}</p>
+            <p className="mt-12 max-w-2xl text-muted text-lead">
+              {founders.body}
+            </p>
           </Reveal>
         </div>
 
@@ -201,7 +214,9 @@ export function Origin() {
           />
           <div className="relative z-10 mx-auto max-w-4xl text-center">
             <MaskReveal as="div" className="mx-auto" duration={1.1}>
-              <span className="emphasis text-headline text-white">{vision}</span>
+              <span className="emphasis text-headline text-white">
+                {vision}
+              </span>
             </MaskReveal>
           </div>
         </div>

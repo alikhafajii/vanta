@@ -1,14 +1,21 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/react";
+import {
+  AnimatePresence,
+  motion,
+  useMotionValueEvent,
+  useScroll,
+} from "motion/react";
 import { nav, socials, whatsapp } from "@/lib/data/site";
 import { Logo } from "@/components/ui/Logo";
 import { ArrowIcon } from "@/components/ui/ArrowIcon";
 import { cn } from "@/lib/utils";
 
 const PRIMARY_NAV_LABELS = ["Work", "Services", "About", "Origin"];
-const primaryNav = nav.filter((item) => PRIMARY_NAV_LABELS.includes(item.label));
+const primaryNav = nav.filter((item) =>
+  PRIMARY_NAV_LABELS.includes(item.label),
+);
 
 export function Navbar() {
   const { scrollY } = useScroll();
@@ -143,7 +150,11 @@ export function Navbar() {
                   onClick={() => setOpen(false)}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.1 + i * 0.04, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                  transition={{
+                    delay: 0.1 + i * 0.04,
+                    duration: 0.5,
+                    ease: [0.16, 1, 0.3, 1],
+                  }}
                   className="flex items-baseline justify-between border-b border-white/10 py-5 text-[2.2rem] font-medium tracking-tight text-white transition-colors hover:text-white/80"
                 >
                   <span>{item.label}</span>
